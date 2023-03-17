@@ -57,7 +57,7 @@ void Application::render()
 
 void Application::loadTexture()
 {
-    if (!mTexture.loadFromFile("../assets/angry.png")) {
-        printf("File not loaded");
+    if (!mTexture.loadFromFile("../assets/ary.png")) {
+        throw std::runtime_error("could not find texture");
     }
 }
