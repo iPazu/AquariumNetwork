@@ -1,5 +1,20 @@
+/**
+ * @file Application.cpp
+ * @author Nicolas Gry(grybouilli@outlook.fr)
+ * @brief Application class implementation
+ * @version 0.1
+ * @date 2023-03-17
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #include "include/Application.hpp"
 
+
+/**
+ * @brief Construct a new Application object
+ * 
+ */
 Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
 {
@@ -7,6 +22,14 @@ Application::Application()
     mSprite.setTexture(mTexture);
 }
 
+/**
+ * @brief Construct a new Application object
+ * 
+ * This constructor allows you to set the width, height and title of the window in which the app runs.
+ * @param w The window width
+ * @param h The window height
+ * @param winName The window name
+ */
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
 {
@@ -14,6 +37,12 @@ Application::Application(const int& w, const int& h, std::string winName)
     mSprite.setTexture(mTexture);
 }
 
+/**
+ * @brief The app main loop.
+ * 
+ * This function contains the main of the app and does the entire job of handling events, updating entities and rendering them.
+ * 
+ */
 void Application::run()
 {
     sf::Clock clock {};
@@ -23,8 +52,7 @@ void Application::run()
 
     while (mWindow.isOpen())
     {
-        sf::Event event;
-        handleEvents(event);
+        handleEvents();
         elapsed = clock.restart();
         update(elapsed);
         render();
@@ -32,14 +60,29 @@ void Application::run()
     }
 }
 
+/**
+ * @brief Update function of the app.
+ * 
+ * Updates the entities attached to the Application class.
+ * 
+ * @param dt Elapsed time since last call to the update function.
+ */
 void Application::update(sf::Time dt)
 {
     float speed = 100.0f;
     mSprite.move(speed * dt.asSeconds(), speed * dt.asSeconds());
 }
 
-void Application::handleEvents(sf::Event& event)
+
+/**
+ * @brief Event handling function.
+ * 
+ * Is in charge of processing the inputs triggered in the application graphic window.
+ */
+void Application::handleEvents()
 {
+    sf::Event event;
+
     while (mWindow.pollEvent(event))
     {
 
@@ -48,6 +91,12 @@ void Application::handleEvents(sf::Event& event)
     }
 }
 
+/**
+ * @brief Render function
+ * 
+ * Draw all the elements attached to the app in the app grpahic window.
+ * 
+ */
 void Application::render()
 {
      mWindow.clear();
