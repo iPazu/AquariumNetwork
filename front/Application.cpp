@@ -1,7 +1,7 @@
 #include "include/Application.hpp"
 
 Application::Application()
-: mWindow{sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen}
+: mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
 {
     loadTexture();
     mSprite.setTexture(mTexture);
@@ -57,7 +57,7 @@ void Application::render()
 
 void Application::loadTexture()
 {
-    if (!mTexture.loadFromFile("../assets/ary.png")) {
+    if (!mTexture.loadFromFile("../assets/angry.png")) {
         throw std::runtime_error("could not find texture");
     }
 }
