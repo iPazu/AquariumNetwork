@@ -1,3 +1,5 @@
 front/build/*
 back/tcp_client
 back/tcp_server
+doxygen/latex
+doxygen/html
