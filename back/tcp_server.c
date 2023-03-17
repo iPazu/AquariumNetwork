@@ -1,71 +1,126 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <strings.h>
-#include <unistd.h>
-#include <sys/types.h> 
+#include <string.h>
 #include <sys/socket.h>
-#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <pthread.h>
 
-void error(char *msg)
-{
-    perror(msg);
-    exit(1);
+#define MAX_CLIENTS 10
+#define PORT_NUMBER 3000
+
+int clients[MAX_CLIENTS] = { 0 };
+
+/**
+ * @brief Client connection handler that will be called in a thread for each client
+ * 
+ * Pour le moment, le serveur ne fait que recevoir et renvoyer le message du client
+ * 
+ * @param socket_desc The client socket descriptor
+ * @return void* 
+ */
+void *client_handler(void *socket_desc) {
+
+    int sock = *(int *)socket_desc;
+    int read_size;
+    char client_message[2000];
+    int client_number;
+
+    // Receive client message
+    while ((read_size = recv(sock, client_message, 2000, 0)) > 0) {
+
+        // Send message back to client        
+        write(sock, client_message, strlen(client_message));
+        memset(client_message, 0, 2000);
+    }
+
+    // Check if client disconnected
+    if (read_size == 0) {
+        printf("Client disconnected\n");
+
+        // Remove client from array
+        int i;
+        for (i = 0; i < MAX_CLIENTS; i++) {
+            if (clients[i] == sock) {
+                clients[i] = 0;
+                break;
+            }
+        }
+    }
+    else if (read_size == -1) {
+        perror("Receive failed");
+    }
+
+    // Close socket and free memory
+    close(sock);
+    free(socket_desc);
+
+    return 0;
 }
 
-int main(int argc, char *argv[])
-{
-     int sockfd, newsockfd, portno, clilen;
-     char buffer[256];
-     struct sockaddr_in serv_addr, cli_addr;
-     int n;
-     if (argc < 2) {
-         fprintf(stderr,"ERROR, no port provided\n");
-         exit(1);
-     }
-     sockfd = socket(AF_INET, SOCK_STREAM, 0);
+int main(int argc, char *argv[]) {
 
-     if (sockfd < 0) error("ERROR opening socket");
+    int socket_desc, client_sock, c, *new_sock;
+    struct sockaddr_in server, client;
+    pthread_t sniffer_thread;
 
-     bzero((char *) &serv_addr, sizeof(serv_addr));
-     portno = atoi(argv[1]);
-     serv_addr.sin_family = AF_INET;
-     serv_addr.sin_addr.s_addr = INADDR_ANY;
-     serv_addr.sin_port = htons(portno);
+    // Create socket
+    socket_desc = socket(AF_INET, SOCK_STREAM, 0);
+    if (socket_desc == -1) {
+        printf("Could not create socket");
+    }
 
-     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) error("ERROR on binding");
-     printf("bind()\n");
+    // Prepare the sockaddr_in structure
+    server.sin_family = AF_INET;
+    server.sin_addr.s_addr = INADDR_ANY;
+    server.sin_port = htons(PORT_NUMBER);
 
-//     printf("Breakpoint...\n");
-//     getchar();
-	 
-     listen(sockfd,5);
-     printf("listen()\n");
-     clilen = sizeof(cli_addr);
+    // Bind
+    if (bind(socket_desc, (struct sockaddr *)&server, sizeof(server)) < 0) {
+        perror("Bind failed");
+        return 1;
+    }
+    printf("Bind done\n");
 
-     printf("en attente du accept()\n");
-     newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
-     printf("accept()\n");
-     if (newsockfd < 0) error("ERROR on accept");
-     bzero(buffer,256);
+    // Listen
+    listen(socket_desc, 3);
+    printf("Waiting for the first incoming connection...\n");
+    
+    // Accept incoming connections
+    c = sizeof(struct sockaddr_in);
+    while ((client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t *)&c))) {
+        puts("Connection accepted");
 
-//     printf("Breakpoint...\n");
-//     getchar();
+        // Create new thread for client connection
+        new_sock = malloc(1);
+        *new_sock = client_sock;
 
-     printf("en attente du read()\n");
-     n = read(newsockfd,buffer,255);
-     printf("read() terminé\n");
+        // Add client socket to array
+        int i;
+        for (i = 0; i < MAX_CLIENTS; i++) {
+            if (clients[i] == 0) {
+                clients[i] = client_sock;
+                break;
+            }
+        }
 
+        if (i == MAX_CLIENTS) {
+            printf("Too many clients, connection rejected\n");
+            continue;
+        }
 
-     if (n < 0) error("ERROR reading from socket");
+        if (pthread_create(&sniffer_thread, NULL, client_handler, (void *)new_sock) < 0) {
+            perror("Could not create thread");
+            return 1;
+        }
 
-     printf("Here is the message: %s\n",buffer);
-     n = write(newsockfd,"I got your message",18);
-     printf("write()\n");
+        printf("Handler assigned\n");
+    }
 
-     if (n < 0) error("ERROR writing to socket");
+    if (client_sock < 0) {
+        perror("Accept failed");
+        return 1;
+    }
 
-//     printf("En attente de la fin du processus\n");
-//     printf("Breakpoint...\n");
-//     getchar();
-     return 0; 
+    return 0;
 }
