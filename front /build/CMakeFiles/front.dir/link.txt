@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/front.dir/main.cpp.o -o front  /usr/lib64/libsfml-graphics.so.2.5.1 /usr/lib64/libsfml-window.so.2.5.1 /usr/lib64/libsfml-system.so.2.5.1 
