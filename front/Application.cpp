@@ -9,6 +9,7 @@
  * 
  */
 #include "include/Application.hpp"
+#include "include/TextureData.hpp"
 
 
 /**
@@ -17,9 +18,9 @@
  */
 Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
+, mSprite {SpriteProperties[SPROP::ANGRY]}
 {
-    loadTexture();
-    mSprite.setTexture(mTexture);
+
 }
 
 /**
@@ -32,9 +33,8 @@ Application::Application()
  */
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
+, mSprite {SpriteProperties[SPROP::ANGRY]}
 {
-    loadTexture();
-    mSprite.setTexture(mTexture);
 }
 
 /**
@@ -102,11 +102,4 @@ void Application::render()
      mWindow.clear();
     mWindow.draw(mSprite);
     mWindow.display();
-}
-
-void Application::loadTexture()
-{
-    if (!mTexture.loadFromFile("../assets/angry.png")) {
-        throw std::runtime_error("could not find texture");
-    }
 }

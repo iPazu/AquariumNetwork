@@ -6,6 +6,7 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics.hpp>
+#include "SpriteNode.hpp"
 
 #include <string>
 
@@ -28,10 +29,6 @@ public:
 
 private:
 
-    void loadTexture();
-
     sf::RenderWindow    mWindow;
-    sf::Sprite          mSprite;
-    sf::Texture         mTexture;
-
+    SpriteNode          mSprite;
 };

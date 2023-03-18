@@ -55,7 +55,7 @@ void GraphNode::update(sf::Time dt)
 void GraphNode::attachChild(GraphNode::Ptr child)
 {
     child->mParent = this;
-    mChildren.push_back(child);
+    mChildren.push_back(std::move(child));
 }
 
 /**

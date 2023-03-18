@@ -14,6 +14,8 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/System/Time.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <memory>
 #include <vector>
 
@@ -23,7 +25,7 @@
  * 
  * All entites to be rendered in the app should inherit from it. Entities can be attached to others so that their position and other geometrical characteristics are bounded.
  */
-class GraphNode : sf::Drawable, sf::Transformable
+class GraphNode : public sf::Drawable, public sf::Transformable
 {
 public:
     /**
