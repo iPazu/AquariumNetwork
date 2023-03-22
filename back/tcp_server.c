@@ -1,24 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <pthread.h>
-
-#define MAX_CLIENTS 10
-#define PORT_NUMBER 3000
+#include "tcp_server.h"
 
 int clients[MAX_CLIENTS] = { 0 };
 
-/**
- * @brief Client connection handler that will be called in a thread for each client
- * 
- * Pour le moment, le serveur ne fait que recevoir et renvoyer le message du client
- * 
- * @param socket_desc The client socket descriptor
- * @return void* 
- */
 void *client_handler(void *socket_desc) {
 
     int sock = *(int *)socket_desc;
@@ -58,7 +41,7 @@ void *client_handler(void *socket_desc) {
     return 0;
 }
 
-int main(int argc, char *argv[]) {
+int start_server() {
 
     int socket_desc, client_sock, c, *new_sock;
     struct sockaddr_in server, client;
