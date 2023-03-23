@@ -31,7 +31,7 @@ public:
     struct Properties
     {
         std::string pathToTexture;  ///< The path to the sprite texture.
-        bool        animated;       ///< True is the sprite is animated.
+        bool        animated;       ///< True if the sprite is animated.
         sf::IntRect textureSize;    ///< The texture rectangle (size of frame)
         int         frameAmount;    ///< The amount of frame (1 if animated = false)
         
