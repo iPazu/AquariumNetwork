@@ -4,13 +4,18 @@
 #define MAX_FISHES 100
 #define AQUA_SIZE 100
 
-typedef struct fish
+#include <stdlib.h>
+#include <unistd.h>
+
+typedef struct fish fish;
+
+struct fish
 {
     int x;
     int y;
     void (*update)(fish *);
     int speed;
-} fish;
+};
 
 typedef struct aquarium
 {
