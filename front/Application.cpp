@@ -10,6 +10,7 @@
  */
 #include "include/Application.hpp"
 #include "include/TextureData.hpp"
+#include "include/ClientController.hpp"
 
 
 /**
@@ -48,7 +49,20 @@ void Application::run()
     sf::Clock clock {};
 	sf::Time elapsed = sf::Time::Zero;
 
-    
+    //Connect to the server
+    ClientController client;
+    client.connect("colette.julien-chabrier.fr",3000);
+
+    //Perform a simple operation
+    client.send("Vrei să pleci dar nu mă, nu mă iei\n"
+    "Nu mă, nu mă iei, nu mă, nu mă, nu mă iei\n"
+    "Chipul tău și dragostea din tei\n"
+    "Mi-amintesc de ochii tăi\n", 1024);
+
+    char buffer[1024];
+    client.receive(buffer, 1024);
+    printf("Received: %s\n", buffer);
+
 
     while (mWindow.isOpen())
     {
