@@ -6,16 +6,7 @@
 
 #include <stdlib.h>
 #include <unistd.h>
-
-typedef struct fish fish;
-
-struct fish
-{
-    int x;
-    int y;
-    void (*update)(fish *);
-    int speed;
-};
+#include "fish.h"
 
 typedef struct aquarium
 {

@@ -1,10 +1,5 @@
 #include "aquarium.h"
 
-void fish_random_move(fish *f){
-    f->x += (rand() % 1) * f->speed;
-    f->y += (rand() % 1) * f->speed;
-}
-
 void aquarium_init(aquarium *a){
     a->nb_fishes = 0;
     a->max_x = AQUA_SIZE;
@@ -16,18 +11,29 @@ void aquarium_add_fish(aquarium *a, fish *f){
     a->nb_fishes++;
 }
 
-fish *fish_init(){
+fish *fish_init(void (*move)(fish *, int x_max_aquarium, int y_max_aquarium)){
     fish *f = malloc(sizeof(fish));
     f->x = 0;
     f->y = 0;
+    f->move = move;
     f->speed = 1;
+    f->dir_x = 1;
+    f->dir_y = 1;
     return f;
+}
+
+void aquarium_fill(aquarium* a, int nb_fishes) {
+    for (int i = 0; i < nb_fishes ; i++) {
+        fish* f = fish_init(&no_move);
+        a->fishes[i] = f;
+    }
 }
 
 void aquarium_move_fishes(aquarium *a){
     int i;
     for(i = 0; i < a->nb_fishes; i++){
-        fish_random_move(a->fishes[i]);
+        fish* fish = a->fishes[i];
+        fish->move(fish, a->max_x, a->max_y);
         sleep(1);
     }
 }

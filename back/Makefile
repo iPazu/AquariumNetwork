@@ -5,8 +5,9 @@ default:
 
 back:
 	gcc -c tcp_server.c -o tcp_server.o
+	gcc -c fish.c -o fish.o
 	gcc -c aquarium.c -o aquarium.o
-	gcc main.c tcp_server.o aquarium.o -o tcp_server
+	gcc main.c tcp_server.o fish.o aquarium.o -o tcp_server
 
 clean:
 	rm -v tcp_server tcp_client *.o
