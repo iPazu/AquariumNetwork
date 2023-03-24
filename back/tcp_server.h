@@ -12,6 +12,11 @@
 #define MAX_CLIENTS 10
 #define PORT_NUMBER 3000
 
+typedef struct client_data {
+    int id;
+    int *socket;
+} client_data;
+
 /**
  * @brief Start tcp_server
  * 
@@ -27,6 +32,6 @@ int start_server();
  * @param socket_desc The client socket descriptor
  * @return void* 
  */
-void *client_handler(void *socket_desc);
+void *client_handler(void *);
 
 #endif

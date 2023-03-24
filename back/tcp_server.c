@@ -1,42 +1,38 @@
 #include "tcp_server.h"
 
-int clients[MAX_CLIENTS] = { 0 };
+int clients_count = 0;
+client_data *clients[MAX_CLIENTS] = { NULL };
 
-void *client_handler(void *socket_desc) {
+void *client_handler(void *void_info) {
 
-    int sock = *(int *)socket_desc;
+    client_data *info = (client_data *)void_info;
+    int *sock = info->socket;
+    int client_id = info->id;
     int read_size;
     char client_message[2000];
-    int client_number;
 
     // Receive client message
-    while ((read_size = recv(sock, client_message, 2000, 0)) > 0) {
+    while ((read_size = recv(*sock, client_message, 2000, 0)) > 0) {
 
         // Send message back to client        
-        write(sock, client_message, strlen(client_message));
+        write(*sock, client_message, strlen(client_message));
         memset(client_message, 0, 2000);
     }
 
     // Check if client disconnected
     if (read_size == 0) {
         printf("Client disconnected\n");
-
         // Remove client from array
-        int i;
-        for (i = 0; i < MAX_CLIENTS; i++) {
-            if (clients[i] == sock) {
-                clients[i] = 0;
-                break;
-            }
-        }
+        clients[client_id] = NULL;
     }
     else if (read_size == -1) {
         perror("Receive failed");
     }
 
     // Close socket and free memory
-    close(sock);
-    free(socket_desc);
+    close(*sock);
+    free(sock);
+    free(info);
 
     return 0;
 }
@@ -79,20 +75,27 @@ int start_server() {
         *new_sock = client_sock;
 
         // Add client socket to array
-        int i;
+        /* int i;
         for (i = 0; i < MAX_CLIENTS; i++) {
             if (clients[i] == 0) {
                 clients[i] = client_sock;
                 break;
             }
-        }
+        } */
+        if (clients_count < MAX_CLIENTS) {
+            client_data *client = malloc(sizeof(client_data));
+            client->id = clients_count;
+            client->socket = new_sock;
+            clients[clients_count] = client;
+            clients_count++;
 
-        if (i == MAX_CLIENTS) {
+        } else {
+
             printf("Too many clients, connection rejected\n");
             continue;
         }
 
-        if (pthread_create(&sniffer_thread, NULL, client_handler, (void *)new_sock) < 0) {
+        if (pthread_create(&sniffer_thread, NULL, client_handler, (void *)clients[clients_count]) < 0) {
             perror("Could not create thread");
             return 1;
         }
