@@ -38,6 +38,11 @@ void SpriteNode::setup(const Properties& p)
     loadTexture();
 }
 
+sf::FloatRect SpriteNode::getBoundRect() const
+{
+    return mSprite.getGlobalBounds();
+}
+
 /**
  * @brief Texture loading function.
  * 

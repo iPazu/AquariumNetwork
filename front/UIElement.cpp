@@ -12,14 +12,14 @@
 #include "include/UIElement.hpp"
 
 UIElement::UIElement()
-: mCallback {}
+: mCallback {[](std::string){ return "";}}
 , mSubElements {}
 {
 
 }
 
 UIElement::UIElement(int posx, int posy)
-: mCallback {}
+: mCallback {[](std::string){ return "";}}
 , mSubElements {}
 {
     setPosition(posx, posy);

@@ -42,6 +42,8 @@ public:
 
     void setup(const Properties&);
 
+    sf::FloatRect getBoundRect() const;
+
 private:
     void            loadTexture();
     void            animate();
