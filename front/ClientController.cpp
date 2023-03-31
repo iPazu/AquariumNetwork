@@ -12,18 +12,18 @@ ClientController::~ClientController() {
     disconnect();
 }
 
-bool ClientController::connect(const std::string& ip, int port) {
+connectionVerif ClientController::connect(const std::string& ip, int port, std::ostream& out) {
 
-    std::cout << " ----- Connecting to server  ------\n";
-    std::cout << "Server address: " << ip << std::endl;
-    std::cout << "Server port: " << port << std::endl;
+    out << " ----- Connecting to server  ------\n";
+    out << "Server address: " << ip << std::endl;
+    out << "Server port: " << port << std::endl;
 
 
     // Create a socket
     m_sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (m_sockfd < 0) {
         std::cerr << "Error creating socket\n";
-        return false;
+        return connectionVerif(false, out);
     }
 
     // Resolve the server address
@@ -33,7 +33,7 @@ bool ClientController::connect(const std::string& ip, int port) {
         std::cerr << "Error resolving server address\n";
         close(m_sockfd);
         m_sockfd = -1;
-        return false;
+        return connectionVerif(false, out);
     }
 
     // Set up the server address
@@ -48,13 +48,13 @@ bool ClientController::connect(const std::string& ip, int port) {
         std::cerr << "Error connecting to server\n";
         close(m_sockfd);
         m_sockfd = -1;
-        return false;
+        return connectionVerif(false, out);
     }
     m_connected = true;
 
     printf("Successfully connected to server\n");
     printf("----------------------------------\n");
-    return true;
+    return connectionVerif(true, out);
 }
 
 void ClientController::disconnect() {
