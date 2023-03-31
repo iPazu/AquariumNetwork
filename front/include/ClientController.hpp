@@ -7,6 +7,12 @@
 
 
 #include <string>
+#include <fstream>
+#include <iostream>
+#include <utility>
+#include <tuple>
+
+using connectionVerif = std::pair<bool, std::ostream&>;
 
 class ClientController {
 public:
@@ -14,7 +20,7 @@ public:
 
     virtual ~ClientController();
 
-    bool connect(const std::string &ip, int port);
+    connectionVerif connect(const std::string &ip, int port, std::ostream& out = std::cout);
 
     void disconnect();
 
