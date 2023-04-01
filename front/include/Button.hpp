@@ -1,0 +1,36 @@
+/**
+ * @file Button.hpp
+ * @author grybouilli (grybouilli@outlook.fr)
+ * @brief 
+ * @version 0.1
+ * @date 2023-03-31
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+#pragma once
+
+#include "UIElement.hpp"
+#include "SpriteNode.hpp"
+#include "Label.hpp"
+#include <string>
+
+class Button : public UIElement, public SpriteNode
+{
+public:
+    explicit Button(const SpriteNode::Properties&);
+    Button(int,int,const SpriteNode::Properties&);
+
+    void            select(std::string arg = "");
+    void            deselect();
+
+    void            setLabel(std::string);
+
+    bool            isToggled() const;
+    bool            isOnButton(int, int) const;
+
+private:
+    virtual void    action();
+    bool            mIsToggled;
+    Label           mLabel;
+};

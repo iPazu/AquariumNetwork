@@ -7,6 +7,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics.hpp>
 #include "SpriteNode.hpp"
+#include "Button.hpp"
 
 #include <string>
 
@@ -30,5 +31,6 @@ public:
 private:
 
     sf::RenderWindow    mWindow;
-    SpriteNode          mSprite;
+    //SpriteNode          mSprite;
+    Button              mButton;
 };

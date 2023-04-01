@@ -19,9 +19,11 @@
  */
 Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
-, mSprite {SpriteProperties[SPROP::ANGRY]}
+//, mSprite {SpriteProperties[SPROP::ANGRY]}
+, mButton {100, 100, SpriteProperties[SPROP::BUTTON]}
 {
-
+    UIElement::Callback func = [] (std::string) { std::cout << " clicked !" << std::endl; return "";};
+    mButton.setCallback(func);
 }
 
 /**
@@ -34,8 +36,11 @@ Application::Application()
  */
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
-, mSprite {SpriteProperties[SPROP::ANGRY]}
+//, mSprite {SpriteProperties[SPROP::ANGRY]}
+, mButton {100, 100, SpriteProperties[SPROP::BUTTON]}
 {
+    UIElement::Callback func = [] (std::string) { std::cout << " clicked !" << std::endl; return "";};
+    mButton.setCallback(func);
 }
 
 /**
@@ -83,8 +88,8 @@ void Application::run()
  */
 void Application::update(sf::Time dt)
 {
-    float speed = 100.0f;
-    mSprite.move(speed * dt.asSeconds(), speed * dt.asSeconds());
+   // float speed = 100.0f;
+   // mSprite.move(speed * dt.asSeconds(), speed * dt.asSeconds());
 }
 
 
@@ -102,6 +107,23 @@ void Application::handleEvents()
 
         if (event.type == sf::Event::Closed)
             mWindow.close();
+        if(event.type == sf::Event::MouseButtonPressed)
+        {
+            auto mousePos = sf::Mouse::getPosition(mWindow);
+            if(mButton.isOnButton(mousePos.x, mousePos.y))
+            {
+                std::cout << "polling mouse event..." << std::endl;
+                mButton.toggle();
+            }
+        }
+
+        if(event.type == sf::Event::MouseButtonReleased)
+        {
+            if(mButton.isToggled())
+            {
+                mButton.deselect();
+            }
+        }
     }
 }
 
@@ -114,6 +136,6 @@ void Application::handleEvents()
 void Application::render()
 {
      mWindow.clear();
-    mWindow.draw(mSprite);
+    mWindow.draw(mButton);
     mWindow.display();
 }

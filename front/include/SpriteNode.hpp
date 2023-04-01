@@ -42,11 +42,13 @@ public:
 
     void setup(const Properties&);
 
-    sf::FloatRect getBoundRect() const;
+    sf::FloatRect   getBoundRect() const;
+
+protected:
+    void            animate();
 
 private:
     void            loadTexture();
-    void            animate();
 
     virtual void    updateCurrent(sf::Time);
     virtual void    drawCurrent(sf::RenderTarget&, sf::RenderStates) const;

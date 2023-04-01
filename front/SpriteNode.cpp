@@ -70,7 +70,7 @@ void SpriteNode::loadTexture()
 /**
  * @brief Move to next animation frame.
  * 
- * Move the texture rectangle of the sprite to the next animation frame according to settings stored in the properties of the SpriteNode.
+ * Move the texture rectangle of the sprite to the next animation frame according to settings stored in the properties of the SpriteNode. The frame should be stored in line on the frames file.
  * 
  */
 void SpriteNode::animate()

@@ -10,6 +10,7 @@
  */
 
 #include "include/UIElement.hpp"
+#include <stdexcept>
 
 UIElement::UIElement()
 : mCallback {[](std::string){ return "";}}
@@ -18,11 +19,9 @@ UIElement::UIElement()
 
 }
 
-UIElement::UIElement(int posx, int posy)
-: mCallback {[](std::string){ return "";}}
-, mSubElements {}
+UIElement::~UIElement()
 {
-    setPosition(posx, posy);
+
 }
 
 void UIElement::toggle(std::string arg)

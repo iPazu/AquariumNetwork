@@ -10,23 +10,21 @@
  */
 #pragma once
 
-
-#include "GraphNode.hpp"
+#include <SFML/Graphics/Transformable.hpp>
 #include <functional>
 #include <string>
+#include <memory>
 
-class UIElement : public GraphNode
+class UIElement //: public sf::Transformable
 {
 public:
     using Ptr = std::unique_ptr<UIElement>;
-
+    using Callback = std::function<std::string(std::string)>;
     UIElement();
-    UIElement(int,int);
 
     virtual ~UIElement();
 
-    void         toggle(std::string arg ="");
-    virtual void action() = 0;
+    void    toggle(std::string arg ="");
 
     void    setCallback(std::function<std::string(std::string)>);
 
@@ -34,7 +32,8 @@ public:
     Ptr     detachSubElement(Ptr);
 
 private:
-    std::function<std::string(std::string)> mCallback;
-    std::vector<Ptr>                        mSubElements;
-    UIElement *                             mParentElement;
+    virtual void        action() = 0;
+    Callback            mCallback;
+    std::vector<Ptr>    mSubElements;
+    UIElement *         mParentElement;
 };
