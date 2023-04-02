@@ -15,7 +15,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <string>
-
+#include <vector>
 /**
  * @brief Base class for sprite element.
  * 
@@ -30,10 +30,10 @@ public:
      */
     struct Properties
     {
-        std::string pathToTexture;  ///< The path to the sprite texture.
-        bool        animated;       ///< True if the sprite is animated.
-        sf::IntRect textureSize;    ///< The texture rectangle (size of frame)
-        int         frameAmount;    ///< The amount of frame (1 if animated = false)
+        std::string         pathToTexture;  ///< The path to the sprite texture.
+        bool                animated;       ///< True if the sprite is animated.
+        sf::IntRect         textureSize;    ///< The texture rectangle (size of frame)
+        std::vector<int>    frameAmount;    ///< The amount of frame (1 if animated = false)
         
     };
 
@@ -46,6 +46,7 @@ public:
 
 protected:
     void            animate();
+    void            setToAnimation(int);
 
 private:
     void            loadTexture();
@@ -56,4 +57,5 @@ private:
     Properties      mProperties;
     sf::Texture     mTexture;
     sf::Sprite      mSprite;
+    int             mCurrentSprite;
 };

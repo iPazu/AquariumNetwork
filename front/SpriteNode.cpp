@@ -15,6 +15,7 @@ SpriteNode::SpriteNode()
 : mProperties {}
 , mTexture {}
 , mSprite {}
+, mCurrentSprite{0}
 {
 
 }
@@ -23,6 +24,7 @@ SpriteNode::SpriteNode(const Properties& p)
 : mProperties { std::move(p) }
 , mTexture { }
 , mSprite { }
+, mCurrentSprite{0}
 {
     loadTexture();
 }
@@ -58,7 +60,7 @@ void SpriteNode::loadTexture()
     }
 
     auto textureSize = mTexture.getSize();
-    if(textureSize.x < mProperties.frameAmount * mProperties.textureSize.width || textureSize.y < mProperties.textureSize.height)
+    if(textureSize.x < mProperties.frameAmount[mCurrentSprite] * mProperties.textureSize.width || textureSize.y < mProperties.textureSize.height)
     {
         throw std::logic_error("ERROR: invalid texture properties; out of bound frameAmount or invalid textureSize for texture : " + mProperties.pathToTexture );
     }
@@ -79,13 +81,23 @@ void SpriteNode::animate()
     sf::IntRect currentTextRect = mSprite.getTextureRect();
 
     sf::IntRect newTextRect { 
-        (currentTextRect.left + mProperties.textureSize.width) % (mProperties.textureSize.width * mProperties.frameAmount), 
-        currentTextRect.top, 
+        (currentTextRect.left + mProperties.textureSize.width) % (mProperties.textureSize.width * mProperties.frameAmount[mCurrentSprite]), 
+        currentTextRect.top + mCurrentSprite * mProperties.textureSize.height, 
         currentTextRect.width, 
         currentTextRect.height };
 
     mSprite.setTextureRect(newTextRect);
 }
+
+void SpriteNode::setToAnimation(int animNumber)
+{
+    if(!mProperties.animated || animNumber >= mProperties.frameAmount.size())
+    {
+        throw std::runtime_error("SpriteNode: animNumber requested is too high (" + std::to_string(animNumber) + "); the maximum was " + std::to_string(mProperties.frameAmount.size()-1) );
+    }
+    mCurrentSprite = animNumber;
+}
+
 
 /**
  * @brief Update current sprite object.
