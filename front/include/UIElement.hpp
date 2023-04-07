@@ -1,7 +1,7 @@
 /**
  * @file UIElement.hpp
  * @author grybouilli (grybouilli@outlook.fr)
- * @brief 
+ * @brief UIElement class file.
  * @version 0.1
  * @date 2023-03-23
  * 
@@ -15,7 +15,13 @@
 #include <string>
 #include <memory>
 
-class UIElement //: public sf::Transformable
+/**
+ * @brief UIElement class
+ * 
+ * Base class for UI elements; a UI element is toggable and can resort to a callback function when toggled. UI Elements can be grouped in trees of UI elements and sub elements. This base class manages the logic behind all that.
+ * 
+ */
+class UIElement
 {
 public:
     using Ptr = std::unique_ptr<UIElement>;
