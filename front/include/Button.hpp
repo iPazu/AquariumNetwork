@@ -26,6 +26,8 @@ public:
     explicit Button(const SpriteNode::Properties&);
     Button(int,int,const SpriteNode::Properties&);
 
+    virtual ~Button();
+
     void            select(std::string arg = "");
     void            deselect();
 

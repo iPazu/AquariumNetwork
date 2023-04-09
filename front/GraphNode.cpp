@@ -69,7 +69,7 @@ GraphNode::Ptr GraphNode::detachChild(const GraphNode& child)
 {
     auto found = std::find_if(mChildren.begin(), mChildren.end(), [&] (Ptr& p) { return p.get() == &child; });
 	
-    if(found != mChildren.end())
+    if(found == mChildren.end())
     {
         throw std::runtime_error("Detaching a child that isn't in this graph.");
     }
