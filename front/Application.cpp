@@ -21,9 +21,12 @@ Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
 //, mSprite {SpriteProperties[SPROP::ANGRY]}
 , mButton {100, 100, SpriteProperties[SPROP::BUTTON]}
+, mFish {0,0, 100, 100, 2}
 {
     UIElement::Callback func = [] (std::string) { std::cout << " clicked !" << std::endl; return "";};
     mButton.setCallback(func);
+
+    mFish.setScale(.5,.5);
 }
 
 /**
@@ -38,9 +41,11 @@ Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
 //, mSprite {SpriteProperties[SPROP::ANGRY]}
 , mButton {100, 100, SpriteProperties[SPROP::BUTTON]}
+, mFish {100, 100, 200, 200, 5}
 {
     UIElement::Callback func = [] (std::string) { std::cout << " clicked !" << std::endl; return "";};
     mButton.setCallback(func);
+    mFish.setScale(.5,.5);
 }
 
 /**
@@ -90,6 +95,7 @@ void Application::update(sf::Time dt)
 {
    // float speed = 100.0f;
    // mSprite.move(speed * dt.asSeconds(), speed * dt.asSeconds());
+   mFish.updateCurrent(dt);
 }
 
 
@@ -135,7 +141,8 @@ void Application::handleEvents()
  */
 void Application::render()
 {
-     mWindow.clear();
+    mWindow.clear();
     mWindow.draw(mButton);
+    mWindow.draw(mFish);
     mWindow.display();
 }

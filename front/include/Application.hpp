@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include "SpriteNode.hpp"
 #include "Button.hpp"
+#include "Fish.hpp"
 
 #include <string>
 
@@ -31,6 +32,7 @@ public:
 private:
 
     sf::RenderWindow    mWindow;
-    //SpriteNode          mSprite;
+    SpriteNode          mSprite;
     Button              mButton;
+    Fish<FISH_TYPE::CLOWN, FISH_BEHAVIOR::SINUSOIDAL>   mFish;
 };
