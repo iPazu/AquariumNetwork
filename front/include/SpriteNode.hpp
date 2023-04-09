@@ -44,6 +44,11 @@ public:
 
     sf::FloatRect   getBoundRect() const;
 
+    void            setSize(int,int);
+    void            setSize(sf::Vector2i);
+
+    sf::Vector2f    getSize() const;
+
 protected:
     void            animate();
     void            setToAnimation(int);

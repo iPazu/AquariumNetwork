@@ -45,6 +45,24 @@ sf::FloatRect SpriteNode::getBoundRect() const
     return mSprite.getGlobalBounds();
 }
 
+void SpriteNode::setSize(int width, int height)
+{
+    sf::Vector2f scale { (float)(width) / mProperties.textureSize.width, (float)(height) / mProperties.textureSize.height };
+    setScale(scale);
+}
+
+void SpriteNode::setSize(sf::Vector2i size)
+{
+    setSize(size.x, size.y);
+}
+
+sf::Vector2f SpriteNode::getSize() const
+{
+    auto scale = getScale();
+    auto textureRect = mProperties.textureSize;
+    return sf::Vector2f(scale.x * textureRect.width, scale.y*textureRect.height);
+}
+
 /**
  * @brief Texture loading function.
  * 

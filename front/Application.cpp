@@ -11,7 +11,7 @@
 #include "include/Application.hpp"
 #include "include/TextureData.hpp"
 #include "include/ClientController.hpp"
-
+#include "include/IOUtils.hpp"
 
 /**
  * @brief Construct a new Application object
@@ -41,11 +41,12 @@ Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
 //, mSprite {SpriteProperties[SPROP::ANGRY]}
 , mButton {100, 100, SpriteProperties[SPROP::BUTTON]}
-, mFish {100, 100, 200, 200, 5}
+, mFish {100, 100, 500, 500, 5}
 {
     UIElement::Callback func = [] (std::string) { std::cout << " clicked !" << std::endl; return "";};
     mButton.setCallback(func);
-    mFish.setScale(.5,.5);
+    mFish.setSize(100,100);
+
 }
 
 /**
