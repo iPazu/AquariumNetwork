@@ -26,3 +26,7 @@ void init_fish(fish *f, char *name, int x, int y, int speed, char* move_name) {
     printf("Fish %s created\n", f->name);
 }
 
+void move_fish(fish *f, int x_max_aquarium, int y_max_aquarium) {
+    f->move(f, x_max_aquarium, y_max_aquarium);
+}
+
