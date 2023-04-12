@@ -35,7 +35,7 @@ aquarium *init_aquarium(int x_max, int y_max, int nb_fish, fish *fishes[MAX_FISH
  * @param a
  * @param file_name
  */
-void init_aquarium_from_file(aquarium *a, char *file_name);
+aquarium *init_aquarium_from_file(char *file_name);
 
 /**
  * @brief Add a fish to the aquarium
@@ -61,6 +61,8 @@ void delete_fish(aquarium *a, fish *f);
  * @param a
  */
 void show_aquarium(aquarium *a);
+
+void show_aquarium_views(aquarium *a);
 
 void add_view(aquarium *a, view *v);
 
