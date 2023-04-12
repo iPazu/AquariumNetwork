@@ -9,4 +9,8 @@
 
 void RandomPointWay(fish * fish, int x_max_aquarium, int y_max_aquarium);
 
+void HorizontalWay(fish * fish, int x_max_aquarium, int y_max_aquarium);
+
+void VerticalWay(fish * fish, int x_max_aquarium, int y_max_aquarium);
+
 #endif //AQUARIUM_NETWORK_MOVE_H
