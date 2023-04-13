@@ -31,15 +31,19 @@ aquarium *init_aquarium_from_file(char *file_name) {
     fgets(buffer, sizeof(buffer), file);
     sscanf(buffer, "%dx%d", &a->width, &a->height);
 
-    // Read the views
-    while (fgets(buffer, sizeof(buffer), file)) {
-        strtok(buffer, "\n\r");
-        printf("Ligne lue : %s\n", buffer);
-        view *view = create_view_from_string(buffer);
-        add_view(a, view);
+    // Read and create the views
+    while (fgets(buffer, 100, file)) {
+        view *v = malloc(sizeof(view));
+        if (!v) {
+            printf("Erreur : impossible d'allouer la vue\n");
+            return NULL;
+        }
+        sscanf(buffer, "N%d %dx%d+%d+%d", &v->id, &v->x, &v->y, &v->width, &v->height);
+        a->views[a->nb_view++] = v;
     }
 
     fclose(file);
+    show_aquarium_views(a);
 
     printf("Aquarium initialized from file %s\n", file_name);
     show_aquarium(a);
@@ -84,23 +88,6 @@ void show_aquarium_views(aquarium *a) {
         show_view(a->views[i]);
     }
     printf("--------------\n");
-}
-
-void add_view(aquarium *a, view *v) {
-    if (a->nb_view >= MAX_VIEW) {
-        printf("Error: too many views in the aquarium");
-        exit(1);
-    }
-    for (int i = 0; i < a->nb_view; i++) {
-        if (a->views[i]->id == v->id) {
-            printf("Error: view %d already exists in the aquarium", v->id);
-            exit(1);
-        }
-    }
-    a->views[a->nb_view] = v;
-    a->nb_view++;
-    show_aquarium_views(a);
-    // printf("View %d added, %d views in the aquarium\n", v->id, a->nb_view);
 }
 
 void delete_view(aquarium *a, view *v) {

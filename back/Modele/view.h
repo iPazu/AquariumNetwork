@@ -13,17 +13,6 @@ typedef struct view {
     int height;
 } view;
 
-/**
- * @brief Create a view from a file
- * @param file
- * @return
- */
-view *create_view_from_file(FILE *file);
-
-view *create_view_from_string(char *string);
-
-view *create_view(int id, int x, int y, int width, int height);
-
 void show_view(view *v);
 
 #endif //AQUARIUM_NETWORK_VIEW_H
