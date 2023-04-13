@@ -1,31 +1,35 @@
 #include <check.h>
 #include "../src/Modele/fish.h"
 
+/**
+ * @brief Test the init_fish function
+ */
 START_TEST(test_init_fish)
 {
-    fish f;
-    init_fish(&f, "Nemo", 0, 0, 1, "RandomPointWay");
-    ck_assert_str_eq(f.name, "Nemo");
-    ck_assert_int_eq(f.x, 0);
-    ck_assert_int_eq(f.y, 0);
-    ck_assert_int_eq(f.speed, 1);
+    fish *f = init_fish("Nemo", 0, 0, 1, "RandomPointWay");
+    ck_assert_str_eq(f->name, "Nemo");
+    ck_assert_int_eq(f->x, 0);
+    ck_assert_int_eq(f->y, 0);
+    ck_assert_int_eq(f->speed, 1);
 }
 END_TEST
 
+/**
+ * @brief Test the move_fish function
+ */
 START_TEST(test_move_fish)
 {
-    fish f;
-    init_fish(&f, "Nemo", 0, 0, 1, "RandomPointWay");
-    move_fish(&f, 10, 10);
-    move_fish(&f, 10, 10);
-    move_fish(&f, 10, 10);
-    move_fish(&f, 10, 10);
-    move_fish(&f, 10, 10);
-    move_fish(&f, 10, 10);
-    ck_assert_int_ge(f.x, 0);
-    ck_assert_int_le(f.x, 10);
-    ck_assert_int_ge(f.y, 0);
-    ck_assert_int_le(f.y, 10);
+    fish *f = init_fish("Nemo", 0, 0, 1, "RandomPointWay");
+    move_fish(f, 10, 10);
+    move_fish(f, 10, 10);
+    move_fish(f, 10, 10);
+    move_fish(f, 10, 10);
+    move_fish(f, 10, 10);
+    move_fish(f, 10, 10);
+    ck_assert_int_ge(f->x, 0);
+    ck_assert_int_le(f->x, 10);
+    ck_assert_int_ge(f->y, 0);
+    ck_assert_int_le(f->y, 10);
 }
 
 int main(void)

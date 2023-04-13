@@ -22,7 +22,7 @@ typedef struct fish {
  * @param speed
  * @param move_name
  */
-void init_fish(fish *f, char *name, int x, int y, int speed, char* move_name);
+fish *init_fish(char *name, int x, int y, int speed, char* move_name);
 
 /**
  * @brief Move a fish
