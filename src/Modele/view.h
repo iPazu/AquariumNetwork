@@ -13,6 +13,8 @@ typedef struct view {
     int height;
 } view;
 
+view *init_view(int id, int x, int y, int width, int height);
+
 void show_view(view *v);
 
 #endif //AQUARIUM_NETWORK_VIEW_H

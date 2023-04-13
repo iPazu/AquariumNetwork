@@ -28,7 +28,7 @@ typedef struct aquarium {
  * @param nb_fish
  * @param fishes
  */
-aquarium *init_aquarium(int x_max, int y_max, int nb_fish, fish *fishes[MAX_FISH]);
+aquarium *init_aquarium(int x_max, int y_max, int nb_fish, int nb_view);
 
 /**
  * @brief Initialize an aquarium from a file
@@ -61,6 +61,10 @@ void delete_fish(aquarium *a, fish *f);
  * @param a
  */
 void show_aquarium(aquarium *a);
+
+void add_view(aquarium *a, view *v);
+
+void delete_view(aquarium *a, view *v);
 
 void show_aquarium_views(aquarium *a);
 

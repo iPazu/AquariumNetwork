@@ -8,11 +8,12 @@
 #include <string.h>
 #include "aquarium.h"
 
-aquarium *init_aquarium(int x_max, int y_max, int nb_fish, fish *fishes[MAX_FISH]) {
+aquarium *init_aquarium(int x_max, int y_max, int nb_fish, int nb_view) {
     aquarium *a = malloc(sizeof(aquarium));
     a->width = x_max;
     a->height = y_max;
     a->nb_fish = nb_fish;
+    a->nb_view = nb_view;
     return a;
 }
 
@@ -43,11 +44,6 @@ aquarium *init_aquarium_from_file(char *file_name) {
     }
 
     fclose(file);
-    show_aquarium_views(a);
-
-    printf("Aquarium initialized from file %s\n", file_name);
-    show_aquarium(a);
-
     return a;
 
 }
@@ -55,13 +51,11 @@ aquarium *init_aquarium_from_file(char *file_name) {
 void add_fish(aquarium *a, fish *f) {
     a->fishes[a->nb_fish] = f;
     a->nb_fish++;
-    printf("Fish %s added, %d fish in the aquarium\n", f->name, a->nb_fish);
 }
 
 void move_fishes(aquarium *a) {
     for (int i = 0; i < a->nb_fish; i++) {
         a->fishes[i]->move(a->fishes[i], a->width, a->height);
-        printf("Fish %s moved to %d, %d\n", a->fishes[i]->name, a->fishes[i]->x, a->fishes[i]->y);
     }
 }
 
@@ -73,7 +67,6 @@ void delete_fish(aquarium *a, fish *f) {
             break;
         }
     }
-    printf("Fish %s deleted\n", f->name);
     free(f);
 }
 
@@ -90,6 +83,36 @@ void show_aquarium_views(aquarium *a) {
     printf("--------------\n");
 }
 
+
+void add_view(aquarium *a, view *v) {
+    int error = 0;
+    if (a->nb_view >= MAX_VIEW) {
+        error++;
+        printf("Error: too many views\n");
+    }
+
+    for (int i = 0; i < a->nb_view; i++) {
+        if (a->views[i]->id == v->id) {
+            error++;
+            printf("Error: view id already exists\n");
+        }
+    }
+
+    if (v->x < 0 || v->y < 0) {
+        error++;
+        printf("Error: view out of aquarium\n");
+    }
+    if (v->x + v->width > a->width || v->y + v->height > a->height) {
+        error++;
+        printf("Error: view out of aquarium\n");
+    }
+    if (error == 0) {
+        a->views[a->nb_view] = v;
+        a->nb_view++;
+    }
+
+}
+
 void delete_view(aquarium *a, view *v) {
     for (int i = 0; i < a->nb_view; i++) {
         if (a->views[i] == v) {
@@ -98,8 +121,7 @@ void delete_view(aquarium *a, view *v) {
             break;
         }
     }
-    printf("View %d deleted\n", v->id);
-    free(v);
+    //free(v);
 }
 
 void save_aquarium(aquarium *a, char *file_name) {

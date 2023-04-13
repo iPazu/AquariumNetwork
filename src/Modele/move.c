@@ -2,6 +2,7 @@
 // Created by Axel PETIT on 12/04/2023.
 //
 
+#include <stdio.h>
 #include <stdlib.h>
 #include "move.h"
 
@@ -29,8 +30,8 @@ void RandomPointWay(fish *f, int x_max_aquarium, int y_max_aquarium) {
 void HorizontalWay(fish *f, int x_max_aquarium, int y_max_aquarium) {
     int x;
     do {
-        x = rand() % (2 * f->speed);
-        x = x - x / 2;
+        x = rand() % (f->speed  + 1); // chose a number between 0 and speed
+        x = rand() % 2 == 0 ? x : -x; // chose a direction
     } while (check_position(f->x + x, f->y, x_max_aquarium, y_max_aquarium) == 0);
 
     f->x = f->x + x;
@@ -39,8 +40,8 @@ void HorizontalWay(fish *f, int x_max_aquarium, int y_max_aquarium) {
 void VerticalWay(fish *f, int x_max_aquarium, int y_max_aquarium) {
     int y;
     do {
-        y = rand() % (2 * f->speed);
-        y = y - y / 2;
+        y = rand() % (f->speed  + 1); // chose a number between 0 and speed
+        y = rand() % 2 == 0 ? y : -y; // chose a direction
     } while (check_position(f->x, f->y + y, x_max_aquarium, y_max_aquarium) == 0);
 
     f->y = f->y + y;
