@@ -1,5 +1,5 @@
-#include "aquarium.h"
-#include "tcp_server.h"
+#include "Modele/aquarium.h"
+#include "Controler/tcp_server.h"
 #include <pthread.h>
 #include <signal.h>
 #include <stdio.h>

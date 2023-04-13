@@ -1,3 +1,5 @@
+#define MESSAGE_SIZE 2000
+
 #include "tcp_server.h"
 
 int clients_count = 0;
@@ -9,7 +11,7 @@ void *client_handler(void *void_info) {
     int *sock = info->socket;
     int client_id = info->id;
     int read_size;
-    char client_message[2000];
+    char client_message[MESSAGE_SIZE];
 
     // Receive client message
     while ((read_size = recv(*sock, client_message, 2000, 0)) > 0) {
