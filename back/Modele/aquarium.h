@@ -66,4 +66,6 @@ void show_aquarium_views(aquarium *a);
 
 void save_aquarium(aquarium *a, char *file_name);
 
+void free_aquarium(aquarium *a);
+
 #endif //AQUARIUM_NETWORK_AQUARIUM_H

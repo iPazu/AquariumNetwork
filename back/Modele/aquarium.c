@@ -118,13 +118,23 @@ void save_aquarium(aquarium *a, char *file_name) {
     printf("Aquarium saved in %s\n", file_name);
 }
 
-int main() {
-    srand(time(NULL));
-    aquarium *a = init_aquarium_from_file("../loader.txt");
-
-    save_aquarium(a, "../save.txt");
-
-
+void free_aquarium(aquarium *a) {
+    for (int i = 0; i < a->nb_fish; i++) {
+        free(a->fishes[i]);
+    }
+    for (int i = 0; i < a->nb_view; i++) {
+        free(a->views[i]);
+    }
     free(a);
-    return 0;
 }
+
+//int main() {
+//    srand(time(NULL));
+//    aquarium *a = init_aquarium_from_file("../loader.txt");
+//
+//    save_aquarium(a, "../save.txt");
+//
+//
+//    free(a);
+//    return 0;
+//}
