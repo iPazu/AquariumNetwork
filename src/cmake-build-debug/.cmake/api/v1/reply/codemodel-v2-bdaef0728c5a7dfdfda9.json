@@ -1,0 +1,113 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.0"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "Modele",
+					"jsonFile" : "directory-Modele-Debug-ee9244e6159761b404e5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Modele",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "Controler",
+					"jsonFile" : "directory-Controler-Debug-c6afd05ef9c95845020c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Controler",
+					"targetIndexes" : 
+					[
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
+					"name" : "Aquarium_Network",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Aquarium_Network::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Aquarium_Network-Debug-d2497075ae5082a6c612.json",
+					"name" : "Aquarium_Network",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "controler::@59d9f4db5b860cd3e8df",
+					"jsonFile" : "target-controler-Debug-2b3c334726f7d5a35c74.json",
+					"name" : "controler",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "modele::@b70db328e38675e05955",
+					"jsonFile" : "target-modele-Debug-56600e65fdf6b270335f.json",
+					"name" : "modele",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/axel/Desktop/Projets/Scolaire/Aquarium_Network/src/cmake-build-debug",
+		"source" : "/Users/axel/Desktop/Projets/Scolaire/Aquarium_Network/src"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

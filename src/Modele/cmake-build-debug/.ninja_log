@@ -1,0 +1,6 @@
+# ninja log v5
+0	45	1681479011929677695	CMakeFiles/modele.dir/view.c.o	846ab7f9bad17f61
+0	46	1681479011929677737	CMakeFiles/modele.dir/fish.c.o	f3985ee8c44fd2f
+0	46	1681479011929816278	CMakeFiles/modele.dir/move.c.o	266740e3ff1e14bd
+0	47	1681479011931379941	CMakeFiles/modele.dir/aquarium.c.o	cd2587da9d8b13f6
+47	361	1681479012246785000	libmodele.a	901aa724f59ab3a5
