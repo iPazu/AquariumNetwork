@@ -16,7 +16,7 @@
 #include "IOUtils.hpp"
 #include <iostream>
 
-template<FISH_TYPE FishType, FISH_BEHAVIOR FishBehavior>
+template<FISH_TYPE FishType>
 class Fish : public SpriteNode
 {
 public:
@@ -27,7 +27,7 @@ public:
     , mTargetTime {sf::seconds(0.f)}
     {}
 
-    Fish(float posx, float posy, float targetx, float targety,float timeToTarget)
+    Fish(float posx, float posy, float targetx, float targety,float timeToTarget, FISH_BEHAVIOR FishBehavior)
     : SpriteNode {FishSpriteProperties[(int)FishType]}
     , mTrajectory { TrajectoryFactory::makeTrajectory(posx, posy, targetx, targety, timeToTarget, FishBehavior) }
     , mElapsedTime{sf::Time::Zero}
@@ -41,7 +41,6 @@ public:
         mElapsedTime += dt;
         if(mElapsedTime < mTargetTime)
         {
-            std::cout << getPosition() << std::endl;
             setPosition(mTrajectory(mElapsedTime));
         } else
         {
@@ -49,7 +48,7 @@ public:
         animate();
     }
 
-    void renewTarget(float targetx, float targety, float time)
+    void renewTarget(float targetx, float targety, float time, FISH_BEHAVIOR FishBehavior)
     {
         mTargetTime = sf::seconds(time);
         mElapsedTime = sf::Time::Zero;

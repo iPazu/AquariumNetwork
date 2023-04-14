@@ -34,5 +34,5 @@ private:
     sf::RenderWindow    mWindow;
     SpriteNode          mSprite;
     Button              mButton;
-    Fish<FISH_TYPE::CLOWN, FISH_BEHAVIOR::SINUSOIDAL>   mFish;
+    Fish<FISH_TYPE::CLOWN>   mFish;
 };
