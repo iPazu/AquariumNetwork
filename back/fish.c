@@ -40,17 +40,14 @@ void random_move_with_updated_speed(fish *f, int x_max_aquarium,
 }
 
 void print_fish(fish *f) {
-  printf("[%s at (%d, %d)], current speed : %d\n", f->name, f->x, f->y,
-         f->speed);
+  printf("Fish %s at %dx%d,%dx%d\n", f->name, f->x, f->y, f->x_size, f->y_size);
 }
 
-fish *fish_init(char *name,
-                void (*move)(fish *, int x_max_aquarium, int y_max_aquarium)) {
+fish *fish_init(char *name, int x, int y, int x_dim, int y_dim) {
   fish *f = malloc(sizeof(fish));
   f->name = name;
   f->x = 0;
   f->y = 0;
-  f->move = move;
   f->speed = 1;
   f->dir_x = 1;
   f->dir_y = 1;

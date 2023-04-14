@@ -32,7 +32,7 @@ void aquarium_fill(aquarium *a, int nb_fishes) {
     sprintf(last_name, "%d", i);
     strcat(full_name, last_name);
 
-    fish *f = fish_init(full_name, &random_move_with_updated_speed);
+    fish *f = fish_init(full_name, 1, 2, 1280, 720);
     aquarium_add_fish(a, f);
     print_fish(f);
   }
@@ -42,7 +42,7 @@ void aquarium_move_fishes(aquarium *a) {
   int i;
   for (i = 0; i < a->nb_fishes; i++) {
     fish *fish = a->fishes[i];
-    fish->move(fish, a->max_x, a->max_y);
+    // fish->move(fish, a->max_x, a->max_y);
     usleep(20);
     print_fish(fish);
   }

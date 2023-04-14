@@ -1,12 +1,30 @@
 #include "display_aquarium.h"
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 void load_aquarium(display_aquarium *d, char *file_name) {
   printf("to be done\n");
+  struct stat s;
+  int fd = open(file_name, O_RDONLY);
+  fstat(fd, &s);
+  int buf_size = s.st_size;
+  char buf[buf_size];
+  read(fd, buf, buf_size);
+  close(fd);
 }
 void save_aquarium(display_aquarium *d, char *file_name) {
-  printf("to be done\n");
+  struct stat s;
+  int fd = open(file_name, O_WRONLY);
+  fstat(fd, &s);
+  int buf_size = s.st_size;
+  char buf[buf_size];
+  write(fd, buf, buf_size);
+  close(fd);
 }
 void show_aquarium(display_aquarium *d) {
   printf("%dx%d\n", d->aquarium_width, d->aquarium_height);
@@ -31,4 +49,5 @@ void add_view(display_aquarium *d, char *id, char *vue_x, char *vue_y,
 void delete_view(display_aquarium *d, int id) {
   d->display[id] = NULL;
   d->nb_display--;
+  free(d->display[id]);
 }

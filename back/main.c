@@ -12,9 +12,11 @@ char *valid_command = "-> OK\n";
 char *too_arg = "Too many arguments\n";
 char *fish_arg = "Fish argument missing\n";
 char *aq_arg = "aquarium argument missing\n";
+char *view_arg = "view and view number arguments are missing\n";
 
 void clean() {} // to use in case of dynamic allocation
 
+// fonction de gestion des arguments de la ligne de commande
 void get_option(struct aquarium *a, struct display_aquarium *d) {
   // gestion des arguments
   char arg[100];
@@ -54,11 +56,12 @@ void get_option(struct aquarium *a, struct display_aquarium *d) {
         char *mob = strtok(NULL, s);
         printf("name: %s at:%s coord:%s display_size:%s mob:%s\n", name, at,
                coord, display_size, mob);
+        strtok(coord, "x");
         if (strcmp(mob, "RandomWayPoint\n") == 0) {
           //  if fish is in aquarium
           // printf("NOK\n");
           // else
-          // struct fish * fish = fish_init(name, coord, display);
+          // struct fish * fish = *fish_init(name, x, y, x_dim, y_dim);
           //  aquarium_add_fish(a, fish);
           printf("->OK\n");
 
@@ -174,38 +177,61 @@ void get_option(struct aquarium *a, struct display_aquarium *d) {
       }
       // del view
       else if (strcmp(split, "del\n") == 0 && nb_tokens == 1) {
-        printf("view and view number argument missing\n");
+        printf("%s", view_arg);
       } else if (strcmp(split, "del") == 0 && nb_tokens == 1) {
         // printf("aquarium\n");
         split = strtok(NULL, s);
         if (strcmp(split, "view") == 0) {
-          char *num_view = strtok(NULL, s);
-          // del_view()
-          printf("-> view %s deleted\n", num_view);
+          char *id_view = strtok(NULL, s);
+          printf("id view is %s\n", id_view);
+          int id = atoi(id_view + 1);
+          printf("%d\n", id);
+          // check that view id exists
+          // delete_view(d, id);
+          printf("-> view %d deleted\n", id);
         } else {
           printf("view argument missing\n");
         }
       }
       // add view
-      else if (strcmp(split, "add") == 0 && nb_tokens == 1) {
+      else if (strcmp(split, "add\n") == 0 && nb_tokens == 1) {
+        printf("arguments are missing\n");
+
+      } else if (strcmp(split, "add") == 0 && nb_tokens == 1) {
         // printf("aquarium\n");
         split = strtok(NULL, s);
         if (strcmp(split, "view") == 0) {
-          char *num_view = strtok(NULL, s);
-          // add view number to view file
+
           char *id = strtok(NULL, s);
+          // should add view number to view file
+          printf("id : %s\n", id);
+          char *split = strtok(NULL, s);
+
+          if (split == NULL) {
+            printf("view dimensions are missing\n");
+          }
+          const char delim[3] = "x+";
+          char *dimensions = strtok(split, s);
+          printf("%s\n", dimensions);
           // décomposer la chaîne de caractères dim pour récupérer N{num_view}
-          char *vue_x = strtok(NULL, s);
-          char *vue_y = strtok(NULL, "x");
-          char *vue_width = strtok(NULL, "+");
-          char *vue_height = strtok(NULL, "+");
-          //  add view dimensions to view file
+          char *vue_x = strtok(dimensions, "x");
+          printf("%s\n", vue_x);
+          char *vue_y = strtok(dimensions, "+");
+          printf("%s\n", vue_y);
+
+          char *vue_width = strtok(dimensions, "+");
+          printf("vue width %s\n", vue_width);
+
+          // problème avec vue height
+          char *vue_height = strtok(dimensions, s);
+          printf("vue height%s\n", vue_height);
+
+          // add view dimensions to view file
           add_view(d, id, vue_x, vue_y, vue_width, vue_height);
           printf("-> view added\n");
         } else {
           printf("view argument missing\n");
         }
-
       }
       // invalid command
       else if (nb_tokens == 1) {
@@ -230,9 +256,12 @@ int main(int argc, char const *argv[]) {
   sigaction(SIGKILL, &sa, &old);
   struct display_aquarium *d = malloc(sizeof(struct display_aquarium));
   struct aquarium *a = malloc(sizeof(struct aquarium));
+  // initialisation de l'aquarium
   aquarium_init(a);
-  aquarium_fill(a, 10);
+  // aquarium_fill(a, 10);
+
   pthread_create(&thread, NULL, (void *)start_server, arg);
+  // gestion des arguments de la ligne de commande
   while (1) {
     get_option(a, d);
   }

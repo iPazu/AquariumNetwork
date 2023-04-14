@@ -9,10 +9,12 @@ struct fish {
   char *name;
   int x;
   int y;
-  void (*move)(fish *, int x_max_aquarium, int y_max_aquarium);
+  // void (*move)(fish *, int x_max_aquarium, int y_max_aquarium);
   int speed;
   int dir_x;
   int dir_y;
+  int x_size; // x dimension of virtual display
+  int y_size; // y dimension of virtual display
   char *mobility;
   int pos_in_queue;
   int started;
@@ -29,5 +31,4 @@ void random_move_with_updated_speed(fish *, int x_max_aquarium,
 
 void print_fish(fish *);
 
-fish *fish_init(char *name,
-                void (*move)(fish *, int x_max_aquarium, int y_max_aquarium));
+fish *fish_init(char *name, int x, int y, int x_dim, int y_dim);
