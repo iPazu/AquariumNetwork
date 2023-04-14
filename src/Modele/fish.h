@@ -32,4 +32,6 @@ fish *init_fish(char *name, int x, int y, int speed, char* move_name);
  */
 void move_fish(fish *f, int x_max_aquarium, int y_max_aquarium);
 
+void show_fish(fish *f);
+
 #endif //AQUARIUM_NETWORK_FISH_H

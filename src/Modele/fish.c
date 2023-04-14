@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "fish.h"
 #include "move.h"
 
@@ -31,3 +32,6 @@ void move_fish(fish *f, int x_max_aquarium, int y_max_aquarium) {
     f->move(f, x_max_aquarium, y_max_aquarium);
 }
 
+void show_fish(fish *f) {
+    printf("Fish %s is at (%d, %d) with speed %d", f->name, f->x, f->y, f->speed);
+}
