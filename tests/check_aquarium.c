@@ -108,6 +108,7 @@ START_TEST(test__delete_view) {
     delete_view(a, v1);
     ck_assert_int_eq(a->nb_view, 2);
 }
+END_TEST
 
 
 int main(void)
