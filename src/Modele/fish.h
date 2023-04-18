@@ -10,7 +10,11 @@ typedef struct fish {
     int x;
     int y;
     int speed;
+    int strength;
+    char* species;
     void (*move)(struct fish *, int x_max_aquarium, int y_max_aquarium);
+    struct fish* (*reproduction)(struct fish *, struct fish *);
+    struct fish* (*hunting)(struct fish *, struct fish *);
 } fish;
 
 /**
@@ -20,9 +24,10 @@ typedef struct fish {
  * @param x
  * @param y
  * @param speed
+ * @param species
  * @param move_name
  */
-fish *init_fish(char *name, int x, int y, int speed, char* move_name);
+fish *init_fish(char *name, int x, int y, int speed, int strength, char* species, char* move_name, char* behavior_name, char* hunting_name);
 
 /**
  * @brief Move a fish
