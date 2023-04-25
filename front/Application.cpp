@@ -20,9 +20,9 @@
 Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
 //, mSprite {SpriteProperties[SPROP::ANGRY]}
-, mButton {100, 100,"Click clikc", SpriteProperties[SPROP::BUTTON]}
-, mFish {0,0, 100, 100, 2}
 , mAddFishPanel()
+, mFish { 0,0, 100, 100, 2, FISH_BEHAVIOR::LINEAR}
+, mButton {100, 100,"Click clikc", SpriteProperties[SPROP::BUTTON]}
 {
 
     UIElement::Callback func = [] (const std::string&) { std::cout << " clicked !" << std::endl; return "";};
@@ -41,7 +41,7 @@ Application::Application()
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
 //, mSprite {SpriteProperties[SPROP::ANGRY]}
-, mButton {100, 100,"Click clikc", SpriteProperties[SPROP::BUTTON]}
+, mButton {100, 100, SpriteProperties[SPROP::BUTTON]}
 , mFish {100, 100, 500, 500, 5}
 {
     UIElement::Callback func = [] (const std::string&) { std::cout << " clicked !" << std::endl; return "";};

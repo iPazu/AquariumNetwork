@@ -107,6 +107,6 @@ bool Button::isOnButton(int x, int y) const
 
 void Button::action()
 {
-    animate();
+    animate(sf::Time::Zero);
     mIsToggled = !mIsToggled;
 }

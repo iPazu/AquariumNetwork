@@ -30,11 +30,11 @@ public:
      */
     struct Properties
     {
-        std::string         pathToTexture;  ///< The path to the sprite texture.
-        bool                animated;       ///< True if the sprite is animated.
-        sf::IntRect         textureSize;    ///< The texture rectangle (size of frame)
-        std::vector<int>    frameAmount;    ///< The amount of frame (1 if animated = false)
-        
+        std::string             pathToTexture;  ///< The path to the sprite texture.
+        bool                    animated;       ///< True if the sprite is animated.
+        sf::IntRect             textureSize;    ///< The texture rectangle (size of frame)
+        std::vector<int>        frameAmount;    ///< The amount of frame (1 if animated = false)
+        std::vector<sf::Time>   animationTime;
     };
 
     SpriteNode();
@@ -42,25 +42,27 @@ public:
 
     void setup(const Properties&);
 
-    sf::FloatRect   getBoundRect() const;
+    sf::FloatRect       getBoundRect() const;
 
-    void            setSize(int,int);
-    void            setSize(sf::Vector2i);
+    void                setSize(int,int);
+    void                setSize(sf::Vector2i);
 
-    sf::Vector2f    getSize() const;
+    sf::Vector2f        getSize() const;
 
-protected:
-    void            animate();
-    void            setToAnimation(int);
+protected:  
+    void                animate(sf::Time);
+    void                setToAnimation(int);
 
-private:
-    void            loadTexture();
+private:    
+    void                goToNextAnimationFrame();
+    void                loadTexture();
 
-    virtual void    updateCurrent(sf::Time);
-    virtual void    drawCurrent(sf::RenderTarget&, sf::RenderStates) const;
+    virtual void        updateCurrent(sf::Time);
+    virtual void        drawCurrent(sf::RenderTarget&, sf::RenderStates) const;
 
-    Properties      mProperties;
-    sf::Texture     mTexture;
-    sf::Sprite      mSprite;
-    int             mCurrentSprite;
+    Properties          mProperties;
+    sf::Texture         mTexture;
+    sf::Sprite          mSprite;
+    std::pair<int,int>  mCurrentSprite; // animation nb, frame nb
+    sf::Time            mElapsedTime;
 };
