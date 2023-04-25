@@ -5,7 +5,7 @@
 #ifndef AQUARIUM_NETWORK_AQUARIUM_H
 #define AQUARIUM_NETWORK_AQUARIUM_H
 
-#define MAX_FISH 100
+#define MAX_FISHES 100
 #define MAX_VIEW 100
 
 #include "fish.h"
@@ -15,7 +15,7 @@ typedef struct aquarium {
     int width;
     int height;
     int nb_fish;
-    fish *fishes[MAX_FISH];
+    fish *fishes[MAX_FISHES];
     int nb_view;
     view *views[MAX_VIEW];
 } aquarium;
@@ -71,5 +71,7 @@ void show_aquarium_views(aquarium *a);
 void save_aquarium(aquarium *a, char *file_name);
 
 void free_aquarium(aquarium *a);
+
+void fish_reproduction(aquarium *a);
 
 #endif //AQUARIUM_NETWORK_AQUARIUM_H

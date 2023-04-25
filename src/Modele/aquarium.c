@@ -49,6 +49,11 @@ aquarium *init_aquarium_from_file(char *file_name) {
 }
 
 void add_fish(aquarium *a, fish *f) {
+  if (a->nb_fish >= MAX_FISHES) {
+    printf("Error: too many fishes\n");
+    free(f);
+    return;
+  }
   a->fishes[a->nb_fish] = f;
   a->nb_fish++;
 }
@@ -149,13 +154,43 @@ void free_aquarium(aquarium *a) {
   free(a);
 }
 
+void fish_behaviors(aquarium *a) {
+  for (int i = 0; i < a->nb_fish - 1; i++) {
+    for (int j = i + 1; j < a->nb_fish; j++) {
+      // Reproduction
+      fish *baby_fish = a->fishes[i]->reproduction(a->fishes[i], a->fishes[j]);
+      if (baby_fish != NULL) {
+        add_fish(a, baby_fish);
+      }
+      // Hunting
+      fish *eaten_fish = a->fishes[i]->hunting(a->fishes[i], a->fishes[j]);
+      if (eaten_fish != NULL) {
+        delete_fish(a, eaten_fish);
+      }
+    }
+  }
+}
+
 // int main() {
-//     srand(time(NULL));
-//     aquarium *a = init_aquarium_from_file("../loader.txt");
+//     aquarium *a = init_aquarium(100, 100, 0, 0);
+//     fish *f1 = init_fish("Fish1", 0, 0, 3, 1, "Espece1", "RandomPointWay",
+//     "Classic", "Classic"); fish *f2 = init_fish("Fish2", 1, 1, 3, 2,
+//     "Espece1", "RandomPointWay", "Classic", "Classic"); fish *f3 =
+//     init_fish("Fish3", 2, 2, 3, 3, "Espece1", "RandomPointWay", "Classic",
+//     "Classic"); fish *f4 = init_fish("Fish4", 3, 3, 3, 4, "Espece2",
+//     "RandomPointWay", "Classic", "Classic"); fish *f5 = init_fish("Fish5", 4,
+//     4, 3, 5, "Espece2", "RandomPointWay", "Classic", "Classic");
 //
-//     save_aquarium(a, "../save.txt");
+//     add_fish(a, f1);
+//     add_fish(a, f2);
+//     add_fish(a, f3);
+//     add_fish(a, f4);
+//     add_fish(a, f5);
 //
+//     move_fishes(a);
+//     fish_behaviors(a);
+//     move_fishes(a);
+//     fish_behaviors(a);
 //
-//     free(a);
 //     return 0;
 // }
