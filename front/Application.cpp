@@ -20,12 +20,13 @@
 Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
 //, mSprite {SpriteProperties[SPROP::ANGRY]}
-, mButton {100, 100, SpriteProperties[SPROP::BUTTON]}
+, mButton {100, 100,"Click clikc", SpriteProperties[SPROP::BUTTON]}
 , mFish {0,0, 100, 100, 2}
+, mAddFishPanel()
 {
-    UIElement::Callback func = [] (std::string) { std::cout << " clicked !" << std::endl; return "";};
-    mButton.setCallback(func);
 
+    UIElement::Callback func = [] (const std::string&) { std::cout << " clicked !" << std::endl; return "";};
+    mButton.setCallback(func);
     mFish.setScale(.5,.5);
 }
 
@@ -40,10 +41,12 @@ Application::Application()
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
 //, mSprite {SpriteProperties[SPROP::ANGRY]}
-, mButton {100, 100, SpriteProperties[SPROP::BUTTON]}
+, mButton {100, 100,"Click clikc", SpriteProperties[SPROP::BUTTON]}
 , mFish {100, 100, 500, 500, 5}
 {
-    UIElement::Callback func = [] (std::string) { std::cout << " clicked !" << std::endl; return "";};
+    UIElement::Callback func = [] (const std::string&) { std::cout << " clicked !" << std::endl; return "";};
+
+
     mButton.setCallback(func);
     mFish.setSize(100,100);
 
@@ -145,5 +148,6 @@ void Application::render()
     mWindow.clear();
     mWindow.draw(mButton);
     mWindow.draw(mFish);
+    mWindow.draw(mAddFishPanel);
     mWindow.display();
 }

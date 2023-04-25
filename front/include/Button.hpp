@@ -24,7 +24,7 @@ class Button : public UIElement, public SpriteNode
 {
 public:
     explicit Button(const SpriteNode::Properties&);
-    Button(int,int,const SpriteNode::Properties&);
+    Button(int,int,const char * label,const SpriteNode::Properties&);
 
     virtual ~Button();
 

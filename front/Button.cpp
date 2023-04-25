@@ -38,11 +38,11 @@ Button::Button(const SpriteNode::Properties& prop)
  * @param y 
  * @param prop 
  */
-Button::Button(int x, int y, const SpriteNode::Properties& prop)
+Button::Button(int x, int y,const char * label, const SpriteNode::Properties& prop)
 : UIElement()
 , SpriteNode(prop)
 , mIsToggled { false }
-, mLabel {"Button", "../assets/Fishermills.ttf"}
+, mLabel {label, "../assets/Fishermills.ttf"}
 {
     setPosition(x,y);
     mLabel.setFillColor(sf::Color::Black);
@@ -50,6 +50,7 @@ Button::Button(int x, int y, const SpriteNode::Properties& prop)
     Label::Ptr ptr { &mLabel }; 
     attachChild(std::move(ptr));
 }
+
 
 Button::~Button()
 {

@@ -9,6 +9,7 @@
 #include "SpriteNode.hpp"
 #include "Button.hpp"
 #include "Fish.hpp"
+#include "AddFishPanel.hpp"
 
 #include <string>
 
@@ -35,4 +36,5 @@ private:
     SpriteNode          mSprite;
     Button              mButton;
     Fish<FISH_TYPE::CLOWN, FISH_BEHAVIOR::SINUSOIDAL>   mFish;
+    AddFishPanel        mAddFishPanel;
 };

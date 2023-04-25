@@ -36,12 +36,12 @@ public:
         setPosition(posx, posy);
     }
 
-    void updateCurrent(sf::Time dt)
+    void updateCurrent(sf::Time dt) override
     {
         mElapsedTime += dt;
         if(mElapsedTime < mTargetTime)
         {
-            std::cout << getPosition() << std::endl;
+            //std::cout << getPosition() << std::endl;
             setPosition(mTrajectory(mElapsedTime));
         } else
         {
