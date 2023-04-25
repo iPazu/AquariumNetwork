@@ -278,5 +278,6 @@ int main(int argc, char const *argv[]) {
     get_option(a);
   }
   free(a);
+    printf("free");
   return 0;
 }
