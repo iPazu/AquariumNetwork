@@ -10,11 +10,11 @@
 #include "behavior.h"
 
 
-void *move_function(char *move_name) {
+void (*move_function(char *move_name))(fish*, int, int) {
     if (strcmp(move_name, "RandomPointWay") == 0) {
-        return RandomPointWay;
+        return &RandomPointWay;
     }
-    return RandomPointWay;
+    return &RandomPointWay;
 }
 
 fish *(*get_reproduction_function(char *behavior_name))(fish *, fish *) {
@@ -31,14 +31,30 @@ fish *(*get_hunting_function(char *behavior_name))(fish *, fish *) {
     return &classic_hunting;
 }
 
-
-fish *init_fish(char *name, int x, int y, int speed, int strength, char* species, char* move_name, char* reproduction_name, char* hunting_name) {
+fish *init_fish(char *name, int x, int y, int speed, int strength, int gender, char* species, void (*move_function)(fish *, int, int), fish* (*reproduction_function)(fish *, fish *), fish* (*hunting_function)(fish *, fish *)) {
     fish *f = malloc(sizeof(fish));
     f->name = name;
     f->x = x;
     f->y = y;
     f->speed = speed;
     f->strength = strength;
+    f->gender = gender;
+    f->species = species;
+    f->move = move_function;
+    f->reproduction = reproduction_function;
+    f->hunting = hunting_function;
+
+    return f;
+}
+
+fish *init_fish_from_client(char *name, int x, int y, int speed, int strength, int gender, char* species, char* move_name, char* reproduction_name, char* hunting_name) {
+    fish *f = malloc(sizeof(fish));
+    f->name = name;
+    f->x = x;
+    f->y = y;
+    f->speed = speed;
+    f->strength = strength;
+    f->gender = gender;
     f->species = species;
     f->move = move_function(move_name);
     f->reproduction = get_reproduction_function(reproduction_name);

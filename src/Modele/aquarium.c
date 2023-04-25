@@ -165,7 +165,7 @@ void fish_behaviors(aquarium *a) {
             }
             // Hunting
             fish *eaten_fish = a->fishes[i]->hunting(a->fishes[i], a->fishes[j]);
-            if ( eaten_fish != NULL) {
+            if (eaten_fish != NULL) {
                 delete_fish(a, eaten_fish);
             }
         }
@@ -175,11 +175,11 @@ void fish_behaviors(aquarium *a) {
 
 //int main() {
 //    aquarium *a = init_aquarium(100, 100, 0, 0);
-//    fish *f1 = init_fish("Fish1", 0, 0, 3, 1, "Espece1", "RandomPointWay", "Classic", "Classic");
-//    fish *f2 = init_fish("Fish2", 1, 1, 3, 2, "Espece1", "RandomPointWay", "Classic", "Classic");
-//    fish *f3 = init_fish("Fish3", 2, 2, 3, 3, "Espece1", "RandomPointWay", "Classic", "Classic");
-//    fish *f4 = init_fish("Fish4", 3, 3, 3, 4, "Espece2", "RandomPointWay", "Classic", "Classic");
-//    fish *f5 = init_fish("Fish5", 4, 4, 3, 5, "Espece2", "RandomPointWay", "Classic", "Classic");
+//    fish *f1 = init_fish_from_client("Fish1", 0, 0, 3, 1, 0, "Espece1", "RandomPointWay", "Classic", "Classic");
+//    fish *f2 = init_fish_from_client("Fish2", 1, 1, 3, 2, 1, "Espece1", "RandomPointWay", "Classic", "Classic");
+//    fish *f3 = init_fish_from_client("Fish3", 2, 2, 3, 3, 0, "Espece1", "RandomPointWay", "Classic", "Classic");
+//    fish *f4 = init_fish_from_client("Fish4", 3, 3, 3, 4, 1, "Espece2", "RandomPointWay", "Classic", "Classic");
+//    fish *f5 = init_fish_from_client("Fish5", 4, 4, 3, 5, 0, "Espece2", "RandomPointWay", "Classic", "Classic");
 //
 //    add_fish(a, f1);
 //    add_fish(a, f2);

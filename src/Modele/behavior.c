@@ -8,22 +8,15 @@
 
 fish *classic_reproduction(fish * f1, fish * f2) {
     if ( f1 == NULL || f2 == NULL) return NULL;
-    if ( f1->species == f2->species) {
+
+    if ( (f1->species == f2->species) && (f1->gender == !(f2->gender))) {
         if (abs(f1->x - f2->x <= 1) && abs(f1->y - f2->y <= 1)) {
-            fish *baby_fish = malloc(sizeof(fish));
-            baby_fish->name = "Baby";
-            baby_fish->x = f1->x;
-            baby_fish->y = f2->y;
-            baby_fish->speed = f1->speed;
-            baby_fish->strength = f1->strength;
-            baby_fish->species = f1->species;
-            baby_fish->move = f1->move;
-            baby_fish->reproduction = f1->reproduction;
-            baby_fish->hunting = f1->hunting;
+            fish * baby_fish = init_fish("Baby", f1->x, f2 -> y, f1->speed, f1->strength, rand() % 2, f1->species, f1->move, f1->reproduction, f1->hunting);
             printf("Reproduction de %s et %s\n", f1->name, f2->name);
             return baby_fish;
         }
     }
+
     return NULL;
 }
 
