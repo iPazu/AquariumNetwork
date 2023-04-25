@@ -50,7 +50,11 @@ void get_option(struct aquarium *a) {
 
       } else if (strcmp(split, "addFish") == 0 && nb_tokens == 1) {
         char *name = strtok(NULL, s);
+        // special case if no position argument
         char *at = strtok(NULL, s);
+        if (at == NULL) {
+          printf("position argument missing");
+        }
         char *coord = strtok(NULL, s);
         char *display_size = strtok(NULL, s);
         char *mob = strtok(NULL, s);
@@ -104,160 +108,158 @@ void get_option(struct aquarium *a) {
         printf("OK\n");
         if (fish_exists == 0)
           printf("-> NOK : Poisson inexistant");
-
-        // getFishes
-        else if (strcmp(split, "getFishes\n") == 0 && nb_tokens == 1) {
-          printf("list ");
-          for (int i = 0; i < a->nb_fish; i++) {
-            show_fish(a->fishes[i]);
-          }
+      }
+      // getFishes
+      else if (strcmp(split, "getFishes\n") == 0 && nb_tokens == 1) {
+        printf("list ");
+        for (int i = 0; i < a->nb_fish; i++) {
+          show_fish(a->fishes[i]);
         }
-        // startFish
-        else if (strcmp(split, "startFish\n") == 0 && nb_tokens == 1) {
-          printf("%s", fish_arg);
-        } else if (strcmp(split, "startFish") == 0 && nb_tokens == 1) {
-          printf("fish started\n");
-          // call dedicated function = move_fish ?
-          // move_fish(f, a->width, a->height);
-          split = strtok(NULL, s);
-          char *fish = split;
-          printf("%s", fish);
-          printf("%s", valid_command);
-        }
-        // getFishesContinuously
-        else if (strcmp(split, "getFishesContinuously") == 0 &&
-                 nb_tokens == 1) {
-          printf("%s", too_arg);
-        } else if (strcmp(split, "getFishesContinuously\n") == 0 &&
-                   nb_tokens == 1) {
-          printf("list ");
-          // gérer avec la connexion tcp, définir la fréquence d'affichage de la
-          // liste
-          for (int i = 0; i < a->nb_fish; i++) {
-            show_fish(a->fishes[i]);
-          }
-        }
-        // ls
-        else if (strcmp(split, "ls\n") == 0 && nb_tokens == 1) {
-          printf("list\n");
-        }
-        // hello
-        else if (strcmp(split, "hello\n") == 0 && nb_tokens == 1) {
-          // attribution aléatoire si que hello
-          printf("greeting random\n");
-        } else if (strcmp(split, "hello") == 0 && nb_tokens == 1) {
-          // attribution non aléatoire
-          split = strtok(NULL, s); // check that split is as
-          assert(strcmp(split, "as") == 0);
-          split = strtok(NULL, s); // chech that split is in
-          assert(strcmp(split, "in") == 0);
-          char *id = strtok(NULL, s);
-          // if (id is a display view name)
-          // printf("greeting %s\n", id);
-          // else (invalid id)
-          // printf("no greeting\n");
-        }
-        // log out
-        else if (strcmp(split, "log") == 0 && nb_tokens == 1) {
-          split = strtok(NULL, s);
-          if (strcmp(split, "out\n") == 0) {
-            printf("bye\n");
-          }
-        }
-        // ping
-        else if (strcmp(split, "ping") == 0 && nb_tokens == 1) {
-          split = strtok(NULL, s);
-          printf("pong %s\n", split);
-        }
-
-        /*
-          Programme contrôleur
-        */
-
-        // load aquarium
-        else if (strcmp(split, "load\n") == 0 && nb_tokens == 1) {
-          printf("%s", aq_arg);
-        } else if (strcmp(split, "load") == 0 && nb_tokens == 1) {
-          char *file_name = strtok(NULL, s);
-          // check that file exists
-          a = init_aquarium_from_file(file_name);
-
-          printf("aquarium loaded (%d display view) !\n", a->nb_view);
-        }
-        // show aquarium
-        else if (strcmp(split, "show\n") == 0 && nb_tokens == 1) {
-          printf("%s", aq_arg);
-        } else if (strcmp(split, "show") == 0 && nb_tokens == 1) {
-          split = strtok(NULL, s); // strcmp split = aquarium
-
-          if (strcmp(split, "aquarium\n") == 0 && nb_tokens == 1) {
-            show_aquarium(a);
-            show_aquarium_views(a);
-          }
-        }
-        // save aquarium
-        else if (strcmp(split, "save\n") == 0 && nb_tokens == 1) {
-          printf("%s", aq_arg);
-        } else if (strcmp(split, "save") == 0 && nb_tokens == 1) {
-          char *file_name = strtok(NULL, s); // check that file exists
-
-          a = init_aquarium_from_file(file_name);
-
-          printf("Aquarium saved ! (%d display view)\n", a->nb_view);
-        }
-        // del view
-        else if (strcmp(split, "del\n") == 0 && nb_tokens == 1) {
-          printf("view and view number argument missing\n");
-        } else if (strcmp(split, "del") == 0 && nb_tokens == 1) {
-          // printf("aquarium\n");
-          split = strtok(NULL, s);
-          if (strcmp(split, "view") == 0) {
-            char *num_view = strtok(NULL, s);
-            // del_view()
-            printf("-> view %s deleted\n", num_view);
-          } else {
-            printf("view argument missing\n");
-          }
-        }
-        // add view
-        else if (strcmp(split, "add") == 0 && nb_tokens == 1) {
-          // printf("aquarium\n");
-          split = strtok(NULL, s);
-          if (strcmp(split, "view") == 0) {
-            char *num_view = strtok(NULL, s);
-            // add view number to view file
-            char *id = strtok(NULL, s);
-            // décomposer la chaîne de caractères dim pour récupérer N{num_view}
-            char *vue_x = strtok(NULL, s);
-            char *vue_y = strtok(NULL, "x");
-            char *vue_width = strtok(NULL, "+");
-            char *vue_height = strtok(NULL, "+");
-            int num_id = sscanf(vue_x, "%d", &num_id);
-            int x = sscanf(vue_x, "%d", &x);
-            int y = sscanf(vue_y, "%d", &y);
-            int width = sscanf(vue_width, "%d", &width);
-            int height = sscanf(vue_height, "%d", &height);
-
-            //  add view dimensions to view file
-            view *v = init_view(num_id, x, y, width, height);
-            add_view(a, v);
-            printf("-> view added\n");
-          } else {
-            printf("view argument missing\n");
-          }
-        }
-        // invalid command
-        else if (nb_tokens == 1) {
-          printf("%s", notFound);
-        }
+      }
+      // startFish
+      else if (strcmp(split, "startFish\n") == 0 && nb_tokens == 1) {
+        printf("%s", fish_arg);
+      } else if (strcmp(split, "startFish") == 0 && nb_tokens == 1) {
+        printf("fish started\n");
+        // call dedicated function = move_fish ?
+        // move_fish(f, a->width, a->height);
         split = strtok(NULL, s);
+        char *fish = split;
+        printf("%s", fish);
+        printf("%s", valid_command);
+      }
+      // getFishesContinuously
+      else if (strcmp(split, "getFishesContinuously") == 0 && nb_tokens == 1) {
+        printf("%s", too_arg);
+      } else if (strcmp(split, "getFishesContinuously\n") == 0 &&
+                 nb_tokens == 1) {
+        printf("list ");
+        // gérer avec la connexion tcp, définir la fréquence d'affichage de la
+        // liste
+        for (int i = 0; i < a->nb_fish; i++) {
+          show_fish(a->fishes[i]);
+        }
+      }
+      // ls
+      else if (strcmp(split, "ls\n") == 0 && nb_tokens == 1) {
+        printf("list\n");
+      }
+      // hello
+      else if (strcmp(split, "hello\n") == 0 && nb_tokens == 1) {
+        // attribution aléatoire si que hello
+        printf("greeting random\n");
+      } else if (strcmp(split, "hello") == 0 && nb_tokens == 1) {
+        // attribution non aléatoire
+        split = strtok(NULL, s); // check that split is as
+        assert(strcmp(split, "as") == 0);
+        split = strtok(NULL, s); // chech that split is in
+        assert(strcmp(split, "in") == 0);
+        char *id = strtok(NULL, s);
+        // if (id is a display view name)
+        // printf("greeting %s\n", id);
+        // else (invalid id)
+        // printf("no greeting\n");
+      }
+      // log out
+      else if (strcmp(split, "log") == 0 && nb_tokens == 1) {
+        split = strtok(NULL, s);
+        if (strcmp(split, "out\n") == 0) {
+          printf("bye\n");
+        }
+      }
+      // ping
+      else if (strcmp(split, "ping") == 0 && nb_tokens == 1) {
+        split = strtok(NULL, s);
+        printf("pong %s\n", split);
       }
 
+      /*
+        Programme contrôleur
+      */
+
+      // load aquarium
+      else if (strcmp(split, "load\n") == 0 && nb_tokens == 1) {
+        printf("%s", aq_arg);
+      } else if (strcmp(split, "load") == 0 && nb_tokens == 1) {
+        char *file_name = strtok(NULL, s);
+        // check that file exists
+        a = init_aquarium_from_file(file_name);
+
+        printf("aquarium loaded (%d display view) !\n", a->nb_view);
+      }
+      // show aquarium
+      else if (strcmp(split, "show\n") == 0 && nb_tokens == 1) {
+        printf("%s", aq_arg);
+      } else if (strcmp(split, "show") == 0 && nb_tokens == 1) {
+        split = strtok(NULL, s); // strcmp split = aquarium
+
+        if (strcmp(split, "aquarium\n") == 0 && nb_tokens == 1) {
+          show_aquarium(a);
+          show_aquarium_views(a);
+        }
+      }
+      // save aquarium
+      else if (strcmp(split, "save\n") == 0 && nb_tokens == 1) {
+        printf("%s", aq_arg);
+      } else if (strcmp(split, "save") == 0 && nb_tokens == 1) {
+        char *file_name = strtok(NULL, s); // check that file exists
+
+        a = init_aquarium_from_file(file_name);
+
+        printf("Aquarium saved ! (%d display view)\n", a->nb_view);
+      }
+      // del view
+      else if (strcmp(split, "del\n") == 0 && nb_tokens == 1) {
+        printf("view and view number argument missing\n");
+      } else if (strcmp(split, "del") == 0 && nb_tokens == 1) {
+        // printf("aquarium\n");
+        split = strtok(NULL, s);
+        if (strcmp(split, "view") == 0) {
+          char *num_view = strtok(NULL, s);
+          // del_view()
+          printf("-> view %s deleted\n", num_view);
+        } else {
+          printf("view argument missing\n");
+        }
+      }
+      // add view
+      else if (strcmp(split, "add") == 0 && nb_tokens == 1) {
+        // printf("aquarium\n");
+        split = strtok(NULL, s);
+        if (strcmp(split, "view") == 0) {
+          char *num_view = strtok(NULL, s);
+          // add view number to view file
+          char *id = strtok(NULL, s);
+          // décomposer la chaîne de caractères dim pour récupérer N{num_view}
+          char *vue_x = strtok(NULL, s);
+          char *vue_y = strtok(NULL, "x");
+          char *vue_width = strtok(NULL, "+");
+          char *vue_height = strtok(NULL, "+");
+          int num_id = sscanf(vue_x, "%d", &num_id);
+          int x = sscanf(vue_x, "%d", &x);
+          int y = sscanf(vue_y, "%d", &y);
+          int width = sscanf(vue_width, "%d", &width);
+          int height = sscanf(vue_height, "%d", &height);
+
+          //  add view dimensions to view file
+          view *v = init_view(num_id, x, y, width, height);
+          add_view(a, v);
+          printf("-> view added\n");
+        } else {
+          printf("view argument missing\n");
+        }
+      }
+      // invalid command
+      else if (nb_tokens == 1) {
+        printf("%s", notFound);
+      }
       split = strtok(NULL, s);
     }
-    printf("%d\n", nb_tokens);
-    nb_tokens = 0;
+
+    split = strtok(NULL, s);
   }
+  printf("%d\n", nb_tokens);
+  nb_tokens = 0;
 }
 
 int main(int argc, char const *argv[]) {
@@ -278,6 +280,6 @@ int main(int argc, char const *argv[]) {
     get_option(a);
   }
   free(a);
-    printf("free");
+  printf("free");
   return 0;
 }
