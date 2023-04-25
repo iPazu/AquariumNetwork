@@ -1,7 +1,0 @@
-# ninja log v5
-0	40	1682435412708746829	Modele/CMakeFiles/modele.dir/view.c.o	1a8c73fb37d4a35b
-0	41	1682435412709421369	Modele/CMakeFiles/modele.dir/fish.c.o	3c63d186613924f9
-0	41	1682435412709060412	Modele/CMakeFiles/modele.dir/move.c.o	9da204bcc2caf99b
-0	41	1682435412708788288	Modele/CMakeFiles/modele.dir/behavior.c.o	7fe7473202fb1c21
-0	42	1682435412710733989	Modele/CMakeFiles/modele.dir/aquarium.c.o	9843673254cc6ed1
-42	60	1682435412730090000	Modele/libmodele.a	3aafaa14a53fa5d6
