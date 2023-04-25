@@ -1,0 +1,154 @@
+\hypertarget{classButton}{}\doxysection{Button Class Reference}
+\label{classButton}\index{Button@{Button}}
+
+
+UI \mbox{\hyperlink{classButton}{Button}} class.  
+
+
+
+
+{\ttfamily \#include $<$Button.\+hpp$>$}
+
+Inheritance diagram for Button\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classButton}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classButton_a91d56c69e7ec25512c7f931c024bbd9e}{Button}} (const \mbox{\hyperlink{structSpriteNode_1_1Properties}{Sprite\+Node\+::\+Properties}} \&)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classButton}{Button}} constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classButton_ad901ac88952123e4ac7ab21f7babb335}{Button}} (int, int, const \mbox{\hyperlink{structSpriteNode_1_1Properties}{Sprite\+Node\+::\+Properties}} \&)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classButton}{Button}} constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classButton_a13c95c23d8ef5688a3bbaab8a3ebac7d}{select}} (std\+::string arg=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em Select button. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classButton_a565331dbe481e0f55e26a4a1f36ee40e}\label{classButton_a565331dbe481e0f55e26a4a1f36ee40e}} 
+void \mbox{\hyperlink{classButton_a565331dbe481e0f55e26a4a1f36ee40e}{deselect}} ()
+\begin{DoxyCompactList}\small\item\em Deselect button. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classButton_af240c726824d48ad63bdddb3b9fdbd58}{set\+Label}} (std\+::string)
+\begin{DoxyCompactList}\small\item\em Changes button label. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classButton_a71539173ebb65e1e608ff4a3c894a667}{is\+Toggled}} () const
+\begin{DoxyCompactList}\small\item\em Is the button toggled? \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classButton_a7e18738d20790e79ec496190309abbe6}{is\+On\+Button}} (int, int) const
+\begin{DoxyCompactList}\small\item\em Is position (x,y) in the button bounds? \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+UI \mbox{\hyperlink{classButton}{Button}} class. 
+
+You can select, deselect and add a callback function to this button. It benefits from all the features of the classes \mbox{\hyperlink{classUIElement}{UIElement}} and \mbox{\hyperlink{classSpriteNode}{Sprite\+Node}}. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classButton_a91d56c69e7ec25512c7f931c024bbd9e}\label{classButton_a91d56c69e7ec25512c7f931c024bbd9e}} 
+\index{Button@{Button}!Button@{Button}}
+\index{Button@{Button}!Button@{Button}}
+\doxysubsubsection{\texorpdfstring{Button()}{Button()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Button\+::\+Button (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSpriteNode_1_1Properties}{Sprite\+Node\+::\+Properties}} \&}]{prop }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+\mbox{\hyperlink{classButton}{Button}} constructor. 
+
+Construct a button from a set of \mbox{\hyperlink{classSpriteNode}{Sprite\+Node}} properties.
+
+
+\begin{DoxyParams}{Parameters}
+{\em prop} & The properties set of the button to create. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classButton_ad901ac88952123e4ac7ab21f7babb335}\label{classButton_ad901ac88952123e4ac7ab21f7babb335}} 
+\index{Button@{Button}!Button@{Button}}
+\index{Button@{Button}!Button@{Button}}
+\doxysubsubsection{\texorpdfstring{Button()}{Button()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Button\+::\+Button (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{const \mbox{\hyperlink{structSpriteNode_1_1Properties}{Sprite\+Node\+::\+Properties}} \&}]{prop }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classButton}{Button}} constructor. 
+
+Construct a button from a set of \mbox{\hyperlink{classSpriteNode}{Sprite\+Node}} properties and position it at coordinates (x,y).
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & \\
+\hline
+{\em y} & \\
+\hline
+{\em prop} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classButton_a7e18738d20790e79ec496190309abbe6}\label{classButton_a7e18738d20790e79ec496190309abbe6}} 
+\index{Button@{Button}!isOnButton@{isOnButton}}
+\index{isOnButton@{isOnButton}!Button@{Button}}
+\doxysubsubsection{\texorpdfstring{isOnButton()}{isOnButton()}}
+{\footnotesize\ttfamily bool Button\+::is\+On\+Button (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption}) const}
+
+
+
+Is position (x,y) in the button bounds? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & X Coord of the position to evaluate. \\
+\hline
+{\em y} & Y Coord of the position to evaluate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if position (x,y) is contained in the button region. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classButton_a71539173ebb65e1e608ff4a3c894a667}\label{classButton_a71539173ebb65e1e608ff4a3c894a667}} 
+\index{Button@{Button}!isToggled@{isToggled}}
+\index{isToggled@{isToggled}!Button@{Button}}
+\doxysubsubsection{\texorpdfstring{isToggled()}{isToggled()}}
+{\footnotesize\ttfamily bool Button\+::is\+Toggled (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Is the button toggled? 
+
+\begin{DoxyReturn}{Returns}
+True if the button is currently toggled. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classButton_a13c95c23d8ef5688a3bbaab8a3ebac7d}\label{classButton_a13c95c23d8ef5688a3bbaab8a3ebac7d}} 
+\index{Button@{Button}!select@{select}}
+\index{select@{select}!Button@{Button}}
+\doxysubsubsection{\texorpdfstring{select()}{select()}}
+{\footnotesize\ttfamily void Button\+::select (\begin{DoxyParamCaption}\item[{std\+::string}]{arg = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+Select button. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Argument passed on to the callback. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classButton_af240c726824d48ad63bdddb3b9fdbd58}\label{classButton_af240c726824d48ad63bdddb3b9fdbd58}} 
+\index{Button@{Button}!setLabel@{setLabel}}
+\index{setLabel@{setLabel}!Button@{Button}}
+\doxysubsubsection{\texorpdfstring{setLabel()}{setLabel()}}
+{\footnotesize\ttfamily void Button\+::set\+Label (\begin{DoxyParamCaption}\item[{std\+::string}]{label }\end{DoxyParamCaption})}
+
+
+
+Changes button label. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em label} & The new text attached to the label. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/grybouilli/\+Cours/2\+A/8\+\_\+projet\+\_\+reseau/\+Aquarium\+Network/front/include/\mbox{\hyperlink{Button_8hpp}{Button.\+hpp}}\item 
+/home/grybouilli/\+Cours/2\+A/8\+\_\+projet\+\_\+reseau/\+Aquarium\+Network/front/\mbox{\hyperlink{Button_8cpp}{Button.\+cpp}}\end{DoxyCompactItemize}

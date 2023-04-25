@@ -5,7 +5,7 @@
 
 int main()
 {
-    Application app { 200, 200 };
+    Application app { 1200, 600, "Aquarium Network" };
 
     try{
         app.run();
