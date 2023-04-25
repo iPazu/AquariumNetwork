@@ -1,0 +1,110 @@
+\hypertarget{classApplication}{}\doxysection{Application Class Reference}
+\label{classApplication}\index{Application@{Application}}
+
+
+Base class for the application.  
+
+
+
+
+{\ttfamily \#include $<$Application.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classApplication_afa8cc05ce6b6092be5ecdfdae44e05f8}\label{classApplication_afa8cc05ce6b6092be5ecdfdae44e05f8}} 
+\mbox{\hyperlink{classApplication_afa8cc05ce6b6092be5ecdfdae44e05f8}{Application}} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{classApplication}{Application}} object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApplication_ac2469c6d04692cea1e01b246cda3cf0e}{Application}} (const int \&, const int \&, std\+::string=\char`\"{}Aquarium\char`\"{})
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{classApplication}{Application}} object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classApplication_a68965449404743bf1add056784d6cf81}{run}} ()
+\begin{DoxyCompactList}\small\item\em The app main loop. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classApplication_a8019db8e5109c21cd3e25c1454fa5462}{update}} (sf\+::\+Time)
+\begin{DoxyCompactList}\small\item\em Update function of the app. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classApplication_a560aab587a90a1501eeee97160b09c3d}{handle\+Events}} ()
+\begin{DoxyCompactList}\small\item\em Event handling function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classApplication_a9ac99d97ee1cc814298a2f2388bde835}{render}} ()
+\begin{DoxyCompactList}\small\item\em Render function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Base class for the application. 
+
+This class holds the main objects to be manipulated through the UI, and is in charge of updating and rendering them. It also handles user events and acts on entities in consequence. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classApplication_ac2469c6d04692cea1e01b246cda3cf0e}\label{classApplication_ac2469c6d04692cea1e01b246cda3cf0e}} 
+\index{Application@{Application}!Application@{Application}}
+\index{Application@{Application}!Application@{Application}}
+\doxysubsubsection{\texorpdfstring{Application()}{Application()}}
+{\footnotesize\ttfamily Application\+::\+Application (\begin{DoxyParamCaption}\item[{const int \&}]{w,  }\item[{const int \&}]{h,  }\item[{std\+::string}]{win\+Name = {\ttfamily \char`\"{}Aquarium\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+Construct a new \mbox{\hyperlink{classApplication}{Application}} object. 
+
+This constructor allows you to set the width, height and title of the window in which the app runs. 
+\begin{DoxyParams}{Parameters}
+{\em w} & The window width \\
+\hline
+{\em h} & The window height \\
+\hline
+{\em win\+Name} & The window name \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classApplication_a560aab587a90a1501eeee97160b09c3d}\label{classApplication_a560aab587a90a1501eeee97160b09c3d}} 
+\index{Application@{Application}!handleEvents@{handleEvents}}
+\index{handleEvents@{handleEvents}!Application@{Application}}
+\doxysubsubsection{\texorpdfstring{handleEvents()}{handleEvents()}}
+{\footnotesize\ttfamily void Application\+::handle\+Events (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Event handling function. 
+
+Is in charge of processing the inputs triggered in the application graphic window. \mbox{\Hypertarget{classApplication_a9ac99d97ee1cc814298a2f2388bde835}\label{classApplication_a9ac99d97ee1cc814298a2f2388bde835}} 
+\index{Application@{Application}!render@{render}}
+\index{render@{render}!Application@{Application}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}}
+{\footnotesize\ttfamily void Application\+::render (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Render function. 
+
+Draw all the elements attached to the app in the app grpahic window. \mbox{\Hypertarget{classApplication_a68965449404743bf1add056784d6cf81}\label{classApplication_a68965449404743bf1add056784d6cf81}} 
+\index{Application@{Application}!run@{run}}
+\index{run@{run}!Application@{Application}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void Application\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+The app main loop. 
+
+This function contains the main of the app and does the entire job of handling events, updating entities and rendering them. \mbox{\Hypertarget{classApplication_a8019db8e5109c21cd3e25c1454fa5462}\label{classApplication_a8019db8e5109c21cd3e25c1454fa5462}} 
+\index{Application@{Application}!update@{update}}
+\index{update@{update}!Application@{Application}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Application\+::update (\begin{DoxyParamCaption}\item[{sf\+::\+Time}]{dt }\end{DoxyParamCaption})}
+
+
+
+Update function of the app. 
+
+Updates the entities attached to the \mbox{\hyperlink{classApplication}{Application}} class.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dt} & Elapsed time since last call to the update function. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/grybouilli/\+Cours/2\+A/8\+\_\+projet\+\_\+reseau/\+Aquarium\+Network/front/include/Application.\+hpp\item 
+/home/grybouilli/\+Cours/2\+A/8\+\_\+projet\+\_\+reseau/\+Aquarium\+Network/front/\mbox{\hyperlink{Application_8cpp}{Application.\+cpp}}\end{DoxyCompactItemize}

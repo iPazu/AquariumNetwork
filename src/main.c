@@ -22,7 +22,7 @@ void get_option(struct aquarium *a) {
   int size_arg = 100;
   int nb_tokens = 0;
   int total_tokens = 0;
-  const char s[2] = " ";
+  const char s[3] = " ,";
   char *fishname;
   if (fgets(arg, size_arg, stdin) != NULL) {
     char *split = strtok(arg, s);
@@ -58,7 +58,7 @@ void get_option(struct aquarium *a) {
         char *coord = strtok(NULL, s);
         char *display_size = strtok(NULL, s);
         char *mob = strtok(NULL, s);
-        printf("name: %s at:%s coord:%s display_size:%s mob:%s\n", name, at,
+        printf("name: %s at:%s coord:%s display_size:%s mob:%s", name, at,
                coord, display_size, mob);
 
         // définir les différents modes de mobilité

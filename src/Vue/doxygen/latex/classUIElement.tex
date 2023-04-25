@@ -1,0 +1,118 @@
+\hypertarget{classUIElement}{}\doxysection{UIElement Class Reference}
+\label{classUIElement}\index{UIElement@{UIElement}}
+
+
+\mbox{\hyperlink{classUIElement}{UIElement}} class.  
+
+
+
+
+{\ttfamily \#include $<$UIElement.\+hpp$>$}
+
+Inheritance diagram for UIElement\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classUIElement}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classUIElement_a2df1df9f28d88a869992cb5d6482c379}\label{classUIElement_a2df1df9f28d88a869992cb5d6482c379}} 
+using {\bfseries Ptr} = std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classUIElement}{UIElement}} $>$
+\item 
+\mbox{\Hypertarget{classUIElement_a066aaf638e575919d665ac5c0ed94a7c}\label{classUIElement_a066aaf638e575919d665ac5c0ed94a7c}} 
+using {\bfseries Callback} = std\+::function$<$ std\+::string(std\+::string)$>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classUIElement_ad79ed24fdf6b3d8b4ce1b168d6bd35bc}{toggle}} (std\+::string arg=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em toggle the element \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUIElement_a765351038bcb3527de30f30939d36265}{set\+Callback}} (std\+::function$<$ std\+::string(std\+::string)$>$)
+\begin{DoxyCompactList}\small\item\em Changes the callback of the element. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUIElement_a72b5d5e37ed21881d0fdf04b99edf135}{attach\+Sub\+Element}} (Ptr)
+\begin{DoxyCompactList}\small\item\em Add element to sub-\/elements. \end{DoxyCompactList}\item 
+Ptr \mbox{\hyperlink{classUIElement_ad1d70c6aa4514052c56d1a924c20f9e5}{detach\+Sub\+Element}} (Ptr)
+\begin{DoxyCompactList}\small\item\em Detach sub-\/element from the current group. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classUIElement}{UIElement}} class. 
+
+Base class for UI elements; a UI element is toggable and can resort to a callback function when toggled. UI Elements can be grouped in trees of UI elements and sub elements. This base class manages the logic behind all that. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classUIElement_a72b5d5e37ed21881d0fdf04b99edf135}\label{classUIElement_a72b5d5e37ed21881d0fdf04b99edf135}} 
+\index{UIElement@{UIElement}!attachSubElement@{attachSubElement}}
+\index{attachSubElement@{attachSubElement}!UIElement@{UIElement}}
+\doxysubsubsection{\texorpdfstring{attachSubElement()}{attachSubElement()}}
+{\footnotesize\ttfamily void UIElement\+::attach\+Sub\+Element (\begin{DoxyParamCaption}\item[{UIElement\+::\+Ptr}]{element }\end{DoxyParamCaption})}
+
+
+
+Add element to sub-\/elements. 
+
+Attaches element to the tree of sub-\/elements of the current object.
+
+
+\begin{DoxyParams}{Parameters}
+{\em element} & The element to attach to the tree. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classUIElement_ad1d70c6aa4514052c56d1a924c20f9e5}\label{classUIElement_ad1d70c6aa4514052c56d1a924c20f9e5}} 
+\index{UIElement@{UIElement}!detachSubElement@{detachSubElement}}
+\index{detachSubElement@{detachSubElement}!UIElement@{UIElement}}
+\doxysubsubsection{\texorpdfstring{detachSubElement()}{detachSubElement()}}
+{\footnotesize\ttfamily UIElement\+::\+Ptr UIElement\+::detach\+Sub\+Element (\begin{DoxyParamCaption}\item[{UIElement\+::\+Ptr}]{element }\end{DoxyParamCaption})}
+
+
+
+Detach sub-\/element from the current group. 
+
+Detaches element from the tree of the current object\textquotesingle{}s sub-\/elements and returns the pointer pointing to it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em element} & The element to detach. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The detached element. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classUIElement_a765351038bcb3527de30f30939d36265}\label{classUIElement_a765351038bcb3527de30f30939d36265}} 
+\index{UIElement@{UIElement}!setCallback@{setCallback}}
+\index{setCallback@{setCallback}!UIElement@{UIElement}}
+\doxysubsubsection{\texorpdfstring{setCallback()}{setCallback()}}
+{\footnotesize\ttfamily void UIElement\+::set\+Callback (\begin{DoxyParamCaption}\item[{std\+::function$<$ std\+::string(std\+::string)$>$}]{callback }\end{DoxyParamCaption})}
+
+
+
+Changes the callback of the element. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em callback} & The new callback. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classUIElement_ad79ed24fdf6b3d8b4ce1b168d6bd35bc}\label{classUIElement_ad79ed24fdf6b3d8b4ce1b168d6bd35bc}} 
+\index{UIElement@{UIElement}!toggle@{toggle}}
+\index{toggle@{toggle}!UIElement@{UIElement}}
+\doxysubsubsection{\texorpdfstring{toggle()}{toggle()}}
+{\footnotesize\ttfamily void UIElement\+::toggle (\begin{DoxyParamCaption}\item[{std\+::string}]{arg = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+toggle the element 
+
+Makes a call to action and to the callback function. 
+\begin{DoxyParams}{Parameters}
+{\em arg} & Argument passed on to the callback. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/grybouilli/\+Cours/2\+A/8\+\_\+projet\+\_\+reseau/\+Aquarium\+Network/front/include/\mbox{\hyperlink{UIElement_8hpp}{UIElement.\+hpp}}\item 
+/home/grybouilli/\+Cours/2\+A/8\+\_\+projet\+\_\+reseau/\+Aquarium\+Network/front/\mbox{\hyperlink{UIElement_8cpp}{UIElement.\+cpp}}\end{DoxyCompactItemize}
