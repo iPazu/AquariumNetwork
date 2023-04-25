@@ -15,7 +15,8 @@ SpriteNode::SpriteNode()
 : mProperties {}
 , mTexture {}
 , mSprite {}
-, mCurrentSprite{0}
+, mCurrentSprite{0,0}
+, mElapsedTime { sf::Time::Zero }
 {
 
 }
@@ -24,7 +25,8 @@ SpriteNode::SpriteNode(const Properties& p)
 : mProperties { std::move(p) }
 , mTexture { }
 , mSprite { }
-, mCurrentSprite{0}
+, mCurrentSprite{0,0}
+, mElapsedTime { sf::Time::Zero }
 {
     loadTexture();
 }
@@ -63,6 +65,22 @@ sf::Vector2f SpriteNode::getSize() const
     return sf::Vector2f(scale.x * textureRect.width, scale.y*textureRect.height);
 }
 
+
+void SpriteNode::goToNextAnimationFrame()
+{
+    sf::Vector2u textSize       = mTexture.getSize();
+    sf::IntRect currentTextRect = mSprite.getTextureRect();
+
+    mCurrentSprite.second++;
+    mCurrentSprite.second %= mProperties.frameAmount[mCurrentSprite.first];
+    sf::IntRect newTextRect { 
+        mCurrentSprite.second * currentTextRect.width, 
+        currentTextRect.top + mCurrentSprite.first * mProperties.textureSize.height, 
+        currentTextRect.width, 
+        currentTextRect.height };
+
+    mSprite.setTextureRect(newTextRect);
+}
 /**
  * @brief Texture loading function.
  * 
@@ -78,7 +96,7 @@ void SpriteNode::loadTexture()
     }
 
     auto textureSize = mTexture.getSize();
-    if(textureSize.x < mProperties.frameAmount[mCurrentSprite] * mProperties.textureSize.width || textureSize.y < mProperties.textureSize.height)
+    if(textureSize.x < mProperties.frameAmount[mCurrentSprite.first] * mProperties.textureSize.width || textureSize.y < mProperties.textureSize.height)
     {
         throw std::logic_error("ERROR: invalid texture properties; out of bound frameAmount or invalid textureSize for texture : " + mProperties.pathToTexture );
     }
@@ -93,18 +111,18 @@ void SpriteNode::loadTexture()
  * Move the texture rectangle of the sprite to the next animation frame according to settings stored in the properties of the SpriteNode. The frame should be stored in line on the frames file.
  * 
  */
-void SpriteNode::animate()
+void SpriteNode::animate(sf::Time dt)
 {
-    sf::Vector2u textSize       = mTexture.getSize();
-    sf::IntRect currentTextRect = mSprite.getTextureRect();
-
-    sf::IntRect newTextRect { 
-        (currentTextRect.left + mProperties.textureSize.width) % (mProperties.textureSize.width * mProperties.frameAmount[mCurrentSprite]), 
-        currentTextRect.top + mCurrentSprite * mProperties.textureSize.height, 
-        currentTextRect.width, 
-        currentTextRect.height };
-
-    mSprite.setTextureRect(newTextRect);
+    if(mProperties.animated)
+    {
+        mElapsedTime += dt;
+        if(mElapsedTime >= mProperties.animationTime[mCurrentSprite.first])
+        {
+            goToNextAnimationFrame();
+            mElapsedTime = sf::Time::Zero;
+        }
+    }
+       
 }
 
 void SpriteNode::setToAnimation(int animNumber)
@@ -113,7 +131,7 @@ void SpriteNode::setToAnimation(int animNumber)
     {
         throw std::runtime_error("SpriteNode: animNumber requested is too high (" + std::to_string(animNumber) + "); the maximum was " + std::to_string(mProperties.frameAmount.size()-1) );
     }
-    mCurrentSprite = animNumber;
+    mCurrentSprite.first = animNumber;
 }
 
 
@@ -127,7 +145,7 @@ void SpriteNode::setToAnimation(int animNumber)
 void SpriteNode::updateCurrent(sf::Time dt)
 {
     if(mProperties.animated)
-        animate();
+        animate(dt);   
 }
 
 /**

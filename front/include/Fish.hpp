@@ -45,7 +45,7 @@ public:
         } else
         {
         }
-        animate();
+        animate(dt);
     }
 
     void renewTarget(float targetx, float targety, float time, FISH_BEHAVIOR FishBehavior)
