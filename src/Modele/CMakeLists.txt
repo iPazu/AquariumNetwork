@@ -1,1 +1,1 @@
-add_library(modele fish.c aquarium.c move.c view.c behavior.c behavior.h)
+add_library(modele fish.c aquarium.c move.c view.c behavior.c)
