@@ -63,6 +63,22 @@ fish *init_fish_from_client(char *name, int x, int y, int speed, int strength, i
     return f;
 }
 
+fish *init_basic_fish(char *name, int x, int y, char * move_name) {
+    fish *f = malloc(sizeof(fish));
+    f->name = name;
+    f->x = x;
+    f->y = y;
+    f->speed = 1;
+    f->strength = 1;
+    f->gender = rand() % 2;
+    f->species = "Basic";
+    f->move = move_function(move_name);
+    f->reproduction = get_reproduction_function("Classic");
+    f->hunting = get_hunting_function("Classic");
+
+    return f;
+}
+
 void move_fish(fish *f, int x_max_aquarium, int y_max_aquarium) {
     f->move(f, x_max_aquarium, y_max_aquarium);
 }

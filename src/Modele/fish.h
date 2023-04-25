@@ -23,6 +23,8 @@ fish *init_fish(char *name, int x, int y, int speed, int strength, int gender, c
 
 fish *init_fish_from_client(char *name, int x, int y, int speed, int strength, int gender, char* species, char* move_name, char* reproduction_name, char* hunting_name);
 
+fish *init_basic_fish(char *name, int x, int y, char * move_name);
+
 void move_fish(fish *f, int x_max_aquarium, int y_max_aquarium);
 
 void show_fish(fish *f);
