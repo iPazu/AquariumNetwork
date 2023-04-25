@@ -1,4 +1,7 @@
 .idea
 .DS_Store
 *.o
-cmake-build-*
+src/cmake-build-*
+src/Modele/cmake-build-*
+src/Controler/cmake-build-*
+src/Vue/cmake-build-*
