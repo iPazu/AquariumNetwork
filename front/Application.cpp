@@ -41,8 +41,8 @@ Application::Application()
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
 //, mSprite {SpriteProperties[SPROP::ANGRY]}
-, mButton {100, 100, SpriteProperties[SPROP::BUTTON]}
-, mFish {100, 100, 500, 500, 5}
+, mButton {100, 100, "Click click", SpriteProperties[SPROP::BUTTON]}
+, mFish {100, 100, 500, 500, 5, FISH_BEHAVIOR::LINEAR}
 {
     UIElement::Callback func = [] (const std::string&) { std::cout << " clicked !" << std::endl; return "";};
 
