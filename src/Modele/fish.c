@@ -90,7 +90,7 @@ void move_fish(fish *f, int x_max_aquarium, int y_max_aquarium) {
 }
 
 char *is_started(fish *f) {
-    if (!f->is_started) {
+    if (f->is_started) {
         return "started";
     } else {
         return "not started";

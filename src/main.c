@@ -44,7 +44,7 @@ void get_option(aquarium *a) {
             client_get_fishes(a, arg, size_arg);
         }
         if (strcmp(input, "startFish") == 0) {
-            printf("startFish\n");
+            client_start_fish(a, arg, size_arg);
         }
         if (strcmp(input, "getFishesContinuously") == 0) {
             printf("getFishesContinuously\n");

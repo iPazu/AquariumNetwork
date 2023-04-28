@@ -59,7 +59,6 @@ int client_del_fish(aquarium *a, char argv[], int argc) {
     char input[100] = "";
     char fish_name[20] = "";
     sscanf(argv, "%s %s", input, fish_name);
-    printf("Nom du poisson : %s\n", fish_name);
 
     // Check if the fish is valid
     if (strcmp(fish_name, "") == 0) {
@@ -68,14 +67,11 @@ int client_del_fish(aquarium *a, char argv[], int argc) {
     }
     // Check if the fish is already in the aquarium and delete it.
     int fish_found = 0;
-    printf("Nb fish : %d\n", a->nb_fish);
     for (int i = 0; i < a->nb_fish; i++) {
-        printf("Dans la boucle, Nom du poisson : %s\n", a->fishes[i]->name);
         if (strcmp(a->fishes[i]->name, fish_name) == 0) {
             fish_found = 1;
             delete_fish(a, a->fishes[i]);
             printf("OK\n");
-            printf("Fish %s deleted\n", fish_name);
         }
     }
     if (fish_found == 0) {
@@ -91,6 +87,37 @@ void client_get_fishes(aquarium *a, char argv[], int argc) {
     for (int i = 0; i < a->nb_fish; i++) {
         show_fish(a->fishes[i]);
     }
+}
+
+void client_start_fish(aquarium *a, char argv[], int argc) {
+    // get arguments
+    char input[100] = "";
+    char fish_name[20] = "";
+    sscanf(argv, "%s %s", input, fish_name);
+
+    // Check if the fish is valid
+    if (strcmp(fish_name, "") == 0) {
+        printf("Error: fish name must be specified\n");
+        return;
+    }
+    // Check if the fish is already in the aquarium and start it.
+    int fish_found = 0;
+    for (int i = 0; i < a->nb_fish; i++) {
+        if (strcmp(a->fishes[i]->name, fish_name) == 0) {
+            fish_found = 1;
+            if ( a->fishes[i]->is_started == 1) {
+                printf("Error: fish %s already started\n", fish_name);
+                return;
+            }
+            a->fishes[i]->is_started = 1;
+            printf("OK\n");
+        }
+    }
+    if (fish_found == 0) {
+        printf("Error: fish %s not found\n", fish_name);
+        return;
+    }
+
 }
 
 int client_quit(aquarium *a, char argv[], int argc) {
