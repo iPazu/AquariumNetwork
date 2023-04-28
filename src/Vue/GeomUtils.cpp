@@ -28,8 +28,18 @@ float vectorAngle(const sf::Vector2f& v)
     return std::acos(dotProduct(v, flat) / norm(v));
 }
 
+float vectorsAngle(const sf::Vector2f& u, const sf::Vector2f& v)
+{
+    return atan2(u.x*v.y-v.x*u.y, u.x*v.x+u.y*v.y);
+}
+
 sf::Vector2f normalize(const sf::Vector2f& v)
 {
     auto n = norm(v);
     return v/n;
+}
+
+float toDegrees(float radians)
+{
+    return radians * 180.f /  M_PI;
 }
