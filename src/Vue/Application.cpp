@@ -134,6 +134,13 @@ void Application::handleEvents()
                 mButton.deselect();
             }
         }
+
+        if (event.type == sf::Event::Resized)
+        {
+            // update the view to the new size of the window
+            sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+            mWindow.setView(sf::View(visibleArea));
+        }
     }
 }
 
@@ -150,4 +157,18 @@ void Application::render()
     mWindow.draw(mFish);
     mWindow.draw(mAddFishPanel);
     mWindow.display();
+}
+
+/**
+ * @brief Returns position in window with given percentage.
+ * 
+ * @param percX width percentage
+ * @param percY height percentage
+ * @return Position in window
+ */
+sf::Vector2f Application::getPositionFromPerc(float percX, float percY) const
+{
+    auto windowSize = mWindow.getSize();
+
+    return sf::Vector2f(windowSize.x * (percX/100.f), windowSize.y * (percY/100.f));
 }

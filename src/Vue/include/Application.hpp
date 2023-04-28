@@ -32,6 +32,8 @@ public:
 
 private:
 
+    sf::Vector2f        getPositionFromPerc(float, float) const;
+
     sf::RenderWindow    mWindow;
     SpriteNode          mSprite;
     Button              mButton;
