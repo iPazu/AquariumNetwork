@@ -41,7 +41,7 @@ void get_option(aquarium *a) {
             client_del_fish(a, arg, size_arg);
         }
         if (strcmp(input, "getFishes") == 0) {
-            printf("getFishes\n");
+            client_get_fishes(a, arg, size_arg);
         }
         if (strcmp(input, "startFish") == 0) {
             printf("startFish\n");

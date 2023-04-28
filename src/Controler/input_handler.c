@@ -21,12 +21,14 @@ int client_add_fish(aquarium *a, char argv[], int argc) {
     // get arguments
     char input[100] = "";
     char fish_name[20] = "";
-    long int long_x = -1, long_y = -1 , view_width = -1, view_height = -1;
+    long int long_x = -1, long_y = -1, view_width = -1, view_height = -1;
     char mobility_name[20] = "";
-    sscanf(argv, "%s %s at %ldx%ld %ldx%ld %s", input, fish_name, &long_x, &long_y, &view_width, &view_height, mobility_name);
+    sscanf(argv, "%s %s at %ldx%ld %ldx%ld %s", input, fish_name, &long_x, &long_y, &view_width, &view_height,
+           mobility_name);
 
     // Check if the fish is valid
-    if ((strcmp(fish_name, "") == 0) || long_x == -1 || long_y == -1 || view_width == -1 || view_height == -1 || (strcmp(mobility_name, "") == 0)) {
+    if ((strcmp(fish_name, "") == 0) || long_x == -1 || long_y == -1 || view_width == -1 || view_height == -1 ||
+        (strcmp(mobility_name, "") == 0)) {
         printf("Error: fish parameters are not valid\n");
         return -1;
     }
@@ -85,6 +87,14 @@ int client_del_fish(aquarium *a, char argv[], int argc) {
         return -1;
     }
     return 0;
+}
+
+void client_get_fishes(aquarium *a, char argv[], int argc) {
+
+    printf("list\n");
+    for (int i = 0; i < a->nb_fish; i++) {
+        show_fish(a->fishes[i]);
+    }
 }
 
 int client_quit(aquarium *a, char argv[], int argc) {
