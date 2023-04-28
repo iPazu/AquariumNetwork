@@ -12,12 +12,12 @@
 #include "view.h"
 
 typedef struct aquarium {
-    int width;
-    int height;
-    int nb_fish;
-    fish *fishes[MAX_FISHES];
-    int nb_view;
-    view *views[MAX_VIEW];
+  int width;
+  int height;
+  int nb_fish;
+  fish *fishes[MAX_FISHES];
+  int nb_view;
+  view *views[MAX_VIEW];
 } aquarium;
 
 /**
@@ -74,4 +74,4 @@ void free_aquarium(aquarium *a);
 
 void fish_reproduction(aquarium *a);
 
-#endif //AQUARIUM_NETWORK_AQUARIUM_H
+#endif // AQUARIUM_NETWORK_AQUARIUM_H
