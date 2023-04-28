@@ -7,8 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define _OPEN_SYS_ITOA_EXT
+#include <unistd.h>
 
 pthread_t thread;
 void *arg;
@@ -74,17 +73,16 @@ void get_option(struct aquarium *a) {
         // définir les différents modes de mobilité
         if (strcmp(mob, "RandomWayPoint\n") == 0) {
           //  if fish is in aquarium
-          int fish_in = 0;
+          int is_fish_in = 0;
           for (int i = 0; i < a->nb_fish; i++) {
             if (a->fishes[i]->name == name) {
-              fish_in = 1;
-              printf("NOK\n");
+              is_fish_in = 1;
+              printf("NOK, a fish with the same name already exists\n");
               return;
             }
           }
           //  if fish isn't in the aquarium
-          if (fish_in == 0) {
-
+          if (is_fish_in == 0) {
             struct fish *fish =
                 init_basic_fish(name, coord[0], coord[1], "RandomPointWay");
             add_fish(a, fish);
@@ -118,7 +116,7 @@ void get_option(struct aquarium *a) {
         if (fish_exists == 0)
           printf("%s", unexistant_fish);
       }
-      // Get fishes
+      // Get fishes list
       else if (strcmp(split, "getFishes\n") == 0 && nb_tokens == 1) {
         printf("list\n");
         for (int i = 0; i < a->nb_fish; i++) {
@@ -226,15 +224,18 @@ void get_option(struct aquarium *a) {
       } else if (strcmp(split, "load") == 0 && nb_tokens == 1) {
         char *file_name = strtok(NULL, s);
         // check that file exists
-        a = init_aquarium_from_file(file_name);
-
-        printf("aquarium loaded (%d display view) !\n", a->nb_view);
+        if (access(file_name, F_OK) == 0) {
+          a = init_aquarium_from_file(file_name);
+          printf("aquarium loaded (%d display view) !\n", a->nb_view);
+        } else {
+          printf("Error : file not found\n");
+        }
       }
       // show an aquarium
       else if (strcmp(split, "show\n") == 0 && nb_tokens == 1) {
         printf("%s", aq_arg);
       } else if (strcmp(split, "show") == 0 && nb_tokens == 1) {
-        split = strtok(NULL, s); // strcmp split = aquarium
+        split = strtok(NULL, s);
 
         if (strcmp(split, "aquarium\n") == 0 && nb_tokens == 1) {
           show_aquarium(a);
@@ -245,12 +246,15 @@ void get_option(struct aquarium *a) {
       else if (strcmp(split, "save\n") == 0 && nb_tokens == 1) {
         printf("%s", aq_arg);
       } else if (strcmp(split, "save") == 0 && nb_tokens == 1) {
-        // check that file exists
         char *file_name = strtok(NULL, s);
 
-        a = init_aquarium_from_file(file_name);
-
-        printf("Aquarium saved ! (%d display view)\n", a->nb_view);
+        // check that file exists
+        if (access(file_name, F_OK) == 0) {
+          a = init_aquarium_from_file(file_name);
+          printf("Aquarium saved ! (%d display view)\n", a->nb_view);
+        } else {
+          printf("Error : file not found\n");
+        }
       }
       // delete a view
       else if (strcmp(split, "del\n") == 0 && nb_tokens == 1) {
@@ -264,11 +268,14 @@ void get_option(struct aquarium *a) {
           // check if view exists in the aquarium
           int view_exists = 0;
           for (int i = 0; i < a->nb_view; i++) {
-            if (strcmp(split, "Na->views[i]->id")) { // to change
+            int n_view = a->views[i]->id;
+            char buf_num_view[32];
+            sprintf(buf_num_view, "N%d", n_view);
+            if (strcmp(num_view, buf_num_view) == 0) {
               view_exists = 1;
-              view *view_to_delete = a->views[atoi(num_view)];
+              view *view_to_delete = a->views[n_view];
               delete_view(a, view_to_delete);
-              printf("-> view %s deleted\n", num_view);
+              printf("-> view %s deleted\n", buf_num_view);
             }
           }
           if (view_exists == 0) {
@@ -286,7 +293,8 @@ void get_option(struct aquarium *a) {
             char *num_view = strtok(NULL, s);
             // add view number to view file
             char *id = strtok(NULL, s);
-            // décomposer la chaîne de caractères dim pour récupérer N{num_view}
+            // décomposer la chaîne de caractères dim pour récupérer
+            // N{num_view}
             char *vue_x = strtok(NULL, s);
             char *vue_y = strtok(NULL, "x");
             char *vue_width = strtok(NULL, "+");

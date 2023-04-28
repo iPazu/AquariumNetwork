@@ -6,27 +6,32 @@
 #define AQUARIUM_NETWORK_FISH_H
 
 typedef struct fish {
-    char *name;
-    int x;
-    int y;
-    int speed;
-    int strength;
-    int gender; // 0 = female, 1 = male
-    char* species;
-    void (*move)(struct fish *, int x_max_aquarium, int y_max_aquarium);
-    struct fish* (*reproduction)(struct fish *, struct fish *);
-    struct fish* (*hunting)(struct fish *, struct fish *);
+  char *name;
+  int x;
+  int y;
+  int speed;
+  int strength;
+  int gender;     // 0 = female, 1 = male
+  int is_started; // 0 : not started, 1 : started
+  char *species;
+  void (*move)(struct fish *, int x_max_aquarium, int y_max_aquarium);
+  struct fish *(*reproduction)(struct fish *, struct fish *);
+  struct fish *(*hunting)(struct fish *, struct fish *);
 } fish;
 
+fish *init_fish(char *name, int x, int y, int speed, int strength, int gender,
+                char *species, void (*move_function)(fish *, int, int),
+                fish *(*reproduction_function)(fish *, fish *),
+                fish *(*hunting_function)(fish *, fish *));
 
-fish *init_fish(char *name, int x, int y, int speed, int strength, int gender, char* species, void (*move_function)(fish *, int, int), fish* (*reproduction_function)(fish *, fish *), fish* (*hunting_function)(fish *, fish *));
+fish *init_fish_from_client(char *name, int x, int y, int speed, int strength,
+                            int gender, char *species, char *move_name,
+                            char *reproduction_name, char *hunting_name);
 
-fish *init_fish_from_client(char *name, int x, int y, int speed, int strength, int gender, char* species, char* move_name, char* reproduction_name, char* hunting_name);
-
-fish *init_basic_fish(char *name, int x, int y, char * move_name);
+fish *init_basic_fish(char *name, int x, int y, char *move_name);
 
 void move_fish(fish *f, int x_max_aquarium, int y_max_aquarium);
 
 void show_fish(fish *f);
 
-#endif //AQUARIUM_NETWORK_FISH_H
+#endif // AQUARIUM_NETWORK_FISH_H

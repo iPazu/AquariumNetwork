@@ -40,6 +40,7 @@ fish *init_fish(char *name, int x, int y, int speed, int strength, int gender,
   f->y = y;
   f->speed = speed;
   f->strength = strength;
+  f->is_started = 0;
   f->gender = gender;
   f->species = species;
   f->move = move_function;
@@ -59,6 +60,7 @@ fish *init_fish_from_client(char *name, int x, int y, int speed, int strength,
   f->speed = speed;
   f->strength = strength;
   f->gender = gender;
+  f->is_started = 0;
   f->species = species;
   f->move = move_function(move_name);
   f->reproduction = get_reproduction_function(reproduction_name);
@@ -75,6 +77,7 @@ fish *init_basic_fish(char *name, int x, int y, char *move_name) {
   f->speed = 1;
   f->strength = 1;
   f->gender = rand() % 2;
+  f->is_started = 0;
   f->species = "Basic";
   f->move = move_function(move_name);
   f->reproduction = get_reproduction_function("Classic");
@@ -87,7 +90,15 @@ void move_fish(fish *f, int x_max_aquarium, int y_max_aquarium) {
   f->move(f, x_max_aquarium, y_max_aquarium);
 }
 
+char *is_started(fish *f) {
+  if (!f->is_started) {
+    return "started";
+  } else {
+    return "not started";
+  }
+}
+
 void show_fish(fish *f) {
-  printf("Fish %s is at (%d, %d) with speed %d\n", f->name, f->x, f->y,
-         f->speed);
+  printf("Fish %s is at (%d, %d) with speed %d, %s\n", f->name, f->x, f->y,
+         f->speed, is_started(f));
 }
