@@ -72,7 +72,6 @@ void get_option(aquarium *a) {
 
 
 
-//
 //    // gestion des arguments
 //    char arg[100];
 //    int size_arg = 100;
@@ -353,16 +352,17 @@ void get_option(aquarium *a) {
 
 int main(int argc, char const *argv[]) {
     // gestion de la mémoire (en cas d'allocation dynamique)
-    struct sigaction sa, old;
-    sa.sa_handler = clean;
-    sigset_t mask;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
-    sigaction(SIGKILL, &sa, &old);
+//    struct sigaction sa, old;
+//    sa.sa_handler = clean;
+//    sigset_t mask;
+//    sigemptyset(&sa.sa_mask);
+//    sa.sa_flags = 0;
+//    sigaction(SIGKILL, &sa, &old);
     //aquarium *a = init_aquarium_from_file("../loader.txt");
-    aquarium *a = malloc(sizeof(aquarium));
-    pthread_create(&thread, NULL, (void *) start_server, arg);
-    show_aquarium(a);
+    //pthread_create(&thread, NULL, (void *) start_server, arg);
+
+
+    aquarium *a = init_aquarium(1000, 1000, 0, 0);
     while (1) {
         get_option(a);
     }

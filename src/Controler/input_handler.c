@@ -20,7 +20,7 @@ void get_status(aquarium *a) {
 int client_add_fish(aquarium *a, char argv[], int argc) {
     // get arguments
     char input[100] = "";
-    char fish_name[20] = "";
+    char *fish_name = malloc(sizeof(char) * 20);
     long int long_x = -1, long_y = -1, view_width = -1, view_height = -1;
     char mobility_name[20] = "";
     sscanf(argv, "%s %s at %ldx%ld %ldx%ld %s", input, fish_name, &long_x, &long_y, &view_width, &view_height,
@@ -39,8 +39,6 @@ int client_add_fish(aquarium *a, char argv[], int argc) {
     }
     // Check if the fish is already in the aquarium
     for (int i = 0; i < a->nb_fish; i++) {
-        printf("Nom du poisson dans la boucle : %s\n", a->fishes[i]->name);
-        printf("Nom du poisson à ajouter : %s\n", fish_name);
         if (strcmp(a->fishes[i]->name, fish_name) == 0) {
             printf("Error: fish %s already in the aquarium\n", fish_name);
             return -1;
@@ -50,11 +48,9 @@ int client_add_fish(aquarium *a, char argv[], int argc) {
     int x = (int) long_x;
     int y = (int) long_y;
     fish *f = init_basic_fish(fish_name, x, y, mobility_name);
-    show_fish(f);
     add_fish(a, f);
 
     printf("OK\n");
-    printf("Nom du poisson dans la boucle : %s\n", a->fishes[0]->name);
     return 0;
 }
 
