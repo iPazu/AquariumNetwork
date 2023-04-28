@@ -56,10 +56,10 @@ void get_option(aquarium *a) {
             printf("hello\n");
         }
         if (strcmp(input, "log") == 0) {
-            printf("bye\n");
+            client_quit(a, arg, size_arg);
         }
         if (strcmp(input, "ping") == 0) {
-            printf("ping\n");
+            client_ping(a, arg, size_arg);
         }
 
     }

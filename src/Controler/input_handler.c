@@ -4,6 +4,7 @@
 
 #include <printf.h>
 #include <string.h>
+#include <stdlib.h>
 #include "input_handler.h"
 
 void get_status(aquarium *a) {
@@ -22,7 +23,7 @@ int client_add_fish(aquarium *a, char argv[], int argc) {
     char fish_name[20] = "";
     long int long_x = -1, long_y = -1 , view_width = -1, view_height = -1;
     char mobility_name[20] = "";
-    sscanf(argv, "%s %s %ldx%ld %ldx%ld %s", input, fish_name, &long_x, &long_y, &view_width, &view_height, mobility_name);
+    sscanf(argv, "%s %s at %ldx%ld %ldx%ld %s", input, fish_name, &long_x, &long_y, &view_width, &view_height, mobility_name);
 
     // Check if the fish is valid
     if ((strcmp(fish_name, "") == 0) || long_x == -1 || long_y == -1 || view_width == -1 || view_height == -1 || (strcmp(mobility_name, "") == 0)) {
@@ -86,3 +87,11 @@ int client_del_fish(aquarium *a, char argv[], int argc) {
     return 0;
 }
 
+int client_quit(aquarium *a, char argv[], int argc) {
+    printf("bye\n");
+    exit(0);
+}
+
+void client_ping(aquarium *a, char argv[], int argc) {
+    printf("pong\n");
+}
