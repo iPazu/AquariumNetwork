@@ -80,6 +80,14 @@ void show_aquarium(aquarium *a) {
          a->width, a->height, a->nb_fish, a->nb_view);
 }
 
+void show_aquarium_fishes(aquarium *a) {
+    printf("--------------\n");
+    for (int i = 0; i < a->nb_fish; i++) {
+        show_fish(a->fishes[i]);
+    }
+    printf("--------------\n");
+}
+
 void show_aquarium_views(aquarium *a) {
   printf("--------------\n");
   for (int i = 0; i < a->nb_view; i++) {

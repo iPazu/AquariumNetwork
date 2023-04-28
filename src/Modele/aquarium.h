@@ -62,6 +62,8 @@ void delete_fish(aquarium *a, fish *f);
  */
 void show_aquarium(aquarium *a);
 
+void show_aquarium_fishes(aquarium *a);
+
 void add_view(aquarium *a, view *v);
 
 void delete_view(aquarium *a, view *v);
