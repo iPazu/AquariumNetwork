@@ -19,7 +19,7 @@ static const std::vector<SpriteNode::Properties> FishSpriteProperties =
         .animated       = true,
         . textureSize   = { 0, 0, 498, 316 },
         .frameAmount    = {6},
-        .animationTime = {sf::seconds(.25f)}
+        .animationTime = {sf::seconds(.05f)}
     },
     
     SpriteNode::Properties
