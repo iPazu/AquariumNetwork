@@ -82,7 +82,6 @@ fish *init_basic_fish(char *name, int x, int y, char *move_name) {
   f->move = move_function(move_name);
   f->reproduction = get_reproduction_function("Classic");
   f->hunting = get_hunting_function("Classic");
-
   return f;
 }
 
