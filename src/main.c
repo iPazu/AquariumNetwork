@@ -59,8 +59,9 @@ void get_option(struct aquarium *a) {
         char *name = strtok(NULL, s);
 
         // error if name already exists in the aquarium
-        // special case if no position argument
         char *at = strtok(NULL, s);
+        assert(strcmp(at, "at") == 0);
+        // special case if no position argument
         if (at == NULL) {
           printf("%s", pos_arg);
         }
@@ -72,6 +73,7 @@ void get_option(struct aquarium *a) {
 
         // définir les différents modes de mobilité
         if (strcmp(mob, "RandomWayPoint\n") == 0) {
+
           //  if fish is in aquarium
           int is_fish_in = 0;
           for (int i = 0; i < a->nb_fish; i++) {
@@ -127,16 +129,16 @@ void get_option(struct aquarium *a) {
       else if (strcmp(split, "startFish\n") == 0 && nb_tokens == 1) {
         printf("%s", fish_arg);
       } else if (strcmp(split, "startFish") == 0 && nb_tokens == 1) {
-        // check that fish is in fish list
         split = strtok(NULL, s);
 
-        // check if fish exists in fish list
+        // check if fish exists in the fishes list
         int fish_exists = 0;
         for (int i = 0; i < a->nb_fish; i++) {
           if (strcmp(split, a->fishes[i]->name)) {
             fish_exists = 1;
             // start fish
             move_fish(a->fishes[i], a->width, a->height);
+            a->fishes[i]->is_started = 1;
             printf("%s", valid_command);
             printf("fish started\n");
           }
@@ -172,6 +174,9 @@ void get_option(struct aquarium *a) {
         // attribution aléatoire si que hello (parcourir la liste des vues
         // dispo)
         printf("greeting random\n");
+        char *random_id = "N1";
+        for (int i = 0; i < a->nb_view; i++) {
+        }
       } else if (strcmp(split, "hello") == 0 && nb_tokens == 1) {
         // attribution non aléatoire
         split = strtok(NULL, s);
@@ -269,13 +274,15 @@ void get_option(struct aquarium *a) {
           int view_exists = 0;
           for (int i = 0; i < a->nb_view; i++) {
             int n_view = a->views[i]->id;
-            char buf_num_view[32];
-            sprintf(buf_num_view, "N%d", n_view);
-            if (strcmp(num_view, buf_num_view) == 0) {
+            printf("%d\n", n_view);
+            // char buf_num_view[32];
+            // sprintf(buf_num_view, "N%d", n_view);
+            if (atoi(num_view) == n_view) {
               view_exists = 1;
               view *view_to_delete = a->views[n_view];
               delete_view(a, view_to_delete);
-              printf("-> view %s deleted\n", buf_num_view);
+              printf("-> view %d deleted\n", n_view);
+              return;
             }
           }
           if (view_exists == 0) {
@@ -285,47 +292,53 @@ void get_option(struct aquarium *a) {
             printf("%s", view_arg);
           }
         }
-        // add a view
-        else if (strcmp(split, "add") == 0 && nb_tokens == 1) {
-          // printf("aquarium\n");
-          split = strtok(NULL, s);
-          if (strcmp(split, "view") == 0) {
-            char *num_view = strtok(NULL, s);
-            // add view number to view file
-            char *id = strtok(NULL, s);
-            // décomposer la chaîne de caractères dim pour récupérer
-            // N{num_view}
-            char *vue_x = strtok(NULL, s);
-            char *vue_y = strtok(NULL, "x");
-            char *vue_width = strtok(NULL, "+");
-            char *vue_height = strtok(NULL, "+");
-            int num_id = sscanf(vue_x, "%d", &num_id);
-            int x = sscanf(vue_x, "%d", &x);
-            int y = sscanf(vue_y, "%d", &y);
-            int width = sscanf(vue_width, "%d", &width);
-            int height = sscanf(vue_height, "%d", &height);
-            printf("-> view analyzed\n");
-
-            //  add view dimensions to view file
-            view *v = init_view(num_id, x, y, width, height);
-            add_view(a, v);
-            printf("-> view added\n");
-          } else {
-            printf("view argument missing\n");
-          }
-        }
-        // invalid command
-        else if (nb_tokens == 1) {
-          printf("%s", notFound);
-        }
-        split = strtok(NULL, s);
       }
+      // add a view
+      else if (strcmp(split, "add") == 0 && nb_tokens == 1) {
+        // printf("aquarium\n");
+        split = strtok(NULL, s);
 
+        if (strcmp(split, "view") == 0) {
+          // check if the view number exists (to fix)
+          char *num_view = strtok(NULL, s);
+          // add view number to view file
+          // char *id = strtok(NULL, s);
+          // décomposer la chaîne de caractères dim pour récupérer
+          // N{num_view}
+          printf("analyzing new view arguments\n");
+
+          char *vue_x = strtok(NULL, s);
+          char *vue_y = strtok(NULL, "x");
+          char *vue_width = strtok(NULL, "+");
+          char *vue_height = strtok(NULL, "+");
+          printf("analyzing new view arguments\n");
+
+          int num_id = sscanf(vue_x, "%d", &num_id);
+          int x = sscanf(vue_x, "%d", &x);
+          int y = sscanf(vue_y, "%d", &y);
+          int width = sscanf(vue_width, "%d", &width);
+          int height = sscanf(vue_height, "%d", &height);
+          printf("-> view analyzed\n");
+
+          //  add view dimensions to view file
+          view *v = init_view(num_id, x, y, width, height);
+          add_view(a, v);
+          printf("-> view added\n");
+        } else {
+          printf("view argument missing\n");
+        }
+      }
+      // invalid command
+      else if (nb_tokens == 1) {
+        printf("%s", notFound);
+      }
       split = strtok(NULL, s);
     }
-    // printf("%d\n", nb_tokens);
-    // nb_tokens = 0;
+
+    split = strtok(NULL, s);
   }
+  // printf("%d\n", nb_tokens);
+  // nb_tokens = 0;
 }
 
 int main(int argc, char const *argv[]) {
