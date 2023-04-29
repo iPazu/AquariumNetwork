@@ -33,33 +33,26 @@ void get_option(aquarium *a) {
 
     if (strcmp(input, "status") == 0) {
       get_status(a);
-    }
-    if (strcmp(input, "addFish") == 0) {
+    } else if (strcmp(input, "addFish") == 0) {
       client_add_fish(a, arg, size_arg);
-    }
-    if (strcmp(input, "delFish") == 0) {
+    } else if (strcmp(input, "delFish") == 0) {
       client_del_fish(a, arg, size_arg);
-    }
-    if (strcmp(input, "getFishes") == 0) {
+    } else if (strcmp(input, "getFishes") == 0) {
       client_get_fishes(a, arg, size_arg);
-    }
-    if (strcmp(input, "startFish") == 0) {
+    } else if (strcmp(input, "startFish") == 0) {
       client_start_fish(a, arg, size_arg);
-    }
-    if (strcmp(input, "getFishesContinuously") == 0) {
+    } else if (strcmp(input, "getFishesContinuously") == 0) {
       printf("getFishesContinuously\n");
-    }
-    if (strcmp(input, "ls") == 0) {
+    } else if (strcmp(input, "ls") == 0) {
       printf("ls\n");
-    }
-    if (strcmp(input, "hello") == 0) {
+    } else if (strcmp(input, "hello") == 0) {
       printf("hello\n");
-    }
-    if (strcmp(input, "log") == 0) {
+    } else if (strcmp(input, "log") == 0) {
       client_quit(a, arg, size_arg);
-    }
-    if (strcmp(input, "ping") == 0) {
+    } else if (strcmp(input, "ping") == 0) {
       client_ping(a, arg, size_arg);
+    } else {
+      printf("%s", notFound);
     }
   }
 
