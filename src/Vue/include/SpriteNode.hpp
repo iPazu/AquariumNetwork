@@ -52,13 +52,14 @@ public:
 protected:  
     void                animate(sf::Time);
     void                setToAnimation(int);
+    void                setTextureTo(int, int, int, int);
+    virtual void        drawCurrent(sf::RenderTarget&, sf::RenderStates) const;
 
 private:    
     void                goToNextAnimationFrame();
     void                loadTexture();
 
     virtual void        updateCurrent(sf::Time);
-    virtual void        drawCurrent(sf::RenderTarget&, sf::RenderStates) const;
 
     Properties          mProperties;
     sf::Texture         mTexture;

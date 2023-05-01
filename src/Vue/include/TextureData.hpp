@@ -20,6 +20,14 @@ static const std::vector<SpriteNode::Properties> SpriteProperties =
         .textureSize    = { 0, 0, 512, 256 },
         .frameAmount    = {2},
         .animationTime  = {sf::Time::Zero}
+    },
+    SpriteNode::Properties
+    {
+        .pathToTexture  = "../assets/under_the_sea.png",
+        .animated       = false,
+        . textureSize   = { 0, 0, 5000, 4370 },
+        .frameAmount    = {1},
+        .animationTime  = {sf::Time::Zero}   
     }
 };
 
@@ -27,5 +35,6 @@ enum SPROP
 {
     ANGRY,
     BUTTON,
+    AQUARIUM,
     TOTAL
 };

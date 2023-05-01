@@ -6,7 +6,7 @@
 
 enum class FISH_TYPE
 {
-    CLOWN,
+    BLUE,
     GOLDEN,
     TOTAL
 };

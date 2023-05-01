@@ -134,6 +134,12 @@ void SpriteNode::setToAnimation(int animNumber)
     mCurrentSprite.first = animNumber;
 }
 
+void SpriteNode::setTextureTo(int x, int y, int width, int height)
+{
+    sf::IntRect newRec {x, y, width, height};
+    mSprite.setTextureRect(newRec);
+}
+
 
 /**
  * @brief Update current sprite object.

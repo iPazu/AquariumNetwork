@@ -6,10 +6,7 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics.hpp>
-#include "SpriteNode.hpp"
-#include "Button.hpp"
-#include "Fish.hpp"
-#include "AddFishPanel.hpp"
+#include "Aquarium.hpp"
 
 #include <string>
 
@@ -35,8 +32,5 @@ private:
     sf::Vector2f        getPositionFromPerc(float, float) const;
 
     sf::RenderWindow    mWindow;
-    SpriteNode          mSprite;
-    Button              mButton;
-    AddFishPanel        mAddFishPanel;
-    Fish<FISH_TYPE::CLOWN>   mFish;
+    Aquarium            mAquarium;
 };

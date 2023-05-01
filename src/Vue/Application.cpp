@@ -19,15 +19,9 @@
  */
 Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
-//, mSprite {SpriteProperties[SPROP::ANGRY]}
-, mAddFishPanel()
-, mFish { 0,0, 100, 100, 2, FISH_BEHAVIOR::LINEAR}
-, mButton {100, 100,"Click clikc", SpriteProperties[SPROP::BUTTON]}
+, mAquarium {0,2000,1000,1000, SpriteProperties[SPROP::AQUARIUM] }
 {
 
-    UIElement::Callback func = [] (const std::string&) { std::cout << " clicked !" << std::endl; return "";};
-    mButton.setCallback(func);
-    mFish.setScale(.5,.5);
 }
 
 /**
@@ -40,16 +34,11 @@ Application::Application()
  */
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
-//, mSprite {SpriteProperties[SPROP::ANGRY]}
-, mButton {100, 100, "Click click", SpriteProperties[SPROP::BUTTON]}
-, mFish {100, 100, 500, 500, 5, FISH_BEHAVIOR::LINEAR}
+, mAquarium {0,2000,w,h, SpriteProperties[SPROP::AQUARIUM] }
 {
-    UIElement::Callback func = [] (const std::string&) { std::cout << " clicked !" << std::endl; return "";};
-
-
-    mButton.setCallback(func);
-    mFish.setSize(100,100);
-
+    std::string fish= "anim1";
+    mAquarium.addFish(fish, FISH_TYPE::BLUE);
+    mAquarium.setFishTarget(fish, 50, 50, 15.f);
 }
 
 /**
@@ -97,9 +86,7 @@ void Application::run()
  */
 void Application::update(sf::Time dt)
 {
-   // float speed = 100.0f;
-   // mSprite.move(speed * dt.asSeconds(), speed * dt.asSeconds());
-   mFish.updateCurrent(dt);
+    mAquarium.update(dt);
 }
 
 
@@ -117,23 +104,6 @@ void Application::handleEvents()
 
         if (event.type == sf::Event::Closed)
             mWindow.close();
-        if(event.type == sf::Event::MouseButtonPressed)
-        {
-            auto mousePos = sf::Mouse::getPosition(mWindow);
-            if(mButton.isOnButton(mousePos.x, mousePos.y))
-            {
-                std::cout << "polling mouse event..." << std::endl;
-                mButton.toggle();
-            }
-        }
-
-        if(event.type == sf::Event::MouseButtonReleased)
-        {
-            if(mButton.isToggled())
-            {
-                mButton.deselect();
-            }
-        }
 
         if (event.type == sf::Event::Resized)
         {
@@ -153,9 +123,7 @@ void Application::handleEvents()
 void Application::render()
 {
     mWindow.clear();
-    mWindow.draw(mButton);
-    mWindow.draw(mFish);
-    mWindow.draw(mAddFishPanel);
+    mWindow.draw(mAquarium);
     mWindow.display();
 }
 
