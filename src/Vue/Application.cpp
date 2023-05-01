@@ -36,9 +36,10 @@ Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
 , mAquarium {0,2000,w,h, SpriteProperties[SPROP::AQUARIUM] }
 {
-    std::string fish= "anim1";
-    mAquarium.addFish(fish, FISH_TYPE::BLUE);
-    mAquarium.setFishTarget(fish, 50, 50, 15.f);
+    std::string fish1 = "anim1";
+    std::string fish2 = "anim2";
+    mAquarium.addFish(fish1, FISH_TYPE::BLUE, 0, 0, 10, 10, 70, 50, 5.f);
+    mAquarium.addFish(fish2, FISH_TYPE::BLUE, 50, 0, 10, 10, 50, 70, 7.f);
 }
 
 /**

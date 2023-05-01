@@ -41,7 +41,7 @@ public:
         setPosition(posx, posy);
     }
 
-    void updateCurrent(sf::Time dt) override
+    virtual void updateCurrent(sf::Time dt) 
     {
         mElapsedTime += dt;
         if(mElapsedTime < mTargetTime)
@@ -51,6 +51,7 @@ public:
             setPosition(targetPosition);
         }
         animate(dt);
+
     }
 
     void renewTarget(float targetx, float targety, float time, FISH_BEHAVIOR FishBehavior = FISH_BEHAVIOR::LINEAR)

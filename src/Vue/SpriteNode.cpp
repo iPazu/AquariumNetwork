@@ -61,7 +61,7 @@ void SpriteNode::setSize(sf::Vector2i size)
 sf::Vector2f SpriteNode::getSize() const
 {
     auto scale = getScale();
-    auto textureRect = mProperties.textureSize;
+    auto textureRect = mSprite.getTextureRect();
     return sf::Vector2f(scale.x * textureRect.width, scale.y*textureRect.height);
 }
 

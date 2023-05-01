@@ -2,6 +2,8 @@
 #include "include/GeomUtils.hpp"
 #include <cmath>
 #include <SFML/Graphics/Transform.hpp>
+#include "include/IOUtils.hpp"
+
 Trajectory TrajectoryFactory::makeTrajectory(float xStart, float yStart, float xTarget, float yTarget, float duration, FISH_BEHAVIOR behavior)
 {
     switch (behavior)
@@ -43,7 +45,7 @@ Trajectory TrajectoryFactory::makeLinear(float xStart, float yStart, float xTarg
     sf::Vector2f direction { xTarget-xStart, yTarget-yStart };
     Trajectory linear = [=](sf::Time dt)
     {
-        return (dt.asSeconds()/duration) * direction;
+        return (dt.asSeconds()/duration) * direction + sf::Vector2f(xStart, yStart);
     };
     return linear;
 }

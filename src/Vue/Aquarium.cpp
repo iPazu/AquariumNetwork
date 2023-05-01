@@ -31,17 +31,17 @@ bool Aquarium::addFish(const FishID& fishID, FISH_TYPE fishType, int posx, int p
 {
     if(mFishes.contains(fishID))
     {
-        // throw std::logic_error("Aquarium::addFish : could not add fish with id: " + fishID + ", it already exists.");
         return false;
     }
 
     sf::Vector2f fishPosition = toAquariumScaling(posx, posy);
+    sf::Vector2f targetPosition = toAquariumScaling(targetx, targety);
 
     Fish * newFish = new Fish(
         fishPosition.x,
         fishPosition.y,
-        targetx,
-        targety,
+        targetPosition.x,
+        targetPosition.y,
         timeToTarget,
         fishType,
         FishBehavior
@@ -49,7 +49,6 @@ bool Aquarium::addFish(const FishID& fishID, FISH_TYPE fishType, int posx, int p
     sf::Vector2f fishSize = toAquariumScaling(sizex, sizey);
     newFish->setSize((int)fishSize.x, (int)fishSize.y);
     mFishes.emplace(fishID, newFish);
-    // Fish::Ptr ptr { std::make_unique<GraphNode> };
     return true;
 }
 
