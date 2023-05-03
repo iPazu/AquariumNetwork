@@ -7,6 +7,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics.hpp>
 #include "Aquarium.hpp"
+#include "Console.hpp"
 
 #include <string>
 
@@ -33,4 +34,5 @@ private:
 
     sf::RenderWindow    mWindow;
     Aquarium            mAquarium;
+    Console             mConsole;
 };

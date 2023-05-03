@@ -20,6 +20,7 @@
 Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
 , mAquarium {0,2000,1000,1000, SpriteProperties[SPROP::AQUARIUM] }
+, mConsole { 10, 10, 400, 500 }
 {
 
 }
@@ -35,6 +36,7 @@ Application::Application()
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
 , mAquarium {0,2000,w,h, SpriteProperties[SPROP::AQUARIUM] }
+, mConsole { 10, 10, 400, 500 }
 {
     std::string fish1 = "anim1";
     std::string fish2 = "anim2";
@@ -112,6 +114,15 @@ void Application::handleEvents()
             sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
             mWindow.setView(sf::View(visibleArea));
         }
+
+        auto mousePosition = sf::Mouse::getPosition(mWindow);
+
+        if(event.type == sf::Event::MouseButtonReleased && mConsole.isPointIn(mousePosition.x, mousePosition.y))
+        {
+            std::cout << "toggling console" << std::endl;
+            mConsole.toggle();
+        }
+        mConsole.handleEvent(event);
     }
 }
 
@@ -125,6 +136,7 @@ void Application::render()
 {
     mWindow.clear();
     mWindow.draw(mAquarium);
+    mWindow.draw(mConsole);
     mWindow.display();
 }
 
