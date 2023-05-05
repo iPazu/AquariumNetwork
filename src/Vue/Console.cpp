@@ -116,15 +116,15 @@ unsigned int Console::flushFor(sf::Text newText)
         auto lastText = mLog[mLog.size()-1].first;
         auto futureBottom = lastText.getLocalBounds().height  + lastText.getPosition().y+mOffsets.y;
 
-        while(futureBottom + mCharSize > mRect.getLocalBounds().height)
+        while(futureBottom + 2* mCharSize > mRect.getLocalBounds().height)
         {
-            auto occupation = mLog[0].first.getLocalBounds().height+mOffsets.y;
+            for(int i = mLog.size()-1; i > 0; --i)
+            {
+                auto placement = mLog[i-1].first.getPosition();
+                mLog[i].first.setPosition(placement);
+            }
             mLog.erase(mLog.begin());
             lastText = mLog[mLog.size()-1].first;
-            for(auto & texts: mLog)
-            {
-                texts.first.move(0, -occupation);
-            }
             futureBottom = lastText.getLocalBounds().height + mOffsets.y + lastText.getPosition().y;
         }
         return futureBottom;
