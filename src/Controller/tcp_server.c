@@ -46,6 +46,7 @@ void *client_handler(void *void_info) {
         printf("Client disconnected\n");
         // Remove client from array
         clients[client_id] = NULL;
+        clients_count--;
     }
     else if (read_size == -1) {
         perror("Receive failed");
@@ -101,19 +102,16 @@ int start_server(aquarium *a) {
         new_sock = malloc(1);
         *new_sock = client_sock;
 
-        // Add client socket to array
-        /* int i;
-        for (i = 0; i < MAX_CLIENTS; i++) {
-            if (clients[i] == 0) {
-                clients[i] = client_sock;
-                break;
-            }
-        } */
         if (clients_count < MAX_CLIENTS) {
             client_data *client = malloc(sizeof(client_data));
-            client->id = clients_count;
+            int c_id = 0;
+            while (clients[c_id] != NULL)
+            {
+                c_id++;
+            }
+            client->id = c_id;
             client->socket = new_sock;
-            clients[clients_count] = client;
+            clients[c_id] = client;
             clients_count++;
 
         } else {
