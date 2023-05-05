@@ -21,4 +21,8 @@ int client_quit(aquarium *a, char argv[], int argc);
 
 void client_ping(aquarium *a, char argv[], int argc);
 
+void handler_load(aquarium *a, char argv[], int argc);
+
+void handler_show(aquarium *a, char argv[], int argc);
+
 #endif //AQUARIUM_NETWORK_INPUT_HANDLER_H

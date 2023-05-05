@@ -51,7 +51,13 @@ void get_option(aquarium *a) {
       client_quit(a, arg, size_arg);
     } else if (strcmp(input, "ping") == 0) {
       client_ping(a, arg, size_arg);
-    } else {
+    } else if (strcmp(input, "load") == 0) {
+        handler_load(a, arg, size_arg);
+    } else if (strcmp(input, "show") == 0) {
+        handler_show(a, arg, size_arg);
+    }
+
+    else {
       printf("%s", notFound);
     }
   }

@@ -121,8 +121,54 @@ void client_start_fish(aquarium *a, char argv[], int argc) {
 }
 
 int client_quit(aquarium *a, char argv[], int argc) {
-  printf("bye\n");
-  exit(0);
+    // get arguments
+    char input[100] = "";
+    char option[20] = "";
+    char extra_argument[100] = "";
+    sscanf(argv, "%s %s %s", input, option, extra_argument);
+    if (strcmp(extra_argument, "") != 0) {
+        printf("Error: too many arguments\n");
+        return -1;
+    }
+    if (strcmp(option, "out") == 0) {
+        printf("bye\n");
+        exit(0);
+    }
+    printf("Invalid option\n");
+    return -1;
 }
 
 void client_ping(aquarium *a, char argv[], int argc) { printf("pong\n"); }
+
+void handler_load(aquarium * a, char argv[], int argc) {
+    // get arguments
+    char input[100] = "";
+    char aquarium_file[20] = "";
+    char extra_argument[100] = "";
+    sscanf(argv, "%s %s %s", input, aquarium_file, extra_argument);
+
+    if (strcmp(extra_argument, "") != 0) {
+        printf("Error: too many arguments\n");
+        return;
+    }
+
+    if (strcmp(aquarium_file, "") == 0) {
+        printf("Error: aquarium file must be specified\n");
+        return;
+    }
+    init_aquarium_from_file(a, aquarium_file);
+    if (a == NULL) {
+        printf("Error: aquarium file not found\n");
+        return;
+    }
+    printf("-> aquarium loaded (%d display view) !\n", a->nb_view);
+}
+
+void handler_show(aquarium *a, char argv[], int argc) {
+    if ( a == NULL) {
+        printf("Error: no aquarium loaded\n");
+        return;
+    }
+    show_aquarium(a);
+}
+
