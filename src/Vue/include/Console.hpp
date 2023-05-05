@@ -2,10 +2,13 @@
 
 #include "UIElement.hpp"
 #include "GraphNode.hpp"
+#include "CommandParser.hpp"
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/Text.hpp>
+
+class CommandParser;
 
 class Console : public UIElement, public GraphNode
 {
@@ -13,6 +16,7 @@ public:
 
     Console();
     Console(float,float,float,float, unsigned int = 24);
+    ~Console();
 
     const std::string getLastCommand() const;
 
@@ -20,6 +24,8 @@ public:
 
     bool hasFocus() const;
     void handleEvent(sf::Event);
+    void initializeCommands();
+
 
     bool isPointIn(float x, float y) const;
 private:
@@ -44,6 +50,8 @@ private:
 private:
     sf::Font            mFont;
     std::string         mCurrentCommand;
+    CommandParser *mCommandParser;
+
     unsigned int        mCharSize;
 
     std::vector<ConsoText> mLog;

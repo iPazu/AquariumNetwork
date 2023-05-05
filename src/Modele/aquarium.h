@@ -36,7 +36,7 @@ aquarium *init_aquarium(int x_max, int y_max, int nb_fish, int nb_view);
  * @param a
  * @param file_name
  */
-aquarium *init_aquarium_from_file(char *file_name);
+void init_aquarium_from_file(aquarium *a, char *file_name);
 
 /**
  * @brief Add a fish to the aquarium
@@ -70,6 +70,10 @@ void add_view(aquarium *a, view *v);
 void delete_view(aquarium *a, view *v);
 
 void show_aquarium_views(aquarium *a);
+
+int view_superposition(aquarium *a);
+
+int *available_views(aquarium *a);
 
 void save_aquarium(aquarium *a, char *file_name);
 
