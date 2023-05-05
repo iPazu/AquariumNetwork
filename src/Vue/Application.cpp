@@ -20,7 +20,7 @@
 Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
 , mAquarium {0,2000,1000,1000, SpriteProperties[SPROP::AQUARIUM] }
-, mConsole { 10, 10, 400, 500 }
+, mConsole { 10, 10, 400, 500, 12 }
 {
 
 }
@@ -36,7 +36,7 @@ Application::Application()
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
 , mAquarium {0,2000,w,h, SpriteProperties[SPROP::AQUARIUM] }
-, mConsole { 10, 10, 400, 500 }
+, mConsole { 10, 10, 400, 500, 12 }
 {
     std::string fish1 = "anim1";
     std::string fish2 = "anim2";
@@ -113,6 +113,11 @@ void Application::handleEvents()
             // update the view to the new size of the window
             sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
             mWindow.setView(sf::View(visibleArea));
+        }
+
+        if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::M && !mConsole.hasFocus())
+        {
+            mConsole.println("message from console");
         }
 
         auto mousePosition = sf::Mouse::getPosition(mWindow);
