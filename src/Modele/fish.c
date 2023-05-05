@@ -16,18 +16,20 @@ void (*move_function(char *move_name))(fish *, int, int) {
   return &RandomPointWay;
 }
 
-fish *(*get_reproduction_function(char *behavior_name))(fish *, fish *) {
-  if (strcmp(behavior_name, "Classic") == 0) {
+fish *(*get_reproduction_function(char *fish_species))(fish *, fish *) {
+  if (strcmp(fish_species, "Classic") == 0) {
     return &classic_reproduction;
   }
   return &classic_reproduction;
 }
 
-fish *(*get_hunting_function(char *behavior_name))(fish *, fish *) {
-  if (strcmp(behavior_name, "Classic") == 0) {
-    return &classic_hunting;
+fish *(*get_hunting_function(char *fish_species))(fish *, fish *) {
+  if (strcmp(fish_species, "Shark") == 0) {
+    return &predator_hunting;
+  } else if (strcmp(fish_species, "Saber") == 0) {
+      return &classic_hunting;
   }
-  return &classic_hunting;
+  return &no_hunting;
 }
 
 fish *init_fish(char *name, int x, int y, int speed, int strength, int gender,
@@ -87,6 +89,30 @@ fish *init_basic_fish(char *name, int x, int y, char *move_name) {
 
 void move_fish(fish *f, int x_max_aquarium, int y_max_aquarium) {
   f->move(f, x_max_aquarium, y_max_aquarium);
+}
+
+fish * chose_random_init_fish(char *name, int x, int y, char *move_name) {
+    int species_number = 3;
+    char **species = (char **)malloc(sizeof(char *) * species_number);
+    species[0] = strdup("Shark");
+    species[1] = strdup("Clown");
+    species[2] = strdup("Saber");
+
+    fish *f = malloc(sizeof(fish));
+    f->name = name;
+    f->x = x;
+    f->y = y;
+    f->speed = rand () % 10 + 1;
+    f->strength = rand () % 10 + 1;
+    f->gender = rand() % 2;
+    f->is_started = 0;
+    f->species = species[rand() % 3];
+    f->move = move_function(move_name);
+    f->reproduction = get_reproduction_function(f->species);
+    f->hunting = get_hunting_function(f->species);
+    return f;
+
+
 }
 
 char *is_started(fish *f) {
