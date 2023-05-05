@@ -120,6 +120,7 @@ unsigned int Console::flushFor(sf::Text newText)
         {
             auto occupation = mLog[0].first.getLocalBounds().height+mOffsets.y;
             mLog.erase(mLog.begin());
+            lastText = mLog[mLog.size()-1].first;
             for(auto & texts: mLog)
             {
                 texts.first.move(0, -occupation);
