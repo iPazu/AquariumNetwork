@@ -64,6 +64,7 @@ void get_option(aquarium *a) {
       printf("%s", notFound);
     }
   }
+}
 
   int main(int argc, char const *argv[]) {
     // gestion de la mémoire (en cas d'allocation dynamique)
@@ -73,7 +74,8 @@ void get_option(aquarium *a) {
     //    sigemptyset(&sa.sa_mask);
     //    sa.sa_flags = 0;
     //    sigaction(SIGKILL, &sa, &old);
-    aquarium *a = init_aquarium_from_file("../loader.txt");
+    aquarium *a = malloc(sizeof(aquarium));
+    init_aquarium_from_file(a, "../loader.txt");
     // pthread_create(&thread, NULL, (void *) start_server, arg);
 
     // aquarium *a = init_aquarium(1000, 1000, 0, 0);
