@@ -5,6 +5,7 @@
 #include <map>
 #include <functional>
 #include <vector>
+#include "Console.hpp"
 
 class Console;
 

@@ -2,6 +2,14 @@
 #include <algorithm>
 #include <iostream>
 
+
+void Console::initializeCommands() {
+    mCommandParser->addCommand("hello", [this](const std::vector<std::string>& args) {
+        // Implementation of hello command
+        println("Helllooooooo");
+    });
+}
+
 Console::Console()
 : mFont {}
 , mLog {}
@@ -14,8 +22,14 @@ Console::Console()
 , mMessageColor {sf::Color::Yellow}
 , mOffsets {}
 {
+    mCommandParser = new CommandParser(*this);
+    initializeCommands();
+
+
     loadFont();
 }
+
+
 
 Console::Console(float x, float y, float width, float height, unsigned int charSize)
 : mFont {}
@@ -30,12 +44,21 @@ Console::Console(float x, float y, float width, float height, unsigned int charS
 , mMessageColor {sf::Color::Yellow}
 , mOffsets {charSize/2.f, charSize/2.f}
 {
+    //Initialize the command parser
+    mCommandParser = new CommandParser(*this);
+    initializeCommands();
     loadFont();
     mRect.setFillColor(sf::Color(0,0,0,150));
     mRect.setOutlineThickness(2.f);
     mRect.setOutlineColor(mNoFocusColor);
     setPosition(x,y);
 }
+
+Console::~Console() {
+    delete mCommandParser;
+}
+
+
 
 const std::string Console::getLastCommand() const
 {
@@ -89,7 +112,8 @@ void Console::handleEvent(sf::Event event)
         switch (event.key.code)
         {
         case sf::Keyboard::Enter:
-            addNewText(TextType::Command);   
+            addNewText(TextType::Command);
+            mCommandParser->parse(getLastCommand());
             break;
 
         case sf::Keyboard::Escape:
