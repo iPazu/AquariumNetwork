@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 
 add_subdirectory(Modele)
-add_subdirectory(Controler)
+add_subdirectory(Controller)
 
 
 add_executable(Aquarium_Network main.c)

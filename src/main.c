@@ -1,5 +1,5 @@
-#include "Controler/input_handler.h"
-#include "Controler/tcp_server.h"
+#include "Controller/input_handler.h"
+#include "Controller/tcp_server.h"
 #include "Modele/aquarium.h"
 #include "Modele/fish.h"
 #include <assert.h>
@@ -352,9 +352,17 @@ int main(int argc, char const *argv[]) {
   //    sa.sa_flags = 0;
   //    sigaction(SIGKILL, &sa, &old);
   // aquarium *a = init_aquarium_from_file("../loader.txt");
-  // pthread_create(&thread, NULL, (void *) start_server, arg);
 
   aquarium *a = init_aquarium(1000, 1000, 0, 0);
+
+  // create and add 2 views
+  view *v1 = init_view(1, 0, 0, 500, 500);
+  view *v2 = init_view(2, 500, 500, 500, 500);
+  add_view(a, v1);
+  add_view(a, v2);
+
+  pthread_create(&thread, NULL, (void *) start_server, a);
+
   while (1) {
     get_option(a);
   }

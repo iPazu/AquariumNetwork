@@ -21,6 +21,7 @@ view *init_view(int id, int x, int y, int width, int height) {
   v->y = y;
   v->width = width;
   v->height = height;
+  v->is_assigned = 0;
   return v;
 }
 

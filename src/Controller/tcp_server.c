@@ -1,17 +1,37 @@
 #define MESSAGE_SIZE 2000
 
 #include "tcp_server.h"
+#include "../Modele/aquarium.h"
 
+aquarium *aqua;
 int clients_count = 0;
 client_data *clients[MAX_CLIENTS] = { NULL };
 
 void *client_handler(void *void_info) {
-
     client_data *info = (client_data *)void_info;
     int *sock = info->socket;
     int client_id = info->id;
     int read_size;
     char client_message[MESSAGE_SIZE];
+
+
+    // create a str with all available views ID
+    char *views = malloc(sizeof(char) * 1000);
+    printf("views : %d\n",aqua->nb_view);
+    for (int i = 0; i < aqua->nb_view; i++)
+    {
+        if (aqua->views[i]->is_assigned == 0)
+        {
+            char *tmp = malloc(sizeof(char) * 10);
+            sprintf(tmp, "%d", aqua->views[i]->id);
+            strcat(views, tmp);
+            strcat(views, " ");
+            free(tmp);
+        }
+    }
+
+    write(*sock, views, strlen(views));
+    free(views);
 
     // Receive client message
     while ((read_size = recv(*sock, client_message, 2000, 0)) > 0) {
@@ -39,8 +59,9 @@ void *client_handler(void *void_info) {
     return 0;
 }
 
-int start_server() {
+int start_server(aquarium *a) {
 
+    aqua = a;
     int socket_desc, client_sock, c, *new_sock;
     struct sockaddr_in server, client;
     pthread_t sniffer_thread;
@@ -57,9 +78,13 @@ int start_server() {
     server.sin_port = htons(PORT_NUMBER);
 
     // Bind
-    if (bind(socket_desc, (struct sockaddr *)&server, sizeof(server)) < 0) {
+    /* if (bind(socket_desc, (struct sockaddr *)&server, sizeof(server)) < 0) {
         perror("Bind failed");
         return 1;
+    } */
+    while (bind(socket_desc, (struct sockaddr *)&server, sizeof(server)) < 0) {
+        perror("Bind failed");
+        sleep(1);
     }
     printf("Bind done\n");
 
@@ -97,7 +122,9 @@ int start_server() {
             continue;
         }
 
-        if (pthread_create(&sniffer_thread, NULL, client_handler, (void *)clients[clients_count]) < 0) {
+        printf("Client assigned to ID %d\n", clients_count-1);
+
+        if (pthread_create(&sniffer_thread, NULL, client_handler, (void *)clients[clients_count-1]) < 0) {
             perror("Could not create thread");
             return 1;
         }

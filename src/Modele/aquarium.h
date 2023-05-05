@@ -18,7 +18,7 @@ typedef struct aquarium {
   fish *fishes[MAX_FISHES];
   int nb_view;
   view *views[MAX_VIEW];
-  char *id_available_views[MAX_VIEW];
+  int *id_available_views[MAX_VIEW];
 } aquarium;
 
 /**
