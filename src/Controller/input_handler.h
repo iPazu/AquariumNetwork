@@ -5,7 +5,17 @@
 #ifndef AQUARIUM_NETWORK_INPUT_HANDLER_H
 #define AQUARIUM_NETWORK_INPUT_HANDLER_H
 
-#include "../Modele/aquarium.h"
+#include "../Model/aquarium.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <pthread.h>
+#include <printf.h>
+#include "../Model/aquarium.h"
+#include "../Model/view.h"
 
 void get_status(aquarium *a);
 
@@ -36,5 +46,7 @@ void client_ping(__attribute__((unused)) aquarium *a, __attribute__((unused)) ch
 void handler_load(aquarium *a, char argv[], __attribute__((unused)) int argc);
 
 void handler_show(aquarium *a, __attribute__((unused)) char argv[], __attribute__((unused)) int argc);
+
+void views_interaction(aquarium *aqua, int *sock, int client_id, char *client_message, int *view_id);
 
 #endif // AQUARIUM_NETWORK_INPUT_HANDLER_H

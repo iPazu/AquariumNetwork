@@ -1,7 +1,7 @@
 #include "Controller/input_handler.h"
 #include "Controller/tcp_server.h"
-#include "Modele/aquarium.h"
-#include "Modele/fish.h"
+#include "Model/aquarium.h"
+#include "Model/fish.h"
 #include <assert.h>
 #include <pthread.h>
 #include <signal.h>
@@ -79,8 +79,8 @@ int main(int argc, char const *argv[]) {
   aquarium *a = init_aquarium(1000, 1000, 0, 0);
 
   // create and add 2 views
-  view *v1 = init_view(1, 0, 0, 500, 500);
-  view *v2 = init_view(2, 500, 500, 500, 500);
+  view *v1 = init_view(0, 0, 0, 500, 500);
+  view *v2 = init_view(1, 500, 500, 500, 500);
   add_view(a, v1);
   add_view(a, v2);
 

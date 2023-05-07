@@ -1,0 +1,1 @@
+add_library(model fish.c aquarium.c move.c view.c behavior.c)
