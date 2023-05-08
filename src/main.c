@@ -1,7 +1,7 @@
-#include "Controler/input_handler.h"
-#include "Controler/tcp_server.h"
-#include "Modele/aquarium.h"
-#include "Modele/fish.h"
+#include "Controller/input_handler.h"
+#include "Controller/tcp_server.h"
+#include "Model/aquarium.h"
+#include "Model/fish.h"
 #include <assert.h>
 #include <pthread.h>
 #include <signal.h>
@@ -54,7 +54,7 @@ void get_option(aquarium *a) {
     } else if (strcmp(input, "ping") == 0) {
       client_ping(a, arg, size_arg);
     } else if (strcmp(input, "load") == 0) {
-      handler_load_aquarium(a, arg, size_arg);
+      handler_load(a, arg, size_arg);
     } else if (strcmp(input, "show") == 0) {
       handler_show_aquarium(a, arg, size_arg);
     } else if (strcmp(input, "add") == 0) {
@@ -75,15 +75,19 @@ int main(int argc, char const *argv[]) {
   //    sigemptyset(&sa.sa_mask);
   //    sa.sa_flags = 0;
   //    sigaction(SIGKILL, &sa, &old);
-  aquarium *a = malloc(sizeof(struct aquarium *));
-  init_aquarium_from_file(a, "../loader.txt");
-  // pthread_create(&thread, NULL, (void *) start_server, arg);
+  // aquarium *a = init_aquarium_from_file("../loader.txt");
 
-  // aquarium *a = init_aquarium(1000, 1000, 0, 0);
+  aquarium *a = init_aquarium(1000, 1000, 0, 0);
+
+  // create and add 2 views
+  view *v1 = init_view(0, 0, 0, 500, 500);
+  view *v2 = init_view(1, 500, 500, 500, 500);
+  add_view(a, v1);
+  add_view(a, v2);
+
+  pthread_create(&thread, NULL, (void *)start_server, a);
+
   while (1) {
     get_option(a);
   }
-  free(a);
-  printf("free");
-  return 0;
 }

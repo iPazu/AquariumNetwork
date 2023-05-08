@@ -21,11 +21,12 @@ view *init_view(int id, int x, int y, int width, int height) {
   v->y = y;
   v->width = width;
   v->height = height;
+  v->is_assigned = -1;
   return v;
 }
 
 void show_view(view *v) {
-  printf("View %d: %d, %d, %d, %d\n", v->id, v->x, v->y, v->width, v->height);
+  printf("View %d:\n x: %d, y: %d, width: %d, height: %d, is_assigned: %d\n", v->id, v->x, v->y, v->width, v->height, v->is_assigned);
 }
 
 void attribute_view(view *v) {

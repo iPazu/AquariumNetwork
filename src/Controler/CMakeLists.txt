@@ -1,1 +1,0 @@
-add_library(controler tcp_client.c tcp_server.c input_handler.c)

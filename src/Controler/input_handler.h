@@ -5,7 +5,7 @@
 #ifndef AQUARIUM_NETWORK_INPUT_HANDLER_H
 #define AQUARIUM_NETWORK_INPUT_HANDLER_H
 
-#include "../Modele/aquarium.h"
+#include "../Model/aquarium.h"
 
 void get_status(aquarium *a);
 

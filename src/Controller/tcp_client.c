@@ -48,6 +48,15 @@ int main(int argc, char *argv[])
     // Send some data
     while (1)
     {
+        // Receive a reply from the server
+        if (recv(sock, server_reply, 2000, 0) < 0)
+        {
+            puts("Receive failed");
+            break;
+        }
+        puts("Server reply:");
+        puts(server_reply);
+
         printf("Enter message: ");
         fgets(message, sizeof(message), stdin);
 
@@ -57,15 +66,7 @@ int main(int argc, char *argv[])
             return 1;
         }
 
-        // Receive a reply from the server
-        if (recv(sock, server_reply, 2000, 0) < 0)
-        {
-            puts("Receive failed");
-            break;
-        }
-
-        puts("Server reply:");
-        puts(server_reply);
+        
 
         memset(message, 0, sizeof(message));
         memset(server_reply, 0, sizeof(server_reply));

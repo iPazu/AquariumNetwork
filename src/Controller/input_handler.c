@@ -2,10 +2,6 @@
 // Created by Axel PETIT on 28/04/2023.
 //
 #include "input_handler.h"
-#include <printf.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 void get_status(aquarium *a) {
   // Check if the connexion is valid
@@ -17,7 +13,8 @@ void get_status(aquarium *a) {
   }
 }
 
-int client_add_fish(aquarium *a, char argv[], int argc) {
+int client_add_fish(aquarium *a, char argv[],
+                    __attribute__((unused)) int argc) {
   // get arguments
   char input[100] = "";
   char *fish_name = malloc(sizeof(char) * 20);
@@ -57,7 +54,8 @@ int client_add_fish(aquarium *a, char argv[], int argc) {
   return 0;
 }
 
-int client_del_fish(aquarium *a, char argv[], int argc) {
+int client_del_fish(aquarium *a, char argv[],
+                    __attribute__((unused)) int argc) {
   // get arguments
   char input[100] = "";
   char fish_name[20] = "";
@@ -84,7 +82,21 @@ int client_del_fish(aquarium *a, char argv[], int argc) {
   return 0;
 }
 
-void client_start_fish(aquarium *a, char argv[], int argc) {
+void client_get_fishes(aquarium *a, __attribute__((unused)) char argv[],
+                       __attribute__((unused)) int argc) {
+
+  if (a->nb_fish == 0) {
+    printf("No fish in the aquarium\n");
+  }
+
+  printf("list\n");
+  for (int i = 0; i < a->nb_fish; i++) {
+    show_fish(a->fishes[i]);
+  }
+}
+
+void client_start_fish(aquarium *a, char argv[],
+                       __attribute__((unused)) int argc) {
   // get arguments
   char input[100] = "";
   char fish_name[20] = "";
@@ -114,7 +126,9 @@ void client_start_fish(aquarium *a, char argv[], int argc) {
   }
 }
 
-void client_welcome(aquarium *a, char argv[], int argc) {
+void client_welcome(__attribute__((unused)) aquarium *a,
+                    __attribute__((unused)) char argv[],
+                    __attribute__((unused)) int argc) {
   // if no view ID in argument, attribute random available view
   char input[100] = "";
   char as[20] = "";
@@ -152,19 +166,6 @@ void client_welcome(aquarium *a, char argv[], int argc) {
   }
 }
 
-void client_get_fishes(aquarium *a, char argv[], int argc) {
-
-  if (a->nb_fish == 0) {
-    printf("No fish in the aquarium\n");
-    return;
-  }
-
-  printf("list\n");
-  for (int i = 0; i < a->nb_fish; i++) {
-    show_fish_ls(a->fishes[i]);
-  }
-}
-
 void client_ls(aquarium *a, char argv[], int argc) {
 
   if (a->nb_fish == 0) {
@@ -178,7 +179,8 @@ void client_ls(aquarium *a, char argv[], int argc) {
   }
 }
 
-void client_get_fishes_continuously(aquarium *a, char argv[], int argc) {
+void client_get_fishes_continuously(aquarium *a, char argv[],
+                                    __attribute__((unused)) int argc) {
 
   if (a->nb_fish == 0) {
     printf("No fish in the aquarium\n");
@@ -191,7 +193,8 @@ void client_get_fishes_continuously(aquarium *a, char argv[], int argc) {
   }
 }
 
-int client_quit(aquarium *a, char argv[], int argc) {
+int client_quit(__attribute__((unused)) aquarium *a, char argv[],
+                __attribute__((unused)) int argc) {
   // get arguments
   char input[100] = "";
   char option[20] = "";
@@ -209,9 +212,13 @@ int client_quit(aquarium *a, char argv[], int argc) {
   return -1;
 }
 
-void client_ping(aquarium *a, char argv[], int argc) { printf("pong\n"); }
+void client_ping(__attribute__((unused)) aquarium *a,
+                 __attribute__((unused)) char argv[],
+                 __attribute__((unused)) int argc) {
+  printf("pong\n");
+}
 
-void handler_load_aquarium(aquarium *a, char argv[], int argc) {
+void handler_load(aquarium *a, char argv[], __attribute__((unused)) int argc) {
   // get arguments
   char input[100] = "";
   char aquarium_file[20] = "";
@@ -239,12 +246,18 @@ void handler_show_aquarium(aquarium *a, char argv[], int argc) {
   char input[100] = "";
   char aquarium[100] = "";
   sscanf(argv, "%s %s", input, aquarium);
-  printf("%s", input);
   if (strcmp(aquarium, "aquarium\0") != 0) {
-    printf("aquarium argument must be specified");
+    printf("aquarium argument must be specified\n");
   } else {
     show_aquarium(a);
     show_aquarium_views(a);
+  }
+}
+void handler_show(aquarium *a, __attribute__((unused)) char argv[],
+                  __attribute__((unused)) int argc) {
+  if (a == NULL) {
+    printf("Error: no aquarium loaded\n");
+    return;
   }
 }
 
@@ -296,5 +309,66 @@ void handler_del_view(aquarium *a, char argv[], int argc) {
   }
   if (view_exists == 0) {
     printf("NOK : view doesn't exist in the aquarium\n");
+  }
+}
+
+void views_interaction(aquarium *aqua, int *sock, int client_id,
+                       char *client_message, int *view_id) {
+  int read_size;
+
+  // create a str with all available views ID
+  char *views = malloc(sizeof(char) * 1000);
+  for (int i = 0; i < aqua->nb_view; i++) {
+    if (aqua->views[i]->is_assigned == -1) {
+      show_view(aqua->views[i]);
+      char *tmp = malloc(sizeof(char) * 10);
+      sprintf(tmp, "%d", i);
+      strcat(views, tmp);
+      strcat(views, " ");
+      free(tmp);
+    }
+  }
+
+  write(*sock, views, strlen(views));
+  printf("views : %s\n", views);
+  free(views);
+
+  // Recieve view ID like "hello in as <ID>" and assign it to the view
+  while ((read_size = recv(*sock, client_message, 2000, 0)) > 0) {
+    printf("Client %d : %s\n", client_id, client_message);
+    char *token = strtok(client_message, " ");
+    if (strcmp(token, "hello") == 0) {
+      token = strtok(NULL, " ");
+      if (strcmp(token, "in") == 0) {
+        token = strtok(NULL, " ");
+        if (strcmp(token, "as") == 0) {
+          token = strtok(NULL, " ");
+          *view_id = atoi(token);
+          show_view(aqua->views[*view_id]);
+          if (*view_id < aqua->nb_view &&
+              aqua->views[*view_id]->is_assigned == -1) {
+            aqua->views[*view_id]->is_assigned = client_id;
+            printf("Client %d assigned to view %d\n", client_id, *view_id);
+            write(*sock, "View assigned", strlen("View assigned"));
+            break;
+          } else {
+            printf("View %d is not available\n", *view_id);
+            write(*sock, "View not available", strlen("View not available"));
+          }
+        } else {
+          printf("Wrong message format\n");
+          write(*sock, "Wrong message format :\n hello in as <ID>",
+                strlen("Wrong message format :\n hello in as <ID>"));
+        }
+      } else {
+        printf("Wrong message format\n");
+        write(*sock, "Wrong message format :\n hello in as <ID>",
+              strlen("Wrong message format :\n hello in as <ID>"));
+      }
+    } else {
+      printf("Wrong message format\n");
+      write(*sock, "Wrong message format :\n hello in as <ID>",
+            strlen("Wrong message format :\n hello in as <ID>"));
+    }
   }
 }
