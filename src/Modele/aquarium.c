@@ -138,6 +138,42 @@ void delete_view(aquarium *a, view *v) {
   // free(v);
 }
 
+int view_superposition(aquarium *a) {
+  if (a->nb_view < 2) {
+    printf("there's less than two views in the aquarium\n");
+  }
+  view *current_view = a->views[0];
+  for (int i = 1; i < a->nb_view; i++) {
+    view *explored_view = a->views[i];
+    if ((explored_view->x + explored_view->width > current_view->x &&
+         explored_view->y + explored_view->height > current_view->y) ||
+        (current_view->x + current_view->width > explored_view->x &&
+         current_view->y + current_view->height > explored_view->y)) {
+      printf("%d\n", explored_view->id);
+      return explored_view->id;
+    }
+  }
+  // case where there is no view intersection
+  return -1;
+}
+
+int available_views(aquarium *a) {
+  int views_are_available = 0;
+  if (a->nb_view == 0) {
+    printf("there's no views in the aquarium\n");
+    return -1;
+  }
+  for (int i = 0; i < a->nb_view; i++) {
+    if (!a->views[i]->is_assigned) {
+      a->nb_available_views += 1;
+      a->id_available_views[i] = a->views[i]->id;
+      printf("view %d is available\n", a->id_available_views[i]);
+      views_are_available = 1;
+    }
+  }
+  return views_are_available;
+}
+
 void save_aquarium(aquarium *a, char *file_name) {
   FILE *file = fopen(file_name, "w");
   if (file == NULL) {

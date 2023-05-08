@@ -18,7 +18,8 @@ typedef struct aquarium {
   fish *fishes[MAX_FISHES];
   int nb_view;
   view *views[MAX_VIEW];
-  int *id_available_views[MAX_VIEW];
+  int id_available_views[MAX_VIEW];
+  int nb_available_views;
 } aquarium;
 
 /**
@@ -62,18 +63,34 @@ void delete_fish(aquarium *a, fish *f);
  * @param a
  */
 void show_aquarium(aquarium *a);
-
+/**
+ * @brief Show fishes of the aquarium
+ *
+ * @param a
+ */
 void show_aquarium_fishes(aquarium *a);
 
+/**
+ * @brief Add a view to a given aquarium
+ *
+ * @param a
+ * @param v
+ */
 void add_view(aquarium *a, view *v);
 
+/**
+ * @brief Delete a view of a given aquarium
+ *
+ * @param a
+ * @param v
+ */
 void delete_view(aquarium *a, view *v);
 
 void show_aquarium_views(aquarium *a);
 
 int view_superposition(aquarium *a);
 
-int *available_views(aquarium *a);
+int available_views(aquarium *a);
 
 void save_aquarium(aquarium *a, char *file_name);
 

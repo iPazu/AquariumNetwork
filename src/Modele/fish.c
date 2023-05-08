@@ -69,11 +69,14 @@ fish *init_fish_from_client(char *name, int x, int y, int speed, int strength,
   return f;
 }
 
-fish *init_basic_fish(char *name, int x, int y, char *move_name) {
+fish *init_basic_fish(char *name, int x, int y, int width, int height,
+                      char *move_name) {
   fish *f = malloc(sizeof(fish));
   f->name = name;
   f->x = x;
   f->y = y;
+  f->width = width;
+  f->height = height;
   f->speed = 1;
   f->strength = 1;
   f->gender = rand() % 2;
@@ -93,11 +96,15 @@ char *is_started(fish *f) {
   if (f->is_started) {
     return "started";
   } else {
-    return "not started";
+    return "notStarted";
   }
 }
 
 void show_fish(fish *f) {
-  printf("Fish %s is at (%d, %d) with speed %d, %s\n", f->name, f->x, f->y,
-         f->speed, is_started(f));
+  printf("Fish %s at %dx%d, %dx%d, %s\n", f->name, f->x, f->y, f->width,
+         f->height, is_started(f));
+}
+
+void show_fish_ls(fish *f) {
+  printf("[%s is at (%d, %d)] ", f->name, f->x, f->y);
 }

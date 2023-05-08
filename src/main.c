@@ -43,44 +43,47 @@ void get_option(aquarium *a) {
       client_get_fishes(a, arg, size_arg);
     } else if (strcmp(input, "startFish") == 0) {
       client_start_fish(a, arg, size_arg);
-    } else if (strcmp(input, "getFishesContinuously\0") == 0) {
-      printf("getFishesContinuously\n");
+    } else if (strcmp(input, "getFishesContinuously") == 0) {
+      client_get_fishes_continuously(a, arg, size_arg);
     } else if (strcmp(input, "ls") == 0) {
-      printf("ls\n");
+      client_ls(a, arg, size_arg);
     } else if (strcmp(input, "hello") == 0) {
-      printf("hello\n");
       client_welcome(a, arg, size_arg);
     } else if (strcmp(input, "log") == 0) {
       client_quit(a, arg, size_arg);
     } else if (strcmp(input, "ping") == 0) {
       client_ping(a, arg, size_arg);
     } else if (strcmp(input, "load") == 0) {
-      handler_load(a, arg, size_arg);
+      handler_load_aquarium(a, arg, size_arg);
     } else if (strcmp(input, "show") == 0) {
-      handler_show(a, arg, size_arg);
-    }
-
-    else {
+      handler_show_aquarium(a, arg, size_arg);
+    } else if (strcmp(input, "add") == 0) {
+      handler_add_view(a, arg, size_arg);
+    } else if (strcmp(input, "del") == 0) {
+      handler_del_view(a, arg, size_arg);
+    } else {
       printf("%s", notFound);
     }
   }
+}
 
-  int main(int argc, char const *argv[]) {
-    // gestion de la mémoire (en cas d'allocation dynamique)
-    //    struct sigaction sa, old;
-    //    sa.sa_handler = clean;
-    //    sigset_t mask;
-    //    sigemptyset(&sa.sa_mask);
-    //    sa.sa_flags = 0;
-    //    sigaction(SIGKILL, &sa, &old);
-    aquarium *a = init_aquarium_from_file("../loader.txt");
-    // pthread_create(&thread, NULL, (void *) start_server, arg);
+int main(int argc, char const *argv[]) {
+  // gestion de la mémoire (en cas d'allocation dynamique)
+  //    struct sigaction sa, old;
+  //    sa.sa_handler = clean;
+  //    sigset_t mask;
+  //    sigemptyset(&sa.sa_mask);
+  //    sa.sa_flags = 0;
+  //    sigaction(SIGKILL, &sa, &old);
+  aquarium *a = malloc(sizeof(struct aquarium *));
+  init_aquarium_from_file(a, "../loader.txt");
+  // pthread_create(&thread, NULL, (void *) start_server, arg);
 
-    // aquarium *a = init_aquarium(1000, 1000, 0, 0);
-    while (1) {
-      get_option(a);
-    }
-    free(a);
-    printf("free");
-    return 0;
+  // aquarium *a = init_aquarium(1000, 1000, 0, 0);
+  while (1) {
+    get_option(a);
   }
+  free(a);
+  printf("free");
+  return 0;
+}
