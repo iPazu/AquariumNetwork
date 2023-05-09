@@ -16,6 +16,10 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+void get_option_server(aquarium *a);
+
+void get_option_client(aquarium *a);
+
 void get_status(aquarium *a);
 
 int client_add_fish(aquarium *a, char argv[], __attribute__((unused)) int argc);
