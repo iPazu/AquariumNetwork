@@ -52,8 +52,8 @@ connectionVerif ClientController::connect(const std::string& ip, int port, std::
     }
     m_connected = true;
 
-    printf("Successfully connected to server\n");
-    printf("----------------------------------\n");
+    out << "Successfully connected to server\n";
+    out <<  "----------------------------------\n";
     return connectionVerif(true, out);
 }
 
@@ -79,6 +79,11 @@ int ClientController::send(const char* data, int len) {
     return bytes_sent;
 }
 
+int ClientController::send(std::string data)
+{
+    return send(data.c_str(), data.length());
+}
+
 int ClientController::receive(char* buffer, int len) {
     if (!m_connected) {
         std::cerr << "Error: not connected\n";
@@ -91,6 +96,18 @@ int ClientController::receive(char* buffer, int len) {
         disconnect();
     }
     return bytes_received;
+}
+
+int ClientController::receive(std::string& buffer)
+{
+    char buf[4098];
+    receive(buf, 4098);
+    auto bufSize = strlen(buf);
+    for(auto i = 0; i < bufSize; ++i)
+    {
+        buffer += buf[i];
+    }
+    return 0;
 }
 
 bool ClientController::isConnected() const {

@@ -1,5 +1,3 @@
-#define MESSAGE_SIZE 2000
-
 #include "tcp_server.h"
 aquarium *aqua;
 int clients_count = 0;
@@ -13,9 +11,10 @@ void *client_handler(void *void_info)
     int view_id = -1;
     int read_size;
     char client_message[MESSAGE_SIZE];
-
+    printf("-- VIEWS INTERACTIONS --\n");
     views_interaction(aqua, sock, client_id, client_message, &view_id);
 
+    printf("-- LOOP --\n");
     // Receive client message
     while ((read_size = recv(*sock, client_message, 2000, 0)) > 0)
     {

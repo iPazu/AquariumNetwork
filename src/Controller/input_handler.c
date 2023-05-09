@@ -15,7 +15,8 @@
 #include <string.h>
 #include <unistd.h>
 
-pthread_t thread;
+
+
 void *arg;
 char *notFound = "-> NOK : commande introuvable\n";
 char *valid_command = "-> OK\n";
@@ -53,7 +54,7 @@ void get_option_server(aquarium *a) {
   }
 }
 
-void get_option_client(aquarium *a) {
+void get_option_client(aquarium *a, int client_id, int *socket) {
   int size_arg = 100;
   char arg[size_arg];
   if (fgets(arg, size_arg, stdin) != NULL) {
@@ -64,7 +65,7 @@ void get_option_client(aquarium *a) {
     sscanf(arg, "%s", input);
 
     if (strcmp(input, "status") == 0) {
-      get_status(a);
+      get_status(a, client_id, socket);
     } else if (strcmp(input, "addFish") == 0) {
       client_add_fish(a, arg, size_arg);
     } else if (strcmp(input, "delFish") == 0) {
@@ -89,14 +90,19 @@ void get_option_client(aquarium *a) {
   }
 }
 
-void get_status(aquarium *a) {
+void get_status(aquarium *a, int client_id, int *socket) {
   // Check if the connexion is valid
-  printf("-> OK : Connecté au contrôleur, %d  poisson(s) trouvé(s)\n",
-         a->nb_fish);
+  char *buf = malloc(sizeof(char) * MESSAGE_SIZE);
+  sprintf(buf, "-> OK : Connecté au contrôleur, %d  poisson(s) trouvé(s)\n", a->nb_fish);
+  printf("SEND TO CLIENT %d: %s", client_id, buf);
+
+  
   // Return list of fishes
   for (int i = 0; i < a->nb_fish; i++) {
-    show_fish(a->fishes[i]);
+    show_fish(a->fishes[i], buf);
+    printf("SEND TO CLIENT %d: %s", client_id, buf);
   }
+  free(buf);
 }
 
 int client_add_fish(aquarium *a, char argv[],
@@ -171,14 +177,16 @@ int client_del_fish(aquarium *a, char argv[],
 void client_get_fishes(aquarium *a, __attribute__((unused)) char argv[],
                        __attribute__((unused)) int argc) {
 
+  char *buf = malloc(sizeof(char) * MESSAGE_SIZE);
   if (a->nb_fish == 0) {
     printf("No fish in the aquarium\n");
   }
 
   printf("list\n");
   for (int i = 0; i < a->nb_fish; i++) {
-    show_fish(a->fishes[i]);
+    show_fish(a->fishes[i], buf);
   }
+  free(buf);
 }
 
 void client_start_fish(aquarium *a, char argv[],
@@ -263,6 +271,7 @@ void client_ls(aquarium *a, char argv[], int argc) {
   for (int i = 0; i < a->nb_fish; i++) {
     show_fish_ls(a->fishes[i]);
   }
+
 }
 
 void client_get_fishes_continuously(aquarium *a, char argv[],
