@@ -67,7 +67,13 @@ const std::string Console::getLastCommand() const
         return t.second == TextType::Command;
     };
 
-    return std::find_if(mLog.rbegin(), mLog.rend(), cond)->first.getString().toAnsiString();
+    auto lastCommand = std::find_if(mLog.rbegin(), mLog.rend(), cond);
+
+    if(lastCommand != mLog.rend())
+    {
+        return lastCommand->first.getString().toAnsiString();
+    }
+    return "";
 }
 
 void Console::println(std::string theMessage)

@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include "Aquarium.hpp"
 #include "Console.hpp"
+#include "ClientController.hpp"
 
 #include <string>
 
@@ -33,6 +34,7 @@ private:
     sf::Vector2f        getPositionFromPerc(float, float) const;
 
     sf::RenderWindow    mWindow;
+    ClientController    mClient;
     Aquarium            mAquarium;
     Console             mConsole;
 };

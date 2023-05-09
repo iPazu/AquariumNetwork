@@ -25,8 +25,10 @@ public:
     void disconnect();
 
     int send(const char *data, int len);
+    int send(std::string);
 
     int receive(char *buffer, int len);
+    int receive(std::string&);
 
     bool isConnected() const;
 

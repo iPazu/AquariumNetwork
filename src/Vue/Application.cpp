@@ -19,10 +19,11 @@
  */
 Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
+, mClient {}
 , mAquarium {0,2000,1000,1000, SpriteProperties[SPROP::AQUARIUM] }
 , mConsole { 10, 10, 400, 500, 12 }
 {
-
+    mClient.connect("colette.julien-chabrier.fr",3000);
 }
 
 /**
@@ -35,13 +36,15 @@ Application::Application()
  */
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
+, mClient {}
 , mAquarium {0,2000,w,h, SpriteProperties[SPROP::AQUARIUM] }
 , mConsole { 10, 10, 400, 500, 12 }
 {
+    mClient.connect("colette.julien-chabrier.fr",3000);
     std::string fish1 = "anim1";
     std::string fish2 = "anim2";
-    mAquarium.addFish(fish1, FISH_TYPE::BLUE, 0, 0, 10, 10, 70, 50, 5.f);
-    mAquarium.addFish(fish2, FISH_TYPE::BLUE, 50, 0, 10, 10, 50, 70, 7.f);
+    mAquarium.addFish(fish1, FISH_TYPE::SHARK, 5, 5, 10, 10, 70, 50, 15.f);
+    mAquarium.addFish(fish2, FISH_TYPE::BLUE, 50, 0, 5, 5, 50, 70, 7.f);
 }
 
 /**
@@ -55,20 +58,11 @@ void Application::run()
     sf::Clock clock {};
 	sf::Time elapsed = sf::Time::Zero;
 
-    //Connect to the server
-    ClientController client;
-    client.connect("colette.julien-chabrier.fr",3000);
-
-    //Perform a simple operation
-    client.send("Vrei să pleci dar nu mă, nu mă iei\n"
-    "Nu mă, nu mă iei, nu mă, nu mă, nu mă iei\n"
-    "Chipul tău și dragostea din tei\n"
-    "Mi-amintesc de ochii tăi\n", 1024);
-
-    char buffer[1024];
-    client.receive(buffer, 1024);
+    char buffer[2048];
+    mClient.receive(buffer, 1024);
+    mConsole.println("Available views : ");
+    mConsole.println(buffer);
     printf("Received: %s\n", buffer);
-
 
     while (mWindow.isOpen())
     {
@@ -78,6 +72,8 @@ void Application::run()
         render();
        
     }
+
+    mClient.disconnect();
 }
 
 /**
@@ -104,7 +100,7 @@ void Application::handleEvents()
 
     while (mWindow.pollEvent(event))
     {
-
+        // ------------ Windows events ------------
         if (event.type == sf::Event::Closed)
             mWindow.close();
 
@@ -115,11 +111,6 @@ void Application::handleEvents()
             mWindow.setView(sf::View(visibleArea));
         }
 
-        if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::M && !mConsole.hasFocus())
-        {
-            mConsole.println("message from console");
-        }
-
         auto mousePosition = sf::Mouse::getPosition(mWindow);
 
         if(event.type == sf::Event::MouseButtonReleased && mConsole.isPointIn(mousePosition.x, mousePosition.y))
@@ -128,6 +119,11 @@ void Application::handleEvents()
             mConsole.toggle();
         }
         mConsole.handleEvent(event);
+    }
+    auto lastCommand = mConsole.getLastCommand();
+    if(lastCommand != "")
+    {
+        mClient.send(lastCommand);
     }
 }
 
