@@ -40,8 +40,8 @@ Application::Application(const int& w, const int& h, std::string winName)
 {
     std::string fish1 = "anim1";
     std::string fish2 = "anim2";
-    mAquarium.addFish(fish1, FISH_TYPE::BLUE, 0, 0, 10, 10, 70, 50, 5.f);
-    mAquarium.addFish(fish2, FISH_TYPE::BLUE, 50, 0, 10, 10, 50, 70, 7.f);
+    mAquarium.addFish(fish1, FISH_TYPE::SHARK, 5, 5, 10, 10, 70, 50, 15.f);
+    mAquarium.addFish(fish2, FISH_TYPE::BLUE, 50, 0, 5, 5, 50, 70, 7.f);
 }
 
 /**
@@ -60,12 +60,12 @@ void Application::run()
     client.connect("colette.julien-chabrier.fr",3000);
 
     //Perform a simple operation
-    client.send("Vrei să pleci dar nu mă, nu mă iei\n"
-    "Nu mă, nu mă iei, nu mă, nu mă, nu mă iei\n"
-    "Chipul tău și dragostea din tei\n"
-    "Mi-amintesc de ochii tăi\n", 1024);
+    // client.send("Vrei să pleci dar nu mă, nu mă iei\n"
+    // "Nu mă, nu mă iei, nu mă, nu mă, nu mă iei\n"
+    // "Chipul tău și dragostea din tei\n"
+    // "Mi-amintesc de ochii tăi\n", 1024);
 
-    char buffer[1024];
+    char buffer[2048];
     client.receive(buffer, 1024);
     printf("Received: %s\n", buffer);
 

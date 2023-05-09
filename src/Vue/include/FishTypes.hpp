@@ -7,7 +7,7 @@
 enum class FISH_TYPE
 {
     BLUE,
-    GOLDEN,
+    SHARK,
     TOTAL
 };
 
@@ -24,10 +24,10 @@ static const std::vector<SpriteNode::Properties> FishSpriteProperties =
     
     SpriteNode::Properties
     {
-        .pathToTexture  = "../assets/angry.png",
-        .animated       = false,
-        . textureSize   = { 0, 0, 640, 624 },
-        .frameAmount    = {1},
-        .animationTime = {sf::Time::Zero}
+        .pathToTexture  = "../assets/shark.png",
+        .animated       = true,
+        . textureSize   = { 0, 0, 98, 44 },
+        .frameAmount    = {3},
+        .animationTime = {sf::seconds(.5f)}
     }
 };
