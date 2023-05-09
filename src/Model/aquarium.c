@@ -84,9 +84,10 @@ void show_aquarium(aquarium *a) {
 }
 
 void show_aquarium_fishes(aquarium *a) {
+  char *buf = malloc(sizeof(char) * 1024); // A ENLEVER ET PASSER EN PARAMETRE !!!
   printf("--------------\n");
   for (int i = 0; i < a->nb_fish; i++) {
-    show_fish(a->fishes[i]);
+    show_fish(a->fishes[i], buf);
   }
   printf("--------------\n");
 }

@@ -37,7 +37,7 @@ void move_fish(fish *f, int x_max_aquarium, int y_max_aquarium);
 
 fish *chose_random_init_fish(char *name, int x, int y, char *move_name);
 
-void show_fish(fish *f);
+void show_fish(fish *f, char* buf);
 
 void show_fish_ls(fish *f);
 

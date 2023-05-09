@@ -126,8 +126,8 @@ char *is_started(fish *f) {
   }
 }
 
-void show_fish(fish *f) {
-  printf("Fish %s at %dx%d, %dx%d, %s\n", f->name, f->x, f->y, f->width,
+void show_fish(fish *f, char *buf) {
+  sprintf(buf, "Fish %s at %dx%d, %dx%d, %s\n", f->name, f->x, f->y, f->width,
          f->height, is_started(f));
 }
 
