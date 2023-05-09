@@ -359,7 +359,26 @@ void handler_add_view(aquarium *a, char argv[], int argc) {
   // check the arguments
 
   // check that the view fits into the aquarium
+  if (strcmp(view, "view") != 0) {
+    printf("view must be specified as second parameter\n");
+  }
+  // Check if the view arguments are valid
+  if (view_id == -1 || long_vue_x == -1 || long_vue_y == -1 ||
+      long_width == -1 || long_height == -1) {
+    printf("Error : incorrect format, required format is : 'add view [VIEW_ID] "
+           "[X]x[Y]+[WIDTH]+[HEIGHT]'\n");
+    return;
+  }
 
+  int id = (int)view_id;
+  int x = (int)long_vue_x;
+  int y = (int)long_vue_y;
+  int width = (int)long_width;
+  int height = (int)long_height;
+
+  // if conditions are fulfilled, create a view and add it to the aquarium
+  struct view *v = init_view(id, x, y, width, height);
+  add_view(a, v);
   printf("-> view added\n");
 }
 
