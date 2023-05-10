@@ -16,7 +16,7 @@ void *client_handler(void *void_info)
 
     printf("-- LOOP --\n");
     // Receive client message
-    while ((read_size = recv(*sock, client_message, 2000, 0)) > 0)
+    while ((read_size = recv(*sock, client_message, MESSAGE_SIZE, 0)) > 0)
     {
         /* for (int i = 0; i < aqua->nb_view; i++)
         {
@@ -25,7 +25,7 @@ void *client_handler(void *void_info)
         // Send message back to client
         write(*sock, client_message, strlen(client_message));
         memset(client_message, 0, 2000); */
-        get_option_client(aqua, client_id, sock);
+        get_option_client(aqua, client_id, sock, client_message);
     }
 
     // Check if client disconnected

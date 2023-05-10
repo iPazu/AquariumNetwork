@@ -4,7 +4,6 @@
 #include "../Model/aquarium.h"
 #include "../Model/view.h"
 #include <arpa/inet.h>
-#include <printf.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,7 +15,7 @@
 
 void get_option_server(aquarium *a);
 
-void get_option_client(aquarium *a, int client_id, int *socket);
+void get_option_client(aquarium *a, int client_id, int *socket, char *client_message);
 
 void get_status(aquarium *a, int client_id, int *socket);
 
