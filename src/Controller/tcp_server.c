@@ -18,13 +18,14 @@ void *client_handler(void *void_info)
     // Receive client message
     while ((read_size = recv(*sock, client_message, 2000, 0)) > 0)
     {
-        for (int i = 0; i < aqua->nb_view; i++)
+        /* for (int i = 0; i < aqua->nb_view; i++)
         {
             show_view(aqua->views[i]);
         }
         // Send message back to client
         write(*sock, client_message, strlen(client_message));
-        memset(client_message, 0, 2000);
+        memset(client_message, 0, 2000); */
+        get_option_client(aqua, client_id, sock);
     }
 
     // Check if client disconnected
