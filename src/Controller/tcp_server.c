@@ -33,7 +33,7 @@ void *client_handler(void *void_info)
     {
         printf("Client disconnected\n");
         
-        if (view_id) aqua->views[view_id]->is_assigned = -1;
+        if (view_id != -1) aqua->views[view_id]->is_assigned = -1;
         // Remove client from array
         clients[client_id] = NULL;
         clients_count--;
