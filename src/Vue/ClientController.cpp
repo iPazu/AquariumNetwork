@@ -6,10 +6,43 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-ClientController::ClientController() : m_sockfd(-1), m_connected(false) {}
+ClientController::ClientController() : m_sockfd(-1), m_connected(false) {
+    // Start the worker thread
+    pid_t pid = getpid();
+    worker = std::thread([this] {
+        std::string command;
+        while (true) {
+            // Wait for a command
+            {
+                std::unique_lock<std::mutex> lock(mtx);
+                cv.wait(lock, [this]{ return !commands.empty(); });
+
+                // Get the next command
+                command = commands.front();
+                printf("Sending command: %s\n", command.c_str());
+                commands.pop();
+            }
+
+            // Process the command
+            send(command);
+            char buffer[4096];
+            receive(buffer, sizeof(buffer));
+            // TODO: handle the response
+        }
+    });
+}
 
 ClientController::~ClientController() {
+    // TODO: notify the worker thread to exit
+    worker.join();
     disconnect();
+}
+
+// Add a command to the queue
+void ClientController::addCommand(const std::string& command) {
+    std::lock_guard<std::mutex> lock(mtx);
+    commands.push(command);
+    cv.notify_one();
 }
 
 connectionVerif ClientController::connect(const std::string& ip, int port, std::ostream& out) {
@@ -66,6 +99,7 @@ void ClientController::disconnect() {
 }
 
 int ClientController::send(const char* data, int len) {
+
     if (!m_connected) {
         std::cerr << "Error: not connected\n";
         return -1;
