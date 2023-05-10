@@ -1,7 +1,3 @@
-//
-// Created by Axel PETIT on 12/04/2023.
-//
-
 #include "aquarium.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -84,20 +80,12 @@ void show_aquarium(aquarium *a) {
 }
 
 void show_aquarium_fishes(aquarium *a) {
-<<<<<<< HEAD
   char *buf = malloc(sizeof(char) * 1024); // A ENLEVER ET PASSER EN PARAMETRE !!!
   printf("--------------\n");
   for (int i = 0; i < a->nb_fish; i++) {
     show_fish(a->fishes[i], buf);
   }
   printf("--------------\n");
-=======
-    printf("--------------\n");
-    for (int i = 0; i < a->nb_fish; i++) {
-        show_fish(a->fishes[i]);
-    }
-    printf("--------------\n");
->>>>>>> 5fe4015883a2850cfd59331e32e0d136d00de77b
 }
 
 void show_aquarium_views(aquarium *a) {
@@ -227,7 +215,7 @@ void fish_behaviors(aquarium *a) {
     }
 }
 
-int main() {
+/* int main() {
     aquarium *a = malloc(sizeof(aquarium));
     init_aquarium_from_file(a, "../loader.txt");
     fish *f1 = init_fish_from_client("Fish1", 0, 0, 3, 1, 0, "Espece1",
@@ -253,4 +241,4 @@ int main() {
     free_aquarium(a);
 
     return 0;
-}
+} */

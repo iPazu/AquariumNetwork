@@ -1,7 +1,3 @@
-//
-// Created by Axel PETIT on 12/04/2023.
-//
-
 #include "move.h"
 #include <stdio.h>
 #include <stdlib.h>

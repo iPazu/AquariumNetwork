@@ -1,11 +1,6 @@
-//
-// Created by Axel PETIT on 28/04/2023.
-//
 #include "input_handler.h"
-
 #include "../Model/aquarium.h"
 #include "../Model/fish.h"
-#include "input_handler.h"
 #include "tcp_server.h"
 #include <assert.h>
 #include <pthread.h>

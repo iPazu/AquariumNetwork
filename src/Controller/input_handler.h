@@ -1,7 +1,3 @@
-//
-// Created by Axel PETIT on 28/04/2023.
-//
-
 #ifndef AQUARIUM_NETWORK_INPUT_HANDLER_H
 #define AQUARIUM_NETWORK_INPUT_HANDLER_H
 
