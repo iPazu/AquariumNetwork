@@ -3,6 +3,7 @@
 #include "UIElement.hpp"
 #include "GraphNode.hpp"
 #include "CommandParser.hpp"
+#include "ClientController.hpp"
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Window/Event.hpp>
@@ -15,7 +16,7 @@ class Console : public UIElement, public GraphNode
 public:
 
     Console();
-    Console(float,float,float,float, unsigned int = 24);
+    Console(float x, float y, float width, float height, ClientController& controller, unsigned int fontSize = 24);
     ~Console();
 
     const std::string getLastCommand() const;
@@ -25,7 +26,6 @@ public:
     bool hasFocus() const;
     void handleEvent(sf::Event);
     void initializeCommands();
-
 
     bool isPointIn(float x, float y) const;
 private:
@@ -41,6 +41,8 @@ private:
     unsigned int flushFor(sf::Text);
     void addNewText(TextType);
 
+
+
     void action();
 
     void loadFont();
@@ -51,6 +53,7 @@ private:
     sf::Font            mFont;
     std::string         mCurrentCommand;
     CommandParser *mCommandParser;
+    ClientController *mClientController;
 
     unsigned int        mCharSize;
 

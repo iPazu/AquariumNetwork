@@ -1,7 +1,3 @@
-//
-// Created by Axel PETIT on 12/04/2023.
-//
-
 #ifndef AQUARIUM_NETWORK_FISH_H
 #define AQUARIUM_NETWORK_FISH_H
 
@@ -37,8 +33,8 @@ void move_fish(fish *f, int x_max_aquarium, int y_max_aquarium);
 
 fish *chose_random_init_fish(char *name, int x, int y, char *move_name);
 
-void show_fish(fish *f);
+void show_fish(fish *f, char *buf);
 
-void show_fish_ls(fish *f);
+void show_fish_ls(fish *f, char *buf);
 
 #endif // AQUARIUM_NETWORK_FISH_H

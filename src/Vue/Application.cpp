@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+#include <unistd.h>
 #include "include/Application.hpp"
 #include "include/TextureData.hpp"
 #include "include/ClientController.hpp"
@@ -21,9 +22,10 @@ Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
 , mClient {}
 , mAquarium {0,2000,1000,1000, SpriteProperties[SPROP::AQUARIUM] }
-, mConsole { 10, 10, 400, 500, 12 }
+, mConsole { 10, 10, 400, 500,mClient, 12 }
 {
-    mClient.connect("colette.julien-chabrier.fr",3000);
+    mClient.connect("0.0.0.0",3000);
+    mClient.addCommand("hello");
 }
 
 /**
@@ -38,13 +40,15 @@ Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
 , mClient {}
 , mAquarium {0,2000,w,h, SpriteProperties[SPROP::AQUARIUM] }
-, mConsole { 10, 10, 400, 500, 12 }
+, mConsole { 10, 10, 400, 500,mClient, 12 }
 {
-    mClient.connect("colette.julien-chabrier.fr",3000);
+    mClient.connect("0.0.0.0",3000);
     std::string fish1 = "anim1";
     std::string fish2 = "anim2";
     mAquarium.addFish(fish1, FISH_TYPE::SHARK, 5, 5, 10, 10, 70, 50, 15.f);
     mAquarium.addFish(fish2, FISH_TYPE::BLUE, 50, 0, 5, 5, 50, 70, 7.f);
+    mClient.addCommand("hello");
+
 }
 
 /**
@@ -60,6 +64,8 @@ void Application::run()
 
     char buffer[2048];
     mClient.receive(buffer, 1024);
+    pid_t pid = getpid();
+    std::cout << "Application my PID is: " << pid << std::endl;
     mConsole.println("Available views : ");
     mConsole.println(buffer);
     printf("Received: %s\n", buffer);

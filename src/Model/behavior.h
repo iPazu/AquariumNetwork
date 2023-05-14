@@ -1,7 +1,3 @@
-//
-// Created by Axel PETIT on 18/04/2023.
-//
-
 #ifndef AQUARIUM_NETWORK_BEHAVIOR_H
 #define AQUARIUM_NETWORK_BEHAVIOR_H
 

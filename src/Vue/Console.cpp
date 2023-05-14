@@ -6,8 +6,9 @@
 void Console::initializeCommands() {
     mCommandParser->addCommand("hello", [this](const std::vector<std::string>& args) {
         // Implementation of hello command
-        println("Helllooooooo");
+        mClientController->addCommand("hello");
     });
+
 }
 
 Console::Console()
@@ -31,7 +32,7 @@ Console::Console()
 
 
 
-Console::Console(float x, float y, float width, float height, unsigned int charSize)
+Console::Console(float x, float y, float width, float height, ClientController &controller, unsigned int charSize)
 : mFont {}
 , mCurrentCommand {}
 , mCharSize {charSize} 
@@ -43,6 +44,7 @@ Console::Console(float x, float y, float width, float height, unsigned int charS
 , mCommandColor {sf::Color::White}
 , mMessageColor {sf::Color::Yellow}
 , mOffsets {charSize/2.f, charSize/2.f}
+, mClientController {&controller}
 {
     //Initialize the command parser
     mCommandParser = new CommandParser(*this);
@@ -220,3 +222,5 @@ void Console::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) con
         target.draw (current, states);
     }
 }
+
+

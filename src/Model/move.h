@@ -1,7 +1,3 @@
-//
-// Created by Axel PETIT on 12/04/2023.
-//
-
 #ifndef AQUARIUM_NETWORK_MOVE_H
 #define AQUARIUM_NETWORK_MOVE_H
 

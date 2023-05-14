@@ -1,7 +1,3 @@
-//
-// Created by Axel PETIT on 18/04/2023.
-//
-
 #include "behavior.h"
 #include <stdio.h>
 #include <stdlib.h>
