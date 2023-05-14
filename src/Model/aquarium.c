@@ -218,30 +218,30 @@ void fish_behaviors(aquarium *a) {
     }
 }
 
-int main() {
-    aquarium *a = malloc(sizeof(aquarium));
-    init_aquarium_from_file(a, "../loader.txt");
-    fish *f1 = init_fish_from_client("Fish1", 0, 0, 3, 1, 0, "Espece1",
-                                     "RandomPointWay", "Classic", "Classic");
-    fish *f2 = init_fish_from_client("Fish2", 1, 1, 3, 2, 1, "Espece1",
-                                     "RandomPointWay", "Classic", "Classic");
-    fish *f3 = init_fish_from_client("Fish3", 2, 2, 3, 3, 0, "Espece1",
-                                     "RandomPointWay", "Classic", "Classic");
-    fish *f4 = init_fish_from_client("Fish4", 3, 3, 3, 4, 1, "Espece1",
-                                     "RandomPointWay", "Classic", "Classic");
-
-    add_fish(a, f1);
-    add_fish(a, f2);
-    add_fish(a, f3);
-    add_fish(a, f4);
-
-    move_fishes(a);
-    fish_behaviors(a);
-    move_fishes(a);
-    fish_behaviors(a);
-    show_aquarium(a);
-
-    free_aquarium(a);
-
-    return 0;
-}
+//int main() {
+//    aquarium *a = malloc(sizeof(aquarium));
+//    init_aquarium_from_file(a, "../loader.txt");
+//    fish *f1 = init_fish_from_client("Fish1", 0, 0, 3, 1, 0, "Espece1",
+//                                     "RandomPointWay", "Classic", "Classic");
+//    fish *f2 = init_fish_from_client("Fish2", 1, 1, 3, 2, 1, "Espece1",
+//                                     "RandomPointWay", "Classic", "Classic");
+//    fish *f3 = init_fish_from_client("Fish3", 2, 2, 3, 3, 0, "Espece2",
+//                                     "RandomPointWay", "Classic", "Classic");
+//    fish *f4 = init_fish_from_client("Fish4", 3, 3, 3, 4, 1, "Espece2",
+//                                     "RandomPointWay", "Classic", "Classic");
+//
+//    add_fish(a, f1);
+//    add_fish(a, f2);
+//    add_fish(a, f3);
+//    add_fish(a, f4);
+//
+//    move_fishes(a);
+//    fish_behaviors(a);
+//    move_fishes(a);
+//    fish_behaviors(a);
+//    show_aquarium(a);
+//
+//    free_aquarium(a);
+//
+//    return 0;
+//}
