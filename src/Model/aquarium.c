@@ -1,7 +1,6 @@
 #include "aquarium.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <time.h>
 
 aquarium *init_aquarium(int x_max, int y_max, int nb_fish, int nb_view) {
