@@ -1,7 +1,5 @@
 #include "aquarium.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+
 
 aquarium *init_aquarium(int x_max, int y_max, int nb_fish, int nb_view) {
     aquarium *a = malloc(sizeof(aquarium));
@@ -211,6 +209,14 @@ void fish_behaviors(aquarium *a) {
                 delete_fish(a, eaten_fish);
             }
         }
+    }
+}
+
+void handle_aquarium(aquarium *a) {
+    while (1) {
+        move_fishes(a);
+        fish_behaviors(a);
+        sleep(1);
     }
 }
 

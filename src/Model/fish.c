@@ -1,9 +1,7 @@
 #include "fish.h"
 #include "behavior.h"
 #include "move.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
 
 void (*move_function(char *move_name))(fish *, int, int) {
   if (strcmp(move_name, "RandomPointWay") == 0) {

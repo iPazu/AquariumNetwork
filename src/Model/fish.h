@@ -1,6 +1,10 @@
 #ifndef AQUARIUM_NETWORK_FISH_H
 #define AQUARIUM_NETWORK_FISH_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 typedef struct fish {
   char *name;
   int x;

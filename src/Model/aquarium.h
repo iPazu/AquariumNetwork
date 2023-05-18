@@ -1,7 +1,3 @@
-//
-// Created by Axel PETIT on 12/04/2023.
-//
-
 #ifndef AQUARIUM_NETWORK_AQUARIUM_H
 #define AQUARIUM_NETWORK_AQUARIUM_H
 
@@ -10,6 +6,10 @@
 
 #include "fish.h"
 #include "view.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
 
 typedef struct aquarium {
   int width;
@@ -97,5 +97,7 @@ void save_aquarium(aquarium *a, char *file_name);
 void free_aquarium(aquarium *a);
 
 void fish_reproduction(aquarium *a);
+
+void handle_aquarium(aquarium *a);
 
 #endif // AQUARIUM_NETWORK_AQUARIUM_H
