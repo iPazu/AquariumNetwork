@@ -1,13 +1,32 @@
 #include "include/Console.hpp"
+#include "include/ClientController.hpp"
 #include <algorithm>
 #include <iostream>
+#include "include/CommandParser.hpp"
 
 
 void Console::initializeCommands() {
     mCommandParser->addCommand("hello", [this](const std::vector<std::string>& args) {
         // Implementation of hello command
-        mClientController->addCommand("hello");
+        mClientController->addCommand("hello",args);
     });
+    mCommandParser->addCommand("addFish", [this](const std::vector<std::string>& args) {
+        if (args.empty()) {
+            println("Error: addFish command needs at least one argument");
+            return;
+        }
+        mClientController->addCommand("addFish", args);
+    });
+
+    mCommandParser->addCommand("getFishes", [this](const std::vector<std::string>& args) {
+        // Implementation of hello command
+        mClientController->addCommand("getFishes");
+    });
+    mCommandParser->addCommand("ls", [this](const std::vector<std::string>& args) {
+        // Implementation of hello command
+        mClientController->addCommand("ls");
+    });
+
 
 }
 
