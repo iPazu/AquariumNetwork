@@ -28,12 +28,30 @@ void CommandParser::parse(const std::string& commandLine) {
 
 std::vector<std::string> CommandParser::tokenize(const std::string& str) {
     std::vector<std::string> tokens;
-    std::istringstream stream(str);
     std::string token;
+    std::istringstream stream(str);
+    bool quotes = false;
 
     while (stream >> token) {
-        tokens.push_back(token);
+        if (token[0] == '"') {
+            quotes = true;
+            token.erase(token.begin());  // remove the first quote
+        }
+        if (quotes) {
+            if (token[token.length()-1] == '"') {
+                quotes = false;
+                token.erase(token.end()-1);  // remove the last quote
+            }
+            if (!tokens.empty() && tokens.back()[0] != '"') {
+                tokens.back() += " " + token;
+            } else {
+                tokens.push_back(token);
+            }
+        } else {
+            tokens.push_back(token);
+        }
     }
 
     return tokens;
 }
+

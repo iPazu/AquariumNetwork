@@ -1,10 +1,8 @@
 //
 // Created by Alex Laboirie on 24/03/2023.
 //
-
 #ifndef AQUARIUMNETWORK_CLIENTCONTROLLER_H
 #define AQUARIUMNETWORK_CLIENTCONTROLLER_H
-
 
 #include <string>
 #include <fstream>
@@ -15,12 +13,14 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include "ResponseHandler.hpp"
 
+class Console;  // Forward declaration of Console
 using connectionVerif = std::pair<bool, std::ostream&>;
 
 class ClientController {
 public:
-    ClientController();
+    ClientController(Console& console);
 
     virtual ~ClientController();
 
@@ -28,7 +28,7 @@ public:
 
     void disconnect();
 
-    void addCommand(const std::string& command);
+    void addCommand(const std::string& command, const std::vector<std::string>& args = {});
 
     int send(const char *data, int len);
     int send(std::string);
@@ -45,6 +45,9 @@ private:
     std::mutex mtx; // Mutex for synchronizing access to the queue
     std::condition_variable cv; // Condition variable for notifying the thread of new commands
     std::thread worker; // Worker thread
+    Console& console;
+    ResponseHandler responseHandler;
+
 };
 
 #endif //AQUARIUMNETWORK_CLIENTCONTROLLER_H

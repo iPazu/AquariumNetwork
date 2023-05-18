@@ -1,14 +1,16 @@
 #include "include/ClientController.hpp"
+#include "include/ResponseHandler.hpp"
+
 #include <iostream>
 #include <cstring>
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-
-ClientController::ClientController() : m_sockfd(-1), m_connected(false) {
-    // Start the worker thread
-    pid_t pid = getpid();
+#include "include/Console.hpp"
+ClientController::ClientController(Console& console)
+        : console(console), m_sockfd(-1), m_connected(false), responseHandler(console)
+{
     worker = std::thread([this] {
         std::string command;
         while (true) {
@@ -27,7 +29,11 @@ ClientController::ClientController() : m_sockfd(-1), m_connected(false) {
             send(command);
             char buffer[4096];
             receive(buffer, sizeof(buffer));
-            // TODO: handle the response
+
+            std::string responseStr(buffer);
+            std::cout << "Received response: " << responseStr << std::endl;
+            responseHandler.processResponse(responseStr);
+
         }
     });
 }
@@ -38,12 +44,16 @@ ClientController::~ClientController() {
     disconnect();
 }
 
-// Add a command to the queue
-void ClientController::addCommand(const std::string& command) {
+void ClientController::addCommand(const std::string& command, const std::vector<std::string>& args) {
     std::lock_guard<std::mutex> lock(mtx);
-    commands.push(command);
+    std::string fullCommand = command;
+    for (const auto& arg : args) {
+        fullCommand += " " + arg;
+    }
+    commands.push(fullCommand);
     cv.notify_one();
 }
+
 
 connectionVerif ClientController::connect(const std::string& ip, int port, std::ostream& out) {
 

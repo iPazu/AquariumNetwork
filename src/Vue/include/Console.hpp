@@ -2,15 +2,13 @@
 
 #include "UIElement.hpp"
 #include "GraphNode.hpp"
-#include "CommandParser.hpp"
-#include "ClientController.hpp"
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/Text.hpp>
 
+class ClientController;
 class CommandParser;
-
 class Console : public UIElement, public GraphNode
 {
 public:
