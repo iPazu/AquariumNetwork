@@ -301,30 +301,64 @@ void client_welcome(aquarium *a, char argv[], int client_id, int *socket) {
   // get client arguments
   sscanf(argv, "%s %s %s %s", input, in, as, id);
   if (strcmp(as, "") == 0 && strcmp(in, "") == 0 && strcmp(id, "") == 0) {
+    // check if some views are available
     available_views(a);
-    // if no view ID in argument, attribute random available view
-    int random_view = a->id_available_views[rand() % a->nb_available_views];
-    printf("random view %d\n", random_view);
-    return;
+    if (available_views(a) == 1) {
+      // if no view ID in argument, attribute random available view
+      int random_view = a->id_available_views[rand() % a->nb_available_views];
+      printf("greeting %d\n", random_view);
+      return;
+    }
+
     // attribute available view given in parameter
   } else if (strcmp(in, "in") == 0 && strcmp(as, "as") == 0 &&
              strcmp(id, "") != 0) {
-
+    int view_exists = 0;
     // check if the view exists
-
+    for (int i = 0; i < a->nb_view; i++) {
+      if (atoi(id) == a->views[i]->id) {
+        view_exists = 1;
+      }
+    }
+    if (view_exists == 0) {
+      sprintf(buf, "no greeting\n");
+      printf("SEND TO CLIENT %d: %s", client_id, buf);
+      write(*socket, buf, strlen(buf));
+      memset(buf, 0, MESSAGE_SIZE);
+      free(buf);
+      return;
+    }
     // check if the view is available
     if (!a->views[atoi(id)]->is_assigned) {
       a->views[atoi(id)]->is_assigned = 1;
-      printf("greeting %d\n", atoi(id));
+      sprintf(buf, "greeting %d\n", atoi(id));
+      printf("SEND TO CLIENT %d: %s", client_id, buf);
+      write(*socket, buf, strlen(buf));
+      memset(buf, 0, MESSAGE_SIZE);
+      free(buf);
+      return;
     }
     // the view is unavailable
     else {
-      printf("no greeting\n");
+      sprintf(buf, "no greeting\n");
+      printf("SEND TO CLIENT %d: %s", client_id, buf);
+      write(*socket, buf, strlen(buf));
+      memset(buf, 0, MESSAGE_SIZE);
+      free(buf);
     }
   } else if (strcmp(in, "in") != 0 || strcmp(as, "as") == 0) {
-    printf("bad syntax, try again\n");
+    sprintf(buf, "bad syntax, try again\n");
+    printf("SEND TO CLIENT %d: %s", client_id, buf);
+    write(*socket, buf, strlen(buf));
+    memset(buf, 0, MESSAGE_SIZE);
+    free(buf);
+
   } else {
-    printf("frero fais un effort\n");
+    sprintf(buf, "frero fais un effort\n");
+    printf("SEND TO CLIENT %d: %s", client_id, buf);
+    write(*socket, buf, strlen(buf));
+    memset(buf, 0, MESSAGE_SIZE);
+    free(buf);
   }
 }
 
