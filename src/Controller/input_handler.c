@@ -249,7 +249,11 @@ void client_start_fish(aquarium *a, char argv[], int client_id, int *socket) {
 
   // Check that the fish is valid
   if (strcmp(fish_name, "") == 0) {
-    printf("Error: fish name must be specified\n");
+    sprintf(buf, "Error: fish name must be specified\n");
+    printf("SEND TO CLIENT %d: %s", client_id, buf);
+    write(*socket, buf, strlen(buf));
+    memset(buf, 0, MESSAGE_SIZE);
+    free(buf);
     return;
   }
   // Check if the fish is already in the aquarium and start it.
@@ -258,11 +262,20 @@ void client_start_fish(aquarium *a, char argv[], int client_id, int *socket) {
     if (strcmp(a->fishes[i]->name, fish_name) == 0) {
       fish_found = 1;
       if (a->fishes[i]->is_started == 1) {
-        printf("Error: fish %s already started\n", fish_name);
+        sprintf(buf, "Error: fish %s already started\n", fish_name);
+        printf("SEND TO CLIENT %d: %s", client_id, buf);
+        write(*socket, buf, strlen(buf));
+        memset(buf, 0, MESSAGE_SIZE);
+        free(buf);
         return;
       }
       a->fishes[i]->is_started = 1;
-      printf("OK\n");
+      sprintf(buf, "OK\n");
+      printf("SEND TO CLIENT %d: %s", client_id, buf);
+      write(*socket, buf, strlen(buf));
+      memset(buf, 0, MESSAGE_SIZE);
+      free(buf);
+      return;
     }
   }
   if (fish_found == 0) {
@@ -271,6 +284,7 @@ void client_start_fish(aquarium *a, char argv[], int client_id, int *socket) {
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     memset(buf, 0, MESSAGE_SIZE);
+    free(buf);
     return;
   }
 }
