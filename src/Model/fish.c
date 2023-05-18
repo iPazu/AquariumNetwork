@@ -2,7 +2,6 @@
 #include "behavior.h"
 #include "move.h"
 
-
 void (*move_function(char *move_name))(fish *, int, int) {
   if (strcmp(move_name, "RandomPointWay") == 0) {
     return &RandomPointWay;
@@ -85,7 +84,9 @@ fish *init_basic_fish(char *name, int x, int y, int width, int height,
 }
 
 void move_fish(fish *f, int x_max_aquarium, int y_max_aquarium) {
-  f->move(f, x_max_aquarium, y_max_aquarium);
+  if (f->is_started) {
+    f->move(f, x_max_aquarium, y_max_aquarium);
+  }
 }
 
 fish *chose_random_init_fish(char *name, int x, int y, char *move_name) {

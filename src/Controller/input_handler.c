@@ -411,7 +411,7 @@ int client_quit(char argv[], int client_id, int *socket) {
     free(buf);
     exit(0);
   }
-  sprintf(buf, "invalid option\n");
+  sprintf(buf, "invalid option, quit command is : log out\n");
   printf("SEND TO CLIENT %d: %s", client_id, buf);
   write(*socket, buf, strlen(buf));
   free(buf);
@@ -454,7 +454,8 @@ void handler_load(aquarium *a, char argv[]) {
   sscanf(argv, "%s %s %s", input, aquarium_file, extra_argument);
 
   if (strcmp(extra_argument, "") != 0) {
-    printf("Error: too many arguments\n");
+    printf("Error: too many arguments, the command should be : load "
+           "[AQUARIUM_FILE]\n");
     return;
   }
 
@@ -485,7 +486,7 @@ void handler_show_aquarium(aquarium *a, char argv[]) {
   }
 
   if (strcmp(aquarium, "aquarium\0") != 0) {
-    printf("aquarium argument must be specified\n");
+    printf("aquarium argument must be specified such as : show aquarium\n");
   } else {
     show_aquarium(a);
     show_aquarium_views(a);
@@ -521,7 +522,8 @@ void handler_add_view(aquarium *a, char argv[]) {
 
   // check that the view fits into the aquarium
   if (strcmp(view, "view") != 0) {
-    printf("view must be specified as second parameter\n");
+    printf("view must be specified as second parameter, such as : add view "
+           "[VIEW_ID]\n");
   }
   // Check if the view arguments are valid
   if (view_id == -1 || long_vue_x == -1 || long_vue_y == -1 ||
