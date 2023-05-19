@@ -11,6 +11,7 @@
 #include <unistd.h>
 
 pthread_t thread;
+pthread_t thread2;
 
 int main(int argc, char const *argv[]) {
     // gestion de la mémoire (en cas d'allocation dynamique)
@@ -31,6 +32,7 @@ int main(int argc, char const *argv[]) {
     add_view(a, v2);
 
     pthread_create(&thread, NULL, (void *) start_server, a);
+    pthread_create(&thread2, NULL, (void *) handle_aquarium, a);
 
     while (1) {
         get_option_server(a);

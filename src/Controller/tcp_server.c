@@ -11,21 +11,14 @@ void *client_handler(void *void_info)
     int view_id = -1;
     int read_size;
     char client_message[MESSAGE_SIZE];
-    printf("-- VIEWS INTERACTIONS --\n");
-    views_interaction(aqua, sock, client_id, client_message, &view_id);
+    //printf("-- VIEWS INTERACTIONS --\n");
+    views_interaction(aqua, sock, client_id, client_message);
 
     printf("-- LOOP --\n");
     // Receive client message
     while ((read_size = recv(*sock, client_message, MESSAGE_SIZE, 0)) > 0)
     {
-        /* for (int i = 0; i < aqua->nb_view; i++)
-        {
-            show_view(aqua->views[i]);
-        }
-        // Send message back to client
-        write(*sock, client_message, strlen(client_message));
-        memset(client_message, 0, 2000); */
-        get_option_client(aqua, client_id, sock, client_message);
+        get_option_client(aqua, client_id, sock, client_message, &view_id);
     }
 
     // Check if client disconnected

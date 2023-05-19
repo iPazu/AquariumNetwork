@@ -15,11 +15,11 @@
 
 void get_option_server(aquarium *a);
 
-void get_option_client(aquarium *a, int client_id, int *socket, char *client_message);
+void get_option_client(aquarium *a, int client_id, int *socket, char *client_message, int *view_id);
 
-void get_status(aquarium *a, int client_id, int *socket);
+void get_status(aquarium *a, int client_id, int *socket, int *view_id);
 
-int client_add_fish(aquarium *a, char argv[], int client_id, int *socket);
+int client_add_fish(aquarium *a, char argv[], int client_id, int *socket, int *view_id);
 
 int client_del_fish(aquarium *a, char argv[], int client_id, int *socket);
 
@@ -39,7 +39,7 @@ void client_show_aquarium(aquarium *a, char argv[], int argc);
 
 void client_save_aquarium(aquarium *a, char argv[], int argc);
 
-void client_welcome(aquarium *a, char argv[], int client_id, int *socket);
+void client_welcome(aquarium *a, char argv[], int client_id, int *socket, int *view_id);
 
 int client_quit(char argv[], int client_id, int *socket);
 
@@ -58,7 +58,7 @@ void handler_save(aquarium *a);
 void handler_save_aquarium(aquarium *a, char argv[]);
 
 void views_interaction(aquarium *aqua, int *sock, int client_id,
-                       char *client_message, int *view_id);
+                       char *client_message);
 
 void handler_del_view(aquarium *a, char argv[]);
 

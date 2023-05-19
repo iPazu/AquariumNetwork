@@ -72,7 +72,7 @@ fish *init_basic_fish(char *name, int x, int y, int width, int height,
   f->y = y;
   f->width = width;
   f->height = height;
-  f->speed = 1;
+  f->speed = 5;
   f->strength = 1;
   f->gender = rand() % 2;
   f->is_started = 0;
