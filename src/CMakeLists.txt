@@ -7,7 +7,7 @@ add_subdirectory(Model)
 add_subdirectory(Controller)
 
 
-add_executable(Aquarium_Network main.c)
+add_executable(Aquarium_Network main.c main.c)
 
 target_link_libraries(Aquarium_Network pthread)
 

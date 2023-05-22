@@ -20,7 +20,9 @@ void *client_handler(void *void_info)
     // Receive client message
     while ((read_size = recv(*sock, client_message, MESSAGE_SIZE, 0)) > 0)
     {
+
         client_get_input(aqua, client_id, sock, client_message, &view_id);
+
     }
 
     // Check if client disconnected
