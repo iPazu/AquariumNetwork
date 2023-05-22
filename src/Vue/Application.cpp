@@ -61,13 +61,11 @@ void Application::run()
     sf::Clock clock {};
 	sf::Time elapsed = sf::Time::Zero;
 
-    char buffer[2048];
-    mClient.receive(buffer, 1024);
+
     pid_t pid = getpid();
     std::cout << "Application my PID is: " << pid << std::endl;
     mConsole.println("Available views : ");
-    mConsole.println(buffer);
-    printf("Received: %s\n", buffer);
+
 
     while (mWindow.isOpen())
     {

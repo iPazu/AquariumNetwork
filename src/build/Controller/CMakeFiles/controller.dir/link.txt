@@ -1,0 +1,2 @@
+/Library/Developer/CommandLineTools/usr/bin/ar qc libcontroller.a CMakeFiles/controller.dir/tcp_client.c.o CMakeFiles/controller.dir/tcp_server.c.o CMakeFiles/controller.dir/handler_server.c.o CMakeFiles/controller.dir/handler_client.c.o
+/Library/Developer/CommandLineTools/usr/bin/ranlib libcontroller.a

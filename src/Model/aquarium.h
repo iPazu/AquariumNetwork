@@ -37,7 +37,7 @@ aquarium *init_aquarium(int x_max, int y_max, int nb_fish, int nb_view);
  * @param a
  * @param file_name
  */
-void init_aquarium_from_file(aquarium *a, char *file_name);
+int init_aquarium_from_file(aquarium *a, char *file_name);
 
 /**
  * @brief Add a fish to the aquarium

@@ -1,4 +1,6 @@
 #include "tcp_server.h"
+#include "handler_client.h"
+
 aquarium *aqua;
 int clients_count = 0;
 client_data *clients[MAX_CLIENTS] = {NULL};
@@ -12,13 +14,13 @@ void *client_handler(void *void_info)
     int read_size;
     char client_message[MESSAGE_SIZE];
     //printf("-- VIEWS INTERACTIONS --\n");
-    views_interaction(aqua, sock, client_id, client_message);
+    //views_interaction(aqua, sock, client_id, client_message);
 
     printf("-- LOOP --\n");
     // Receive client message
     while ((read_size = recv(*sock, client_message, MESSAGE_SIZE, 0)) > 0)
     {
-        get_option_client(aqua, client_id, sock, client_message, &view_id);
+        client_get_input(aqua, client_id, sock, client_message, &view_id);
     }
 
     // Check if client disconnected
@@ -65,10 +67,6 @@ int start_server(aquarium *a)
     server.sin_port = htons(PORT_NUMBER);
 
     // Bind
-    /* if (bind(socket_desc, (struct sockaddr *)&server, sizeof(server)) < 0) {
-        perror("Bind failed");
-        return 1;
-    } */
     while (bind(socket_desc, (struct sockaddr *)&server, sizeof(server)) < 0)
     {
         perror("Bind failed");
@@ -119,12 +117,6 @@ int start_server(aquarium *a)
         }
 
         printf("Handler assigned\n");
-    }
-
-    if (client_sock < 0)
-    {
-        perror("Accept failed");
-        return 1;
     }
 
     return 0;

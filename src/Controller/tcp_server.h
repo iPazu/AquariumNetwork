@@ -16,7 +16,7 @@ typedef struct client_data {
  * 
  * @return int error code
  */
-int start_server();
+int start_server(aquarium *a);
 
 /**
  * @brief Client connection handler that will be called in a thread for each client

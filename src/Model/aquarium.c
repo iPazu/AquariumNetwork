@@ -10,7 +10,7 @@ aquarium *init_aquarium(int x_max, int y_max, int nb_fish, int nb_view)
   return a;
 }
 
-void init_aquarium_from_file(aquarium *a, char *file_name)
+int init_aquarium_from_file(aquarium *a, char *file_name)
 {
   a->nb_fish = 0;
   a->nb_view = 0;
@@ -18,7 +18,7 @@ void init_aquarium_from_file(aquarium *a, char *file_name)
   if (file == NULL)
   {
     printf("Error while opening the file %s.txt\n", file_name);
-    return;
+    return 1;
   }
 
   char buffer[1024];
@@ -33,7 +33,7 @@ void init_aquarium_from_file(aquarium *a, char *file_name)
     if (!v)
     {
       printf("Error: impossible to allocate the view\n");
-      return;
+      return 1;
     }
     sscanf(buffer, "N%d %dx%d+%d+%d", &v->id, &v->x, &v->y, &v->width,
            &v->height);
@@ -41,6 +41,7 @@ void init_aquarium_from_file(aquarium *a, char *file_name)
   }
 
   fclose(file);
+  return 0;
 }
 
 void add_fish(aquarium *a, fish *f)
@@ -274,8 +275,8 @@ void handle_aquarium(aquarium *a)
   while (1)
   {
     move_fishes(a);
-    fish_behaviors(a);
-    show_aquarium_fishes(a);
+    //fish_behaviors(a);
+    //show_aquarium_fishes(a);
     sleep(1);
   }
 }
