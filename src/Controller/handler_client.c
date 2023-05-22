@@ -1,7 +1,5 @@
 #include "handler_client.h"
 
-#define MESSAGE_SIZE 2000
-
 char *notFoundClient = "-> NOK : commande introuvable\n";
 
 void client_status(aquarium *a, int client_id, int *socket, int *view_id)

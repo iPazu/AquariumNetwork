@@ -2,6 +2,17 @@
 #define AQUARIUM_NETWORK_HANDLER_CLIENT_H
 
 #include "../Model/aquarium.h"
+#include "../Model/view.h"
+#include <arpa/inet.h>
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include "../Model/aquarium.h"
+
+#define MESSAGE_SIZE 4000
 
 void client_get_input(aquarium *a, int client_id, int *socket, char *client_message, int *view_id);
 

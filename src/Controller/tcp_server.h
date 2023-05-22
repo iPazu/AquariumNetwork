@@ -1,7 +1,8 @@
 #ifndef TCP_SERVER_H
 #define TCP_SERVER_H
 
-#include "input_handler.h"
+
+#include "handler_server.h"
 
 #define MAX_CLIENTS 10
 #define PORT_NUMBER 3000
