@@ -1,8 +1,18 @@
 #ifndef TCP_SERVER_H
 #define TCP_SERVER_H
 
-#include "input_handler.h"
+#include "handler_client.h"
+#include "../Model/aquarium.h"
+#include "../Model/view.h"
+#include <arpa/inet.h>
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <unistd.h>
 
+#define MESSAGE_SIZE 4000
 #define MAX_CLIENTS 10
 #define PORT_NUMBER 3000
 
