@@ -1,2 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/ar qc libmodel.a CMakeFiles/model.dir/fish.c.o CMakeFiles/model.dir/aquarium.c.o CMakeFiles/model.dir/move.c.o CMakeFiles/model.dir/view.c.o CMakeFiles/model.dir/behavior.c.o
-/Library/Developer/CommandLineTools/usr/bin/ranlib libmodel.a
