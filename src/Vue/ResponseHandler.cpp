@@ -38,9 +38,9 @@ void ResponseHandler::processResponse(const std::string& response) {
     console.println("Response received: " + response + "\n");
     switch (responseType(response)) {
         case RESPONSE_TYPE::AUTHENTICATION: {
-            std::string clientId = handleAuthentication(response);
-            std::cout << "Connected as Client ID: " << clientId << std::endl;
-            console.println("Connected as Client ID: " + clientId);
+           // std::string clientId = handleAuthentication(response);
+            //std::cout << "Connected as Client ID: " << clientId << std::endl;
+            console.println(response);
             mclientController->has_view = true;
             break;
         }
