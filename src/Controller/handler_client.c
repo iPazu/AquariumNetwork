@@ -462,7 +462,7 @@ void views_interaction(aquarium *aqua, int *sock, int client_id,
   free(views);
 }
 /**
- * @brief function to get the client inputs
+ * @brief function to get and analyze the client inputs
  *
  * @param a aquarium
  * @param client_id client id
