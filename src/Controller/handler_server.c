@@ -34,16 +34,19 @@ void server_load_aquarium(aquarium *a, char argv[]) {
   if (res == 1) {
     printf("Error: aquarium file not found\n");
     return;
-  } else {
+  }
+  // Proper syntax was given, so load the aquarium
+  else {
     printf("-> aquarium loaded (%d display view) !\n", a->nb_view);
+    return;
   }
 }
 
 /**
  * @brief Show the aquarium
  *
- * @param a aquarium to show
- * @param argv additional arguments
+ * @param a Aquarium to show
+ * @param argv Additional arguments
  */
 void server_show_aquarium(aquarium *a, char argv[]) {
 
@@ -65,7 +68,7 @@ void server_show_aquarium(aquarium *a, char argv[]) {
            "aquarium\n");
     return;
   }
-  // Proper syntax was given
+  // Proper syntax was given, so show the aquarium and its views
   else {
     show_aquarium(a);
     show_aquarium_views(a);
@@ -91,7 +94,7 @@ void server_save_aquarium(aquarium *a, char argv[]) {
            "[AQUARIUM_FILE]\n");
     return;
   }
-  // Proper syntax was given
+  // Proper syntax was given, so save the aquarium
   save_aquarium(a, aquarium_file);
 }
 
@@ -124,6 +127,7 @@ void server_add_view(aquarium *a, char argv[]) {
     printf("Error : view must be specified as second parameter, such as : add "
            "view "
            "[VIEW_ID]\n");
+    return;
   }
   // Check if the view arguments are valid
   if (view_id == -1 || long_vue_x == -1 || long_vue_y == -1 ||
@@ -134,6 +138,7 @@ void server_add_view(aquarium *a, char argv[]) {
     return;
   }
 
+  // Convert long arguments into int
   int id = (int)view_id;
   int x = (int)long_vue_x;
   int y = (int)long_vue_y;
@@ -144,11 +149,12 @@ void server_add_view(aquarium *a, char argv[]) {
   struct view *v = init_view(id, x, y, width, height);
   add_view(a, v);
   printf("-> view added\n");
+  return;
 }
 /**
  * @brief Delete a view
  *
- * @param a Aquarium from which to remove the view
+ * @param a Aquarium from which to delete the view
  * @param argv Additional arguments
  */
 void server_del_view(aquarium *a, char argv[]) {
@@ -159,21 +165,24 @@ void server_del_view(aquarium *a, char argv[]) {
   // Get the server arguments
   sscanf(argv, "%s %s %ld", input, view, &view_id);
 
+  // Analyze the arguments
   if (strcmp(view, "view") == 0) {
     if (view_id == -1) {
       printf("Error : view ID must be specified such as : delete view "
-             "<VIEW_ID> n");
+             "<VIEW_ID> \n");
+      return;
     }
   } else {
-    printf(
-        "Error : bad arguments syntax. Syntax should be such as : delete view "
-        "<VIEW_ID>\n");
+    printf("Error : bad syntax. Syntax should be such as : delete view "
+           "<VIEW_ID>\n");
+    return;
   }
 
-  // Check that view exists
+  // Check that the view exists
   int view_exists = 0;
   if (a->nb_view == 0) {
     printf("Error : there is no view in the aquarium\n");
+    return;
   }
   // Browse the list of aquarium views to see if it exists
   for (int i = 0; i < a->nb_view; i++) {
@@ -183,11 +192,13 @@ void server_del_view(aquarium *a, char argv[]) {
       struct view *v = a->views[i];
       delete_view(a, v);
       printf("-> view %ld deleted\n", view_id);
+      return;
     }
   }
   // Case where the view doesn't exist
   if (view_exists == 0) {
     printf("NOK : view doesn't exist in the aquarium\n");
+    return;
   }
 }
 
@@ -199,6 +210,7 @@ void server_del_view(aquarium *a, char argv[]) {
 void server_get_input(aquarium *a) {
   int size_arg = 100;
   char arg[size_arg];
+  // Get the server inputs and avoid bugs by replacing '\n' with '\0'
   if (fgets(arg, size_arg, stdin) != NULL) {
     arg[strcspn(arg, "\n")] = '\0'; // replace '\n' with '\0'.
     char input[100] = "";
@@ -218,7 +230,9 @@ void server_get_input(aquarium *a) {
       server_del_view(a, arg);
     } else if (strcmp(input, "save") == 0) {
       server_save_aquarium(a, arg);
-    } else {
+    }
+    // Entered command was not found
+    else {
       printf("%s", notFound);
     }
   }

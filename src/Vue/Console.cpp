@@ -10,6 +10,10 @@ void Console::initializeCommands() {
         // Implementation of hello command
         mClientController->addCommand("hello",args);
     });
+    mCommandParser->addCommand("ping", [this](const std::vector<std::string>& args) {
+        // Implementation of hello command
+        mClientController->addCommand("ping",args);
+    });
     mCommandParser->addCommand("addFish", [this](const std::vector<std::string>& args) {
         if (args.empty()) {
             println("Error: addFish command needs at least one argument");
@@ -17,7 +21,10 @@ void Console::initializeCommands() {
         }
         mClientController->addCommand("addFish", args);
     });
-
+    mCommandParser->addCommand("status", [this](const std::vector<std::string>& args) {
+        // Implementation of hello command
+        mClientController->addCommand("status",args);
+    });
     mCommandParser->addCommand("getFishes", [this](const std::vector<std::string>& args) {
         // Implementation of hello command
         mClientController->addCommand("getFishes");

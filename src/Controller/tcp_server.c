@@ -14,7 +14,7 @@ void *client_handler(void *void_info)
     int read_size;
     char client_message[MESSAGE_SIZE];
     //printf("-- VIEWS INTERACTIONS --\n");
-    views_interaction(aqua, sock, client_id, client_message);
+    disp_initial_available_views(aqua, sock, client_id, client_message);
 
     printf("-- LOOP --\n");
     // Receive client message

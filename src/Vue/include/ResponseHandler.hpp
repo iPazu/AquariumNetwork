@@ -14,6 +14,7 @@ public:
         AUTHENTICATION,
         GET_FISHES,
         LS,
+        PONG,
         UNKNOWN
     };
 
