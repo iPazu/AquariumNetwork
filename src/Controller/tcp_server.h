@@ -3,6 +3,7 @@
 
 
 #include "handler_server.h"
+#include "handler_client.h"
 
 #define MAX_CLIENTS 10
 #define PORT_NUMBER 3000
@@ -12,11 +13,7 @@ typedef struct client_data {
     int *socket;
 } client_data;
 
-/**
- * @brief Start tcp_server
- * 
- * @return int error code
- */
+
 int start_server(aquarium *a);
 
 /**
