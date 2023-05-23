@@ -1,4 +1,5 @@
 #include "aquarium.h"
+#include "../main.h"
 
 aquarium *init_aquarium(int x_max, int y_max, int nb_fish, int nb_view)
 {
@@ -272,7 +273,7 @@ void fish_behaviors(aquarium *a)
 
 void handle_aquarium(aquarium *a)
 {
-  while (1)
+  while (running_status)
   {
     move_fishes(a);
     //fish_behaviors(a);
