@@ -12,7 +12,7 @@ ResponseHandler::RESPONSE_TYPE ResponseHandler::responseType(const std::string& 
     std::istringstream iss(response);
     std::string word;
     if (iss >> word) {
-        if (word == "greeting" || word == "no") {
+        if (word == "hello" ) {
             return RESPONSE_TYPE::AUTHENTICATION;
         } else if (word == "list") {
             return RESPONSE_TYPE::GET_FISHES;  // assuming the "ls" command also starts with "list"
@@ -156,7 +156,13 @@ void ResponseHandler::handleStatus(const std::string& response) {
         int scanned = sscanf(line.c_str(), "Fish %s at %dx%d, %dx%d, %s",
                              name, &posx, &posy, &sizex, &sizey, status);
         if (scanned == 6) {
-            aquarium->addFish(name, FISH_TYPE::BLUE, posx, posy, sizex, sizey, 0,0,0,FISH_BEHAVIOR::LINEAR);
+            if(aquarium->isFishInAquarium(name))
+            {
+                std::cout << "Updating fish target" << std::endl;
+                aquarium->setFishTarget(name, posx, posy, 1.f);
+            } else {
+                aquarium->addFish(name, FISH_TYPE::BLUE, posx, posy, sizex, sizey, 0,0,0,FISH_BEHAVIOR::LINEAR);
+            }
             std::cout << "Name: " << name
                       << ", Position: " << posx << "x" << posy
                       << ", Size: " << sizex << "x" << sizey

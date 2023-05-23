@@ -45,9 +45,9 @@ Application::Application(const int& w, const int& h, std::string winName)
 
 {
     mClient.connect("colette.julien-chabrier.fr",3000);
-    //std::string fish1 = "anim1";
+    // std::string fish1 = "anim1";
     //std::string fish2 = "anim2";
-    //mAquarium.addFish(fish1, FISH_TYPE::SHARK, 5, 5, 10, 10, 70, 50, 15.f);
+    // mAquarium.addFish(fish1, FISH_TYPE::SHARK, 5, 5, 10, 10, 70, 50, 15.f);
     //mAquarium.addFish(fish2, FISH_TYPE::BLUE, 50, 0, 5, 5, 50, 70, 7.f);
 
 
@@ -85,11 +85,18 @@ void Application::run()
     std::cout << "Application my PID is: " << pid << std::endl;
     mConsole.println("Available views : ");
 
+    sf::Time accumulate = sf::Time::Zero;
 
     while (mWindow.isOpen())
     {
         handleEvents();
         elapsed = clock.restart();
+        accumulate += elapsed;
+        if(mClient.has_view && accumulate > sf::seconds(1))
+        {
+            mClient.addCommand("status");
+            accumulate = sf::Time::Zero;
+        }
         update(elapsed);
         render();
        
