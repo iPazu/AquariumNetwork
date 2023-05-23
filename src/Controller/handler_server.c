@@ -1,4 +1,5 @@
-#include "handler_server.h"
+// File to handle arguments given by server
+
 #include "../Model/aquarium.h"
 
 char *notFound = "-> NOK : commande introuvable\n";
