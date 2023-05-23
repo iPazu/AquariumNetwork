@@ -39,6 +39,11 @@ void *client_handler(void *void_info)
     else if (read_size == -1)
     {
         perror("Receive failed");
+
+        if (view_id != -1) aqua->views[view_id]->is_assigned = -1;
+        // Remove client from array
+        clients[client_id] = NULL;
+        clients_count--;
     }
 
     // Close socket and free memory

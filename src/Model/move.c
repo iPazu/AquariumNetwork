@@ -22,6 +22,12 @@ void RandomPointWay(fish *f, int x_max_aquarium, int y_max_aquarium) {
   float rand2 = ((float)rand()/(float)(RAND_MAX/2))-1;
   f->x = (rand1 > 0 ) ? f->x + x : f->x - x;
   f->y = (rand2 > 0 ) ? f->y + y : f->y - y;
+  if (f->x < 0) {
+    f->x = 0;
+  }
+  if (f->y < 0) {
+    f->y = 0;
+  }
 }
 void HorizontalWay(fish *f, int x_max_aquarium, int y_max_aquarium) {
   int x;

@@ -273,7 +273,7 @@ void fish_behaviors(aquarium *a)
 
 void handle_aquarium(aquarium *a)
 {
-  while (running_status)
+  while (1)
   {
     move_fishes(a);
     //fish_behaviors(a);
