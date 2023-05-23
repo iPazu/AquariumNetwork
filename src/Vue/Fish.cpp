@@ -45,15 +45,15 @@ void Fish::updateDirection(const sf::Vector2f& targetPosition)
 {
     auto previousDirection = mDirection;
     mDirection = normalize(targetPosition - getPosition());
-    float angle = toDegrees(vectorsAngle(previousDirection, mDirection));
-    rotate(angle);
+    // float angle = toDegrees(vectorsAngle(previousDirection, mDirection));
+    // rotate(angle);
 
-    if(mDirection.x > 0 && getScale().y > 0)
-    {
+    // if(mDirection.x > 0 && getScale().y > 0)
+    // {
 
-        setScale(getScale().x,-getScale().y);
-    } else if (mDirection.x <= 0 && getScale().y < 0)
-    {
-        setScale(-getScale().x,getScale().y);
-    }
+    //     setScale(getScale().x,-getScale().y);
+    // } else if (mDirection.x <= 0 && getScale().y < 0)
+    // {
+    //     setScale(-getScale().x,getScale().y);
+    // }
 }
