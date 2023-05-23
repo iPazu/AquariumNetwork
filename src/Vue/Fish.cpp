@@ -18,6 +18,7 @@ Fish::Fish(float posx, float posy, float targetx, float targety,float timeToTarg
 , mDirection { -1, 0 }
 {
     setPosition(posx, posy);
+    setOrigin(FishSpriteProperties[(int)FishType].textureSize.width/2, FishSpriteProperties[(int)FishType].textureSize.height/2);
 }
 
 void Fish::updateCurrent(sf::Time dt)
@@ -45,15 +46,19 @@ void Fish::updateDirection(const sf::Vector2f& targetPosition)
 {
     auto previousDirection = mDirection;
     mDirection = normalize(targetPosition - getPosition());
-    float angle = toDegrees(vectorsAngle(previousDirection, mDirection));
-    rotate(angle);
 
-    if(mDirection.x > 0 && getScale().y > 0)
+    if(norm(mDirection-previousDirection) > 0.0001)
     {
-
-        setScale(getScale().x,-getScale().y);
-    } else if (mDirection.x <= 0 && getScale().y < 0)
-    {
-        setScale(-getScale().x,getScale().y);
+        float angle = toDegrees(vectorsAngle(previousDirection, mDirection));
+        rotate(angle);
     }
+
+    // if(mDirection.x > 0 && getScale().y > 0)
+    // {
+
+    //     setScale(getScale().x,-getScale().y);
+    // } else if (mDirection.x <= 0 && getScale().y < 0)
+    // {
+    //     setScale(-getScale().x,getScale().y);
+    // }
 }

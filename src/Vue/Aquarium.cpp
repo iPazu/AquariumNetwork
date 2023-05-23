@@ -67,8 +67,15 @@ bool Aquarium::removeFish(const FishID& fishID)
 
 void Aquarium::setFishTarget(const FishID& fishID, int targetx, int targety, float timeToTarget)
 {
+    std::cout << "Aquarium > current position : " << mFishes.find(fishID)->second->getPosition() << std::endl;
     sf::Vector2f targetPosition = toAquariumScaling(targetx, targety);
     mFishes.find(fishID)->second->renewTarget(targetPosition.x, targetPosition.y, timeToTarget);
+}
+
+
+bool Aquarium::isFishInAquarium(FishID fishID) const
+{
+    return mFishes.contains(fishID);
 }
 
 sf::Vector2f Aquarium::toAquariumScaling(int percentageX, int percentageY)

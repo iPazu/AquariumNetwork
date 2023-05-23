@@ -99,7 +99,9 @@ const std::string Console::getLastCommand() const
 
     if(lastCommand != mLog.rend())
     {
-        return lastCommand->first.getString().toAnsiString();
+        auto command = lastCommand->first.getString().toAnsiString();
+        command.erase(std::remove(command.begin(), command.end(), '\n'), command.cend());
+        return command;
     }
     return "";
 }
@@ -108,6 +110,26 @@ void Console::println(std::string theMessage)
 {
     std::string buffer = mCurrentCommand;
     mCurrentCommand = theMessage;
+    int maxChar = 0;
+    for(auto i = 0; i < mCurrentCommand.size(); ++i)
+    {
+        if(i * mCharSize > mRect.getLocalBounds().width)
+        {
+            maxChar = i;
+            break;
+        }
+    }
+    if(maxChar > 0)
+    {
+        int amountOfEndline = mCurrentCommand.size() / maxChar;
+        for(auto i = 0 ; i < amountOfEndline; i++)
+        {
+            if(i*maxChar >= mCurrentCommand.size())
+                break;
+            mCurrentCommand.insert((i+1)*maxChar-i,1,'\n');
+        }
+    }
+
     addNewText(Message);
     mCurrentCommand = buffer;
 }
@@ -203,7 +225,6 @@ void Console::addNewText(TextType textType)
     if(mCurrentCommand.size()==0)
         return;
     
-    mCurrentCommand.erase(std::remove(mCurrentCommand.begin(), mCurrentCommand.end(), '\n'), mCurrentCommand.cend());
     sf::Text newCommand {mCurrentCommand, mFont, mCharSize};
     
     newCommand.setPosition(mCharSize, flushFor(newCommand));
@@ -230,13 +251,13 @@ void Console::loadFont()
 
 void Console::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    target.draw(mRect, states);
-    for(auto& text : mLog)
-    {
-        target.draw(text.first, states);
-    }
     if(mHasFocus)
     {
+        target.draw(mRect, states);
+        for(auto& text : mLog)
+        {
+            target.draw(text.first, states);
+        }
         sf::Text current {mCurrentCommand, mFont, mCharSize};
         current.setPosition(mCharSize, mRect.getLocalBounds().height);
         current.setFillColor(mCommandColor);
@@ -248,6 +269,10 @@ void Console::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) con
         prompt.setPosition(0, mRect.getLocalBounds().height);
         target.draw(prompt, states);
         target.draw (current, states);
+    } else
+    {
+        sf::RectangleShape rect {sf::Vector2f(50.f, 50.f)};
+        target.draw(rect, states);
     }
 }
 

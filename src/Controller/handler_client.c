@@ -1,3 +1,5 @@
+// File to handle arguments given by clients
+
 #include "handler_client.h"
 
 char *notFoundClient = "-> NOK : commande introuvable\n";
