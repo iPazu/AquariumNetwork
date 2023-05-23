@@ -1,4 +1,5 @@
 #include "tcp_server.h"
+#include "../main.h"
 
 aquarium *aqua;
 int clients_count = 0;
@@ -13,14 +14,15 @@ void *client_handler(void *void_info)
     int read_size;
     char client_message[MESSAGE_SIZE];
     //printf("-- VIEWS INTERACTIONS --\n");
-    //views_interaction(aqua, sock, client_id, client_message);
+    views_interaction(aqua, sock, client_id, client_message);
 
     printf("-- LOOP --\n");
     // Receive client message
-    while ((read_size = recv(*sock, client_message, MESSAGE_SIZE, 0)) > 0)
+    while (running_status && ((read_size = recv(*sock, client_message, MESSAGE_SIZE, 0)) > 0))
     {
-
+        printf("FROM CLIENT %d: %s\n", client_id, client_message);
         client_get_input(aqua, client_id, sock, client_message, &view_id);
+        memset(client_message, 0, MESSAGE_SIZE);
 
     }
 

@@ -4,6 +4,13 @@ char *notFoundClient = "-> NOK : commande introuvable\n";
 
 // Get status
 void client_status(aquarium *a, int client_id, int *socket, int *view_id) {
+  if (*view_id == -1) {
+    char msg[2000];
+    sprintf(msg, "ERROR: client %d not assigned to a view\n", client_id);
+    write(*socket, msg, strlen(msg));
+    printf("SEND TO CLIENT %d: %s", client_id, msg);
+    return;
+  }
   char *buf = malloc(sizeof(char) * MESSAGE_SIZE);
   // Send info to proper client
   sprintf(buf, "-> OK : Connecté au contrôleur, %d  poisson(s) trouvé(s)\n",
@@ -38,7 +45,14 @@ void client_status(aquarium *a, int client_id, int *socket, int *view_id) {
 // Add a fish
 int client_add_fish(aquarium *a, char argv[], int client_id, int *socket,
                     int *view_id) {
-
+  
+  if (*view_id == -1) {
+    char msg[2000];
+    sprintf(msg, "ERROR: client %d not assigned to a view\n", client_id);
+    write(*socket, msg, strlen(msg));
+    printf("SEND TO CLIENT %d: %s\n", client_id, msg);
+    return -1;
+  }
   char input[100] = "";
   char *fish_name = malloc(sizeof(char) * 20);
   long int long_x = -1, long_y = -1, long_width = -1, long_height = -1;
@@ -239,6 +253,14 @@ int client_quit(char argv[], int client_id, int *socket) {
 // Welcome
 void client_welcome(aquarium *a, char argv[], int client_id, int *socket,
                     int *view_id) {
+  
+  if (*view_id != -1) {
+    char msg[2000];
+    sprintf(msg, "ERROR: client %d already assigned to a view\n", client_id);
+    write(*socket, msg, strlen(msg));
+    printf("SEND TO CLIENT %d: %s\n", client_id, msg);
+    return;
+  }
 
   char *buf = malloc(sizeof(char) * MESSAGE_SIZE);
   char input[100] = "";
@@ -266,7 +288,8 @@ void client_welcome(aquarium *a, char argv[], int client_id, int *socket,
       a->views[*view_id]->is_assigned = client_id;
       // Send the info to proper client
       printf("VIEW ID: %d\n", *view_id);
-      sprintf(buf, "greeting %d\n", *view_id);
+      sprintf(buf, "greeting %d, %dx%d\n", *view_id, a->views[*view_id]->x,
+              a->views[*view_id]->y);
       printf("SEND TO CLIENT %d: %s", client_id, buf);
       write(*socket, buf, strlen(buf));
       free(buf);
@@ -295,7 +318,8 @@ void client_welcome(aquarium *a, char argv[], int client_id, int *socket,
     if (a->views[atoi(id)]->is_assigned == -1) {
       a->views[atoi(id)]->is_assigned = client_id;
       *view_id = atoi(id);
-      sprintf(buf, "greeting %d\n", atoi(id));
+      sprintf(buf, "greeting %d, %dx%d\n", *view_id, a->views[*view_id]->x,
+              a->views[*view_id]->y);
       printf("SEND TO CLIENT %d: %s", client_id, buf);
       write(*socket, buf, strlen(buf));
       free(buf);
