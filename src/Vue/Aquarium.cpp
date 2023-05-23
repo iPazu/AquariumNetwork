@@ -71,6 +71,12 @@ void Aquarium::setFishTarget(const FishID& fishID, int targetx, int targety, flo
     mFishes.find(fishID)->second->renewTarget(targetPosition.x, targetPosition.y, timeToTarget);
 }
 
+
+bool Aquarium::isFishInAquarium(FishID fishID) const
+{
+    return mFishes.contains(fishID);
+}
+
 sf::Vector2f Aquarium::toAquariumScaling(int percentageX, int percentageY)
 {
     return sf::Vector2f(

@@ -13,6 +13,7 @@
 #include "include/TextureData.hpp"
 #include "include/ClientController.hpp"
 #include "include/IOUtils.hpp"
+#include <sstream>
 
 /**
  * @brief Construct a new Application object
@@ -22,7 +23,7 @@ Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
 , mAquarium {0,2000,1000,1000, SpriteProperties[SPROP::AQUARIUM] }
 , mConsole { 10, 10, 400, 500,mClient, 12 }
-, mClient {mConsole}
+, mClient {mConsole,&mAquarium}
 
 {
     mClient.connect("0.0.0.0",3000);
@@ -38,15 +39,17 @@ Application::Application()
  */
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
-, mClient {mConsole}
 , mAquarium {0,2000,w,h, SpriteProperties[SPROP::AQUARIUM] }
 , mConsole { 10, 10, 400, 500,mClient, 12 }
+, mClient {mConsole,&mAquarium}
+
 {
-    mClient.connect("0.0.0.0",3000);
-    std::string fish1 = "anim1";
-    std::string fish2 = "anim2";
-    mAquarium.addFish(fish1, FISH_TYPE::SHARK, 5, 5, 10, 10, 70, 50, 15.f);
-    mAquarium.addFish(fish2, FISH_TYPE::BLUE, 50, 0, 5, 5, 50, 70, 7.f);
+    mClient.connect("colette.julien-chabrier.fr",3000);
+    // std::string fish1 = "anim1";
+    //std::string fish2 = "anim2";
+    // mAquarium.addFish(fish1, FISH_TYPE::SHARK, 5, 5, 10, 10, 70, 50, 15.f);
+    //mAquarium.addFish(fish2, FISH_TYPE::BLUE, 50, 0, 5, 5, 50, 70, 7.f);
+
 
 }
 
@@ -61,16 +64,39 @@ void Application::run()
     sf::Clock clock {};
 	sf::Time elapsed = sf::Time::Zero;
 
+    char buffer[2048];
+    mClient.receive(buffer, 1024);
+    mConsole.println("Available views : ");
+    mConsole.println(buffer);
+    printf("Received: %s\n", buffer);
+
+    // Parsing du buffer
+    std::vector<int> aquariumViews;
+    std::stringstream ss(buffer);
+    int entier;
+
+    while (ss >> entier) {
+        aquariumViews.push_back(entier);
+    }
+
+
 
     pid_t pid = getpid();
     std::cout << "Application my PID is: " << pid << std::endl;
     mConsole.println("Available views : ");
 
+    sf::Time accumulate = sf::Time::Zero;
 
     while (mWindow.isOpen())
     {
         handleEvents();
         elapsed = clock.restart();
+        accumulate += elapsed;
+        if(mClient.has_view && accumulate > sf::seconds(1))
+        {
+            mClient.addCommand("status");
+            accumulate = sf::Time::Zero;
+        }
         update(elapsed);
         render();
        
@@ -101,6 +127,8 @@ void Application::handleEvents()
 {
     sf::Event event;
 
+    
+
     while (mWindow.pollEvent(event))
     {
         // ------------ Windows events ------------
@@ -121,12 +149,8 @@ void Application::handleEvents()
             std::cout << "toggling console" << std::endl;
             mConsole.toggle();
         }
+
         mConsole.handleEvent(event);
-    }
-    auto lastCommand = mConsole.getLastCommand();
-    if(lastCommand != "")
-    {
-        mClient.send(lastCommand);
     }
 }
 
@@ -139,7 +163,7 @@ void Application::handleEvents()
 void Application::render()
 {
     mWindow.clear();
-    mWindow.draw(mAquarium);
+     mWindow.draw(mAquarium);
     mWindow.draw(mConsole);
     mWindow.display();
 }

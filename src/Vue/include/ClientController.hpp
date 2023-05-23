@@ -14,13 +14,14 @@
 #include <mutex>
 #include <condition_variable>
 #include "ResponseHandler.hpp"
+#include "Aquarium.hpp"
 
 class Console;  // Forward declaration of Console
 using connectionVerif = std::pair<bool, std::ostream&>;
 
 class ClientController {
 public:
-    ClientController(Console& console);
+    ClientController(Console& console,Aquarium * aquarium);
 
     virtual ~ClientController();
 
@@ -37,6 +38,8 @@ public:
     int receive(std::string&);
 
     bool isConnected() const;
+    bool has_view;
+
 
 private:
     int m_sockfd;
@@ -47,6 +50,7 @@ private:
     std::thread worker; // Worker thread
     Console& console;
     ResponseHandler responseHandler;
+    Aquarium aquarium;
 
 };
 

@@ -21,6 +21,8 @@ public:
     bool            removeFish(const FishID& fishID);
 
     void            setFishTarget(const FishID& fishID, int targetx, int targety, float timeToTarget);
+
+    bool            isFishInAquarium(FishID) const;
     
 private:
 

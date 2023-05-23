@@ -9,6 +9,7 @@
 #include "Aquarium.hpp"
 #include "Console.hpp"
 #include "ClientController.hpp"
+#include "PageHandler.hpp"
 
 #include <string>
 
@@ -35,6 +36,8 @@ private:
 
     sf::RenderWindow    mWindow;
     ClientController    mClient;
+
+
     Aquarium            mAquarium;
     Console             mConsole;
 };
