@@ -21,10 +21,9 @@
  */
 Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
-, mPageHandler {mWindow.getSize().x, mWindow.getSize().y}
 , mAquarium {0,2000,1000,1000, SpriteProperties[SPROP::AQUARIUM] }
 , mConsole { 10, 10, 400, 500,mClient, 12 }
-, mClient {mConsole}
+, mClient {mConsole,&mAquarium}
 
 {
     mClient.connect("0.0.0.0",3000);
@@ -40,16 +39,16 @@ Application::Application()
  */
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
-, mClient {mConsole}
-, mPageHandler {w,h}
 , mAquarium {0,2000,w,h, SpriteProperties[SPROP::AQUARIUM] }
 , mConsole { 10, 10, 400, 500,mClient, 12 }
+, mClient {mConsole,&mAquarium}
+
 {
     mClient.connect("colette.julien-chabrier.fr",3000);
-    std::string fish1 = "anim1";
-    std::string fish2 = "anim2";
-    mAquarium.addFish(fish1, FISH_TYPE::SHARK, 5, 5, 10, 10, 70, 50, 15.f);
-    mAquarium.addFish(fish2, FISH_TYPE::BLUE, 50, 0, 5, 5, 50, 70, 7.f);
+    //std::string fish1 = "anim1";
+    //std::string fish2 = "anim2";
+    //mAquarium.addFish(fish1, FISH_TYPE::SHARK, 5, 5, 10, 10, 70, 50, 15.f);
+    //mAquarium.addFish(fish2, FISH_TYPE::BLUE, 50, 0, 5, 5, 50, 70, 7.f);
 
 
 }
@@ -108,8 +107,7 @@ void Application::run()
  */
 void Application::update(sf::Time dt)
 {
-    // mAquarium.update(dt);
-    mPageHandler.update(dt);
+    mAquarium.update(dt);
 }
 
 
@@ -144,7 +142,6 @@ void Application::handleEvents()
             std::cout << "toggling console" << std::endl;
             mConsole.toggle();
         }
-        mPageHandler.handleEvents(event, mousePosition);
 
         mConsole.handleEvent(event);
     }
@@ -159,8 +156,7 @@ void Application::handleEvents()
 void Application::render()
 {
     mWindow.clear();
-    // mWindow.draw(mAquarium);
-    mWindow.draw(mPageHandler);
+     mWindow.draw(mAquarium);
     mWindow.draw(mConsole);
     mWindow.display();
 }

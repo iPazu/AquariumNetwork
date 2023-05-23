@@ -12,8 +12,10 @@
 #include "include/Console.hpp"
 
 #define TIMEOUT_SECONDS 10
-ClientController::ClientController(Console& console)
-        : console(console), m_sockfd(-1), m_connected(false), responseHandler(console)
+
+
+ClientController::ClientController(Console& console, Aquarium * aquarium)
+        : console(console), m_sockfd(-1), m_connected(false), responseHandler(console, aquarium, this),has_view(false)
 {
     worker = std::thread([this] {
         std::string command;
@@ -35,7 +37,9 @@ ClientController::ClientController(Console& console)
 
             std::cout << "Waiting for response..." << std::endl;
             receive(buffer, sizeof(buffer));
-
+            std::string responseStr(buffer);
+            std::cout << "Received response: " << responseStr << std::endl;
+            responseHandler.processResponse(responseStr);
             std::memset(buffer, 0, sizeof(buffer));
 
 
@@ -162,9 +166,7 @@ int ClientController::receive(char* buffer, int len) {
         }
         return -1;
     }
-    std::string responseStr(buffer);
-    std::cout << "Received response: " << responseStr << std::endl;
-    responseHandler.processResponse(responseStr);
+
 
     return bytes_received;
 }

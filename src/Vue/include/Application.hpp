@@ -37,7 +37,6 @@ private:
     sf::RenderWindow    mWindow;
     ClientController    mClient;
 
-    PageHandler         mPageHandler;
 
     Aquarium            mAquarium;
     Console             mConsole;
