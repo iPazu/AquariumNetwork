@@ -13,33 +13,38 @@ ResponseHandler::RESPONSE_TYPE ResponseHandler::responseType(const std::string& 
             return RESPONSE_TYPE::AUTHENTICATION;
         } else if (word == "list") {
             return RESPONSE_TYPE::GET_FISHES;  // assuming the "ls" command also starts with "list"
-        } else {
+        }
+        else if (word == "pong") {
+            return RESPONSE_TYPE::PONG;  // assuming the "ls" command also starts with "list"
+        }else {
             return RESPONSE_TYPE::UNKNOWN;
         }
     }
     return RESPONSE_TYPE::UNKNOWN;
 }
 void ResponseHandler::processResponse(const std::string& response) {
-    std::cout << response << std::endl;
-    console.println("Recieved:");
-    console.println(response);
+    std::cout << "Processing response..." << std::endl;
+    console.println("Response received: " + response + "\n");
     switch (responseType(response)) {
         case RESPONSE_TYPE::AUTHENTICATION: {
             std::string clientId = handleAuthentication(response);
-            std::cout << "Client ID: " << clientId << std::endl;
-            console.println("Client ID: " + clientId);
+            std::cout << "Connected as Client ID: " << clientId << std::endl;
+            console.println("Connected as Client ID: " + clientId);
 
             break;
         }
         case RESPONSE_TYPE::GET_FISHES: {
             std::cout << "GET_FISHES" << std::endl;
-            console.println("GET_FISHES");
             // TODO: You may want to do something else here.
             break;
         }
         case RESPONSE_TYPE::LS: {
             std::vector<std::vector<Fish>> fishListBatch = handleLS(response);
             // TODO: Update your fish list in the display program with fishListBatch
+            break;
+        }
+        case RESPONSE_TYPE::PONG: {
+            std::cout << "PONG" << std::endl;
             break;
         }
         default: {

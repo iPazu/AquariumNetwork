@@ -13,6 +13,7 @@
 #include "include/TextureData.hpp"
 #include "include/ClientController.hpp"
 #include "include/IOUtils.hpp"
+#include <sstream>
 
 /**
  * @brief Construct a new Application object
@@ -42,11 +43,12 @@ Application::Application(const int& w, const int& h, std::string winName)
 , mAquarium {0,2000,w,h, SpriteProperties[SPROP::AQUARIUM] }
 , mConsole { 10, 10, 400, 500,mClient, 12 }
 {
-    mClient.connect("0.0.0.0",3000);
+    mClient.connect("colette.julien-chabrier.fr",3000);
     std::string fish1 = "anim1";
     std::string fish2 = "anim2";
     mAquarium.addFish(fish1, FISH_TYPE::SHARK, 5, 5, 10, 10, 70, 50, 15.f);
     mAquarium.addFish(fish2, FISH_TYPE::BLUE, 50, 0, 5, 5, 50, 70, 7.f);
+
 
 }
 
@@ -60,6 +62,22 @@ void Application::run()
 {
     sf::Clock clock {};
 	sf::Time elapsed = sf::Time::Zero;
+
+    char buffer[2048];
+    mClient.receive(buffer, 1024);
+    mConsole.println("Available views : ");
+    mConsole.println(buffer);
+    printf("Received: %s\n", buffer);
+
+    // Parsing du buffer
+    std::vector<int> aquariumViews;
+    std::stringstream ss(buffer);
+    int entier;
+
+    while (ss >> entier) {
+        aquariumViews.push_back(entier);
+    }
+
 
 
     pid_t pid = getpid();
@@ -122,11 +140,6 @@ void Application::handleEvents()
             mConsole.toggle();
         }
         mConsole.handleEvent(event);
-    }
-    auto lastCommand = mConsole.getLastCommand();
-    if(lastCommand != "")
-    {
-        mClient.send(lastCommand);
     }
 }
 

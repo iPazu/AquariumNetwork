@@ -6,8 +6,12 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include <string.h>
+#include <errno.h>
 #include <netdb.h>
 #include "include/Console.hpp"
+
+#define TIMEOUT_SECONDS 10
 ClientController::ClientController(Console& console)
         : console(console), m_sockfd(-1), m_connected(false), responseHandler(console)
 {
@@ -28,11 +32,12 @@ ClientController::ClientController(Console& console)
             // Process the command
             send(command);
             char buffer[4096];
+
+            std::cout << "Waiting for response..." << std::endl;
             receive(buffer, sizeof(buffer));
 
-            std::string responseStr(buffer);
-            std::cout << "Received response: " << responseStr << std::endl;
-            responseHandler.processResponse(responseStr);
+            std::memset(buffer, 0, sizeof(buffer));
+
 
         }
     });
@@ -97,6 +102,7 @@ connectionVerif ClientController::connect(const std::string& ip, int port, std::
 
     out << "Successfully connected to server\n";
     out <<  "----------------------------------\n";
+
     return connectionVerif(true, out);
 }
 
@@ -114,12 +120,13 @@ int ClientController::send(const char* data, int len) {
         std::cerr << "Error: not connected\n";
         return -1;
     }
-
+    printf("Sending data: %s\n", data);
     int bytes_sent = ::send(m_sockfd, data, len, 0);
     if (bytes_sent < 0) {
         std::cerr << "Error sending data\n";
         disconnect();
     }
+
     return bytes_sent;
 }
 
@@ -134,14 +141,33 @@ int ClientController::receive(char* buffer, int len) {
         return -1;
     }
 
+    // Set timeout for receiving
+    struct timeval tv;
+    tv.tv_sec = TIMEOUT_SECONDS;  // Set the timeout (in seconds)
+    tv.tv_usec = 0;  // 0 microseconds
+
+    if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
+        std::cerr << "Error setting socket options: " << strerror(errno) << "\n";
+        return -1;
+    }
+
     int bytes_received = ::recv(m_sockfd, buffer, len, 0);
     if (bytes_received < 0) {
-        std::cerr << "Error receiving data\n";
-        disconnect();
+        if (errno == EAGAIN || errno == EWOULDBLOCK) {
+            std::cerr << "Receive operation timed out\n";
+            console.println("Receive operation timed out\n");
+            disconnect();
+        } else {
+            std::cerr << "Error receiving data: " << strerror(errno) << "\n";
+        }
+        return -1;
     }
+    std::string responseStr(buffer);
+    std::cout << "Received response: " << responseStr << std::endl;
+    responseHandler.processResponse(responseStr);
+
     return bytes_received;
 }
-
 int ClientController::receive(std::string& buffer)
 {
     char buf[4098];
