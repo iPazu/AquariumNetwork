@@ -21,6 +21,7 @@
  */
 Application::Application()
 : mWindow{ sf::VideoMode().getDesktopMode(), "Aquarium", sf::Style::Fullscreen }
+, mPageHandler {mWindow.getSize().x, mWindow.getSize().y}
 , mAquarium {0,2000,1000,1000, SpriteProperties[SPROP::AQUARIUM] }
 , mConsole { 10, 10, 400, 500,mClient, 12 }
 , mClient {mConsole}
@@ -40,6 +41,7 @@ Application::Application()
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
 , mClient {mConsole}
+, mPageHandler {w,h}
 , mAquarium {0,2000,w,h, SpriteProperties[SPROP::AQUARIUM] }
 , mConsole { 10, 10, 400, 500,mClient, 12 }
 {
@@ -106,7 +108,8 @@ void Application::run()
  */
 void Application::update(sf::Time dt)
 {
-    mAquarium.update(dt);
+    // mAquarium.update(dt);
+    mPageHandler.update(dt);
 }
 
 
@@ -118,6 +121,8 @@ void Application::update(sf::Time dt)
 void Application::handleEvents()
 {
     sf::Event event;
+
+    
 
     while (mWindow.pollEvent(event))
     {
@@ -139,6 +144,8 @@ void Application::handleEvents()
             std::cout << "toggling console" << std::endl;
             mConsole.toggle();
         }
+        mPageHandler.handleEvents(event, mousePosition);
+
         mConsole.handleEvent(event);
     }
 }
@@ -152,7 +159,8 @@ void Application::handleEvents()
 void Application::render()
 {
     mWindow.clear();
-    mWindow.draw(mAquarium);
+    // mWindow.draw(mAquarium);
+    mWindow.draw(mPageHandler);
     mWindow.draw(mConsole);
     mWindow.display();
 }

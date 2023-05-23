@@ -127,11 +127,25 @@ void SpriteNode::animate(sf::Time dt)
 
 void SpriteNode::setToAnimation(int animNumber)
 {
-    if(!mProperties.animated || animNumber >= mProperties.frameAmount.size())
+    if(animNumber >= mProperties.frameAmount.size())
     {
         throw std::runtime_error("SpriteNode: animNumber requested is too high (" + std::to_string(animNumber) + "); the maximum was " + std::to_string(mProperties.frameAmount.size()-1) );
     }
     mCurrentSprite.first = animNumber;
+
+    sf::IntRect currentTextRect = mSprite.getTextureRect();
+    sf::IntRect newTextRect { 
+        0, 
+        mCurrentSprite.first * mProperties.textureSize.height, 
+        currentTextRect.width, 
+        currentTextRect.height };
+
+    mSprite.setTextureRect(newTextRect);
+}
+
+int SpriteNode::getCurrentAnimationNumber() const
+{
+    return mCurrentSprite.first;
 }
 
 void SpriteNode::setTextureTo(int x, int y, int width, int height)

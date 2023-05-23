@@ -52,6 +52,7 @@ public:
 protected:  
     void                animate(sf::Time);
     void                setToAnimation(int);
+    int                 getCurrentAnimationNumber() const;
     void                setTextureTo(int, int, int, int);
     virtual void        drawCurrent(sf::RenderTarget&, sf::RenderStates) const;
 

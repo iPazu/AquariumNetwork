@@ -202,6 +202,8 @@ void Console::addNewText(TextType textType)
 {
     if(mCurrentCommand.size()==0)
         return;
+    
+    mCurrentCommand.erase(std::remove(mCurrentCommand.begin(), mCurrentCommand.end(), '\n'), mCurrentCommand.cend());
     sf::Text newCommand {mCurrentCommand, mFont, mCharSize};
     
     newCommand.setPosition(mCharSize, flushFor(newCommand));
