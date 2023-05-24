@@ -1,5 +1,23 @@
 # Projet de réseaux : Aquarium Network
 
-## Test
-Pour lancer les tests il suffit de lancer le script bash run_test.sh
-> ./run_test.sh
+## Controller
+
+Pour build et lancer le serveur:
+
+  ```bash
+  cd src/cmake-build-debug
+  cmake ..
+  make
+  ./AquariumNetwork
+  ```
+  
+## Vue
+
+Pour build et lancer un client:
+
+ ```bash
+  cd src/Vue/build
+  cmake ..
+  make
+  ./front
+  ```

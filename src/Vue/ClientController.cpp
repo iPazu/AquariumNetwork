@@ -39,6 +39,11 @@ ClientController::ClientController(Console& console, Aquarium * aquarium)
             receive(buffer, sizeof(buffer));
             std::string responseStr(buffer);
             std::cout << "Received response: " << responseStr << std::endl;
+            if(command == "log out")
+            {
+                m_connected = false;
+                break;
+            }
             responseHandler.processResponse(responseStr);
             std::memset(buffer, 0, sizeof(buffer));
 

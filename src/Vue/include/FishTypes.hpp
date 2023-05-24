@@ -37,10 +37,10 @@ static const std::vector<SpriteNode::Properties> FishSpriteProperties =
 
     SpriteNode::Properties
     {
-        .pathToTexture  = "../assets/ugly.png",
+        .pathToTexture  = "../assets/blob.png",
         .animated       = true,
-        . textureSize   = { 0, 0, 150, 110 },
-        .frameAmount    = {10},
+        . textureSize   = { 0, 0, 56, 60 },
+        .frameAmount    = {16},
         .animationTime = {sf::seconds(.05f)}
     }
 
