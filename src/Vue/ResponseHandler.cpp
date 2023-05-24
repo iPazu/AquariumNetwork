@@ -40,7 +40,7 @@ void ResponseHandler::processResponse(const std::string& response) {
     console.println("Response received: " + response + "\n");
     switch (responseType(response)) {
         case RESPONSE_TYPE::AUTHENTICATION: {
-           // std::string clientId = handleAuthentication(response);
+            handleAuthentication(response);
             //std::cout << "Connected as Client ID: " << clientId << std::endl;
             console.println(response);
             mclientController->has_view = true;
@@ -68,6 +68,11 @@ void ResponseHandler::processResponse(const std::string& response) {
         }
         case RESPONSE_TYPE::STARTFISH: {
             std::cout << "STARTFISH" << std::endl;
+            // handleStatus(response);
+            break;
+        }
+        case RESPONSE_TYPE::DELFISH: {
+            std::cout << "DELFISH" << std::endl;
             // handleStatus(response);
             break;
         }
@@ -104,26 +109,16 @@ std::vector<std::vector<Fish>> ResponseHandler::handleLS(const std::string& resp
 }
 
 std::string ResponseHandler::handleAuthentication(const std::string& response) {
-    std::istringstream iss(response);
-    std::string word;
-    iss >> word;  // "greeting" or "no"
-    if (word == "greeting") {
-        std::string greeting_id, dimension;
-        std::getline(iss, greeting_id, ',');
-        std::getline(iss, dimension);
+    printf("handleGreeting\n");
 
-        // remove leading spaces
-        greeting_id.erase(greeting_id.begin(), std::find_if(greeting_id.begin(), greeting_id.end(), [](int ch) {
-            return !std::isspace(ch);
-        }));
-        dimension.erase(dimension.begin(), std::find_if(dimension.begin(), dimension.end(), [](int ch) {
-            return !std::isspace(ch);
-        }));
+    int viewId, viewX, viewY;
+    int scanned = sscanf(response.c_str(), "hello -> OK : greeting %d, %dx%d", &viewId, &viewX, &viewY);
 
-        return greeting_id + " " + dimension;  // or however you want to format this
-    } else {
-        return "Error: No greeting";
+    if(scanned == 3)
+    {
+        aquarium->setAquariumAt(viewX, viewY);
     }
+    return "";
 }
 
 std::vector<Fish> ResponseHandler::parseFishList(std::istringstream& lineStream) {
@@ -156,6 +151,8 @@ void ResponseHandler::handleStatus(const std::string& response) {
     std::stringstream ss(buffer);
     std::string line;
 
+    std::vector<std::string> fishes {};
+
     while (std::getline(ss, line)) {
         int posx, posy, sizex, sizey;
         char name[50];
@@ -168,14 +165,23 @@ void ResponseHandler::handleStatus(const std::string& response) {
                 std::cout << "Updating fish target" << std::endl;
                 aquarium->setFishTarget(name, posx, posy, 1.f);
             } else {
-                aquarium->addFish(name, FISH_TYPE::BLUE, posx, posy, sizex, sizey, 0,0,0,FISH_BEHAVIOR::LINEAR);
+                aquarium->addFish(name, getRandomFishType(), posx, posy, sizex, sizey, 0,0,0,FISH_BEHAVIOR::LINEAR);
             }
             std::cout << "Name: " << name
                       << ", Position: " << posx << "x" << posy
                       << ", Size: " << sizex << "x" << sizey
                       << ", Status: " << status << std::endl;
+            fishes.push_back(name);
         } else {
             std::cerr << "Failed to parse line: " << line << std::endl;
+        }
+
+        for(auto& f: fishes)
+        {
+            if(!aquarium->isFishInAquarium(f))
+            {
+                aquarium->removeFish(f);
+            }
         }
     }
 

@@ -15,6 +15,7 @@ Aquarium::Aquarium(const SpriteNode::Properties& prop)
 
 Aquarium::Aquarium(int x, int y, int width, int height, const SpriteNode::Properties& prop)
 : SpriteNode { prop }
+, mSize {width, height}
 {
     setTextureTo(x, y, width, height);
 }
@@ -77,6 +78,12 @@ bool Aquarium::isFishInAquarium(FishID fishID) const
 {
     return mFishes.contains(fishID);
 }
+
+void Aquarium::setAquariumAt(int x, int y)
+{
+    setTextureTo(x, y, mSize.x, mSize.y);
+}
+
 
 sf::Vector2f Aquarium::toAquariumScaling(int percentageX, int percentageY)
 {

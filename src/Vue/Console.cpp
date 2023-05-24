@@ -43,6 +43,15 @@ void Console::initializeCommands() {
         mClientController->addCommand("startFish", args);
     });
 
+    mCommandParser->addCommand("delFish", [this](const std::vector<std::string>& args) {
+        // Implementation of hello command
+        if (args.empty()) {
+            println("Error: delFish command needs at least one argument");
+            return;
+        }
+        mClientController->addCommand("delFish", args);
+    });
+
 
 }
 
@@ -214,8 +223,14 @@ unsigned int Console::flushFor(sf::Text newText)
                 mLog[i].first.setPosition(placement);
             }
             mLog.erase(mLog.begin());
-            lastText = mLog[mLog.size()-1].first;
-            futureBottom = lastText.getLocalBounds().height + mOffsets.y + lastText.getPosition().y;
+            if(mLog.size()>0)
+            {
+                lastText = mLog[mLog.size()-1].first;
+                futureBottom = lastText.getLocalBounds().height + mOffsets.y + lastText.getPosition().y;
+            } else
+            {
+                futureBottom = mRect.getLocalBounds().height;
+            }
         }
         return futureBottom;
     }
@@ -276,11 +291,19 @@ void Console::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) con
             }
             
         }
-        sf::Text current {mCurrentCommand, mFont, mCharSize};
-        current.setPosition(mCharSize, mRect.getLocalBounds().height);
-        current.setFillColor(mCommandColor);
+
+        float text_height = 0.f;
+        sf::Text current;
+
+        if(mCurrentCommand.size() > 0)
+        {
+            current = sf::Text{mCurrentCommand, mFont, mCharSize};
+            current.setPosition(mCharSize, mRect.getLocalBounds().height);
+            current.setFillColor(mCommandColor);
+            text_height = current.getLocalBounds().height;
+        }
         
-        sf::RectangleShape prompt{ sf::Vector2f(mRect.getSize().x, current.getLocalBounds().height+mCharSize) };
+        sf::RectangleShape prompt{ sf::Vector2f(mRect.getSize().x, text_height+mCharSize) };
         prompt.setFillColor(sf::Color(0,0,0,150));
         prompt.setOutlineThickness(2.f);
         prompt.setOutlineColor(mFocusColor);

@@ -18,6 +18,7 @@ public:
         STATUS,
         PONG,
         STARTFISH,
+        DELFISH,
         UNKNOWN
     };
 
