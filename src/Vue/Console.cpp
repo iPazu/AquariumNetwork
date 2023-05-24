@@ -34,6 +34,15 @@ void Console::initializeCommands() {
         mClientController->addCommand("ls");
     });
 
+    mCommandParser->addCommand("startFish", [this](const std::vector<std::string>& args) {
+        // Implementation of hello command
+        if (args.empty()) {
+            println("Error: startFish command needs at least one argument");
+            return;
+        }
+        mClientController->addCommand("startFish", args);
+    });
+
 
 }
 
@@ -110,25 +119,25 @@ void Console::println(std::string theMessage)
 {
     std::string buffer = mCurrentCommand;
     mCurrentCommand = theMessage;
-    int maxChar = 0;
-    for(auto i = 0; i < mCurrentCommand.size(); ++i)
-    {
-        if(i * mCharSize > mRect.getLocalBounds().width)
-        {
-            maxChar = i;
-            break;
-        }
-    }
-    if(maxChar > 0)
-    {
-        int amountOfEndline = mCurrentCommand.size() / maxChar;
-        for(auto i = 0 ; i < amountOfEndline; i++)
-        {
-            if(i*maxChar >= mCurrentCommand.size())
-                break;
-            mCurrentCommand.insert((i+1)*maxChar-i,1,'\n');
-        }
-    }
+    // int maxChar = 0;
+    // for(auto i = 0; i < mCurrentCommand.size(); ++i)
+    // {
+    //     if(i * mCharSize > mRect.getLocalBounds().width)
+    //     {
+    //         maxChar = i;
+    //         break;
+    //     }
+    // }
+    // if(maxChar > 0)
+    // {
+    //     int amountOfEndline = mCurrentCommand.size() / maxChar;
+    //     for(auto i = 0 ; i < amountOfEndline; i++)
+    //     {
+    //         if(i*maxChar >= mCurrentCommand.size())
+    //             break;
+    //         mCurrentCommand.insert((i+1)*maxChar-i,1,'\n');
+    //     }
+    // }
 
     addNewText(Message);
     mCurrentCommand = buffer;
@@ -194,6 +203,7 @@ unsigned int Console::flushFor(sf::Text newText)
     if(mLog.size() > 0)
     {
         auto lastText = mLog[mLog.size()-1].first;
+        std::cout << "giving :" << lastText.getString().toAnsiString() << std::endl;
         auto futureBottom = lastText.getLocalBounds().height  + lastText.getPosition().y+mOffsets.y;
 
         while(futureBottom + 2* mCharSize > mRect.getLocalBounds().height)
@@ -256,7 +266,15 @@ void Console::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) con
         target.draw(mRect, states);
         for(auto& text : mLog)
         {
-            target.draw(text.first, states);
+            try
+            {
+                target.draw(text.first, states);
+            }
+            catch(const std::exception& e)
+            {
+                std::cerr << e.what() << '\n';
+            }
+            
         }
         sf::Text current {mCurrentCommand, mFont, mCharSize};
         current.setPosition(mCharSize, mRect.getLocalBounds().height);

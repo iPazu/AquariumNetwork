@@ -17,6 +17,7 @@ public:
         LS,
         STATUS,
         PONG,
+        STARTFISH,
         UNKNOWN
     };
 

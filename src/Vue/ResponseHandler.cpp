@@ -25,6 +25,8 @@ ResponseHandler::RESPONSE_TYPE ResponseHandler::responseType(const std::string& 
         }
         else if (word == "pong") {
             return RESPONSE_TYPE::PONG;  // assuming the "ls" command also starts with "list"
+        }else if (word == "startFish") {
+            return RESPONSE_TYPE::STARTFISH;  // assuming the "ls" command also starts with "list"
         }else {
             return RESPONSE_TYPE::UNKNOWN;
         }
@@ -62,6 +64,11 @@ void ResponseHandler::processResponse(const std::string& response) {
         case RESPONSE_TYPE::STATUS: {
             std::cout << "STATUS" << std::endl;
             handleStatus(response);
+            break;
+        }
+        case RESPONSE_TYPE::STARTFISH: {
+            std::cout << "STARTFISH" << std::endl;
+            // handleStatus(response);
             break;
         }
         default: {
