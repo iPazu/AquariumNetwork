@@ -28,6 +28,12 @@ void RandomPointWay(fish *f, int x_max_aquarium, int y_max_aquarium) {
   if (f->y < 0) {
     f->y = 0;
   }
+  if (f->x > x_max_aquarium) {
+    f->x = x_max_aquarium;
+  }
+  if (f->y > y_max_aquarium) {
+    f->y = y_max_aquarium;
+  }
 }
 void HorizontalWay(fish *f, int x_max_aquarium, int y_max_aquarium) {
   int x;

@@ -44,8 +44,8 @@ int client_status(aquarium *a, int client_id, int *socket, int *view_id)
     int percentage_x = (relative_x * 100) / client_view->width;
     int percentage_y = (relative_y * 100) / client_view->height;
     // Send info to proper client
-    sprintf(buf, "Fish %s at %dx%d, %dx%d, %s\n", f->name, percentage_x,
-            percentage_y, f->width, f->height,
+    sprintf(buf, "Fish %s at %dx%d, %dx%d, %d, %s\n", f->name, percentage_x,
+            percentage_y, f->width, f->height, f->gender,
             (f->is_started) ? "started" : "stopped");
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));

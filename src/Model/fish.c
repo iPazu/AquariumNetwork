@@ -74,7 +74,7 @@ fish *init_basic_fish(char *name, int x, int y, int width, int height,
   f->height = height;
   f->speed = 40;
   f->strength = 1;
-  f->gender = rand() % 2;
+  f->gender = rand() % 3;
   f->is_started = 0;
   f->species = "Basic";
   f->move = move_function(move_name);
@@ -120,8 +120,8 @@ char *is_started(fish *f) {
 }
 
 void show_fish(fish *f, char *buf) {
-  sprintf(buf, "Fish %s at %dx%d, %dx%d, %s\n", f->name, f->x, f->y, f->width,
-          f->height, is_started(f));
+  sprintf(buf, "Fish %s at %dx%d, %dx%d, %d, %s\n", f->name, f->x, f->y, f->width,
+          f->height, f->gender, is_started(f));
 }
 
 void show_fish_ls(fish *f, char *buf) {
