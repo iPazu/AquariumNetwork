@@ -47,9 +47,9 @@ void Fish::updateDirection(const sf::Vector2f& targetPosition)
     auto previousDirection = mDirection;
     mDirection = normalize(targetPosition - getPosition());
 
-    if(norm(mDirection) > 0.0001)
-    {
-        float angle = toDegrees(vectorsAngle(previousDirection, mDirection));
-        rotate(angle);
-    }
+    // if(norm(mDirection) > 0.1)
+    // {
+    //     float angle = toDegrees(vectorsAngle(previousDirection, mDirection));
+    //     rotate(angle);
+    // }
 }

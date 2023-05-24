@@ -39,8 +39,8 @@ Application::Application()
  */
 Application::Application(const int& w, const int& h, std::string winName)
 : mWindow{ sf::VideoMode(w,h), winName }
-, mAquarium {0,2000,w,h, SpriteProperties[SPROP::AQUARIUM] }
-, mConsole { 10, 3*(float)h/4-20, (float)w, (float)h/4,mClient, 12 }
+, mAquarium {2000,2000,w,h, SpriteProperties[SPROP::AQUARIUM] }
+, mConsole { 10, 3*(float)h/4-20, (float)w-20, (float)h/4,mClient, 12 }
 , mClient {mConsole,&mAquarium}
 
 {

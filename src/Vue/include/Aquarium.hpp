@@ -23,6 +23,8 @@ public:
     void            setFishTarget(const FishID& fishID, int targetx, int targety, float timeToTarget);
 
     bool            isFishInAquarium(FishID) const;
+
+    void            setAquariumAt(int, int);
     
 private:
 
@@ -32,5 +34,7 @@ private:
 
 private:
     std::map<FishID, Fish *> mFishes;
+
+    sf::Vector2i            mSize;
 
 };

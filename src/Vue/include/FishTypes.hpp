@@ -3,13 +3,17 @@
 #include "SpriteNode.hpp"
 #include <vector>
 #include <SFML/System/Time.hpp>
+#include <random>
 
 enum class FISH_TYPE
 {
     BLUE,
     SHARK,
+    UGLY,
     TOTAL
 };
+
+FISH_TYPE getRandomFishType();
 
 static const std::vector<SpriteNode::Properties> FishSpriteProperties =
 {
@@ -29,5 +33,15 @@ static const std::vector<SpriteNode::Properties> FishSpriteProperties =
         . textureSize   = { 0, 0, 98, 44 },
         .frameAmount    = {3},
         .animationTime = {sf::seconds(.5f)}
+    },
+
+    SpriteNode::Properties
+    {
+        .pathToTexture  = "../assets/ugly.png",
+        .animated       = true,
+        . textureSize   = { 0, 0, 150, 110 },
+        .frameAmount    = {10},
+        .animationTime = {sf::seconds(.05f)}
     }
+
 };
