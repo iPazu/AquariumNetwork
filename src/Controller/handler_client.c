@@ -22,7 +22,7 @@ void client_status(aquarium *a, int client_id, int *socket, int *view_id) {
   }
   char *buf = malloc(sizeof(char) * MESSAGE_SIZE);
   // Send info to proper client
-  sprintf(buf, "status -> OK : Connecté au contrôleur, %d  poisson(s) trouvé(s)\n",
+  sprintf(buf, "status -> OK : Connecte au controleur, %d  poisson(s) trouve(s)\n",
           a->nb_fish);
   printf("SEND TO CLIENT %d: %s", client_id, buf);
   write(*socket, buf, strlen(buf));
