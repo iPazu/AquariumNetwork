@@ -12,13 +12,15 @@ char *notFoundClient = "-> NOK : commande introuvable\n";
  * @param socket Number of the socket associated with the client
  * @param view_id
  */
-void client_status(aquarium *a, int client_id, int *socket, int *view_id) {
-  if (*view_id == -1) {
+int client_status(aquarium *a, int client_id, int *socket, int *view_id)
+{
+  if (*view_id == -1)
+  {
     char msg[2000];
     sprintf(msg, "status -> NOK : client %d not assigned to a view\n", client_id);
     write(*socket, msg, strlen(msg));
     printf("SEND TO CLIENT %d: %s", client_id, msg);
-    return;
+    return 0;
   }
   char *buf = malloc(sizeof(char) * MESSAGE_SIZE);
   // Send info to proper client
@@ -32,7 +34,8 @@ void client_status(aquarium *a, int client_id, int *socket, int *view_id) {
   view *client_view = a->views[*view_id];
 
   // Return list of fishes
-  for (int i = 0; i < a->nb_fish; i++) {
+  for (int i = 0; i < a->nb_fish; i++)
+  {
     // show_fish(a->fishes[i], buf);
     fish *f = a->fishes[i];
     // Translating coordinates in display size percentage
@@ -49,6 +52,7 @@ void client_status(aquarium *a, int client_id, int *socket, int *view_id) {
     memset(buf, 0, MESSAGE_SIZE);
   }
   free(buf);
+  return 0;
 }
 
 /**
@@ -62,14 +66,16 @@ void client_status(aquarium *a, int client_id, int *socket, int *view_id) {
  * @return int to know whether the fish was added or not
  */
 int client_add_fish(aquarium *a, char argv[], int client_id, int *socket,
-                    int *view_id) {
-  
-  if (*view_id == -1) {
+                    int *view_id)
+{
+
+  if (*view_id == -1)
+  {
     char msg[2000];
     sprintf(msg, "addFish -> NOK : client %d not assigned to a view\n", client_id);
     write(*socket, msg, strlen(msg));
     printf("SEND TO CLIENT %d: %s\n", client_id, msg);
-    return -1;
+    return 0;
   }
   char input[100] = "";
   char *fish_name = malloc(sizeof(char) * 20);
@@ -84,7 +90,8 @@ int client_add_fish(aquarium *a, char argv[], int client_id, int *socket,
   // Check if the fish is valid
   if ((strcmp(fish_name, "") == 0) || long_x == -1 || long_y == -1 ||
       long_width == -1 || long_height == -1 ||
-      (strcmp(mobility_name, "") == 0)) {
+      (strcmp(mobility_name, "") == 0))
+  {
     // Send error to proper client
     sprintf(buf,
             "addFish -> NOK : incorrect format ! Required format is : 'addFish "
@@ -93,24 +100,27 @@ int client_add_fish(aquarium *a, char argv[], int client_id, int *socket,
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return -1;
+    return 0;
   }
   // Check if the mobility is valid
-  if (strcmp(mobility_name, "") == 0) {
+  if (strcmp(mobility_name, "") == 0)
+  {
     sprintf(buf, "addFish -> NOK : Unknown mobility\n");
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return -1;
+    return 0;
   }
   // Check if the fish is already in the aquarium
-  for (int i = 0; i < a->nb_fish; i++) {
-    if (strcmp(a->fishes[i]->name, fish_name) == 0) {
+  for (int i = 0; i < a->nb_fish; i++)
+  {
+    if (strcmp(a->fishes[i]->name, fish_name) == 0)
+    {
       sprintf(buf, "addFish -> NOK : fish %s already in the aquarium\n", fish_name);
       printf("SEND TO CLIENT %d: %s", client_id, buf);
       write(*socket, buf, strlen(buf));
       free(buf);
-      return -1;
+      return 0;
     }
   }
   // Translating coordinates into display size percent
@@ -149,7 +159,8 @@ int client_add_fish(aquarium *a, char argv[], int client_id, int *socket,
  * @param socket Number of the socket associated with the client
  * @return int
  */
-int client_del_fish(aquarium *a, char argv[], int client_id, int *socket) {
+int client_del_fish(aquarium *a, char argv[], int client_id, int *socket)
+{
 
   char input[100] = "";
   char fish_name[20] = "";
@@ -159,21 +170,24 @@ int client_del_fish(aquarium *a, char argv[], int client_id, int *socket) {
   sscanf(argv, "%s %s", input, fish_name);
 
   // Check if the fish is valid
-  if (strcmp(fish_name, "") == 0) {
+  if (strcmp(fish_name, "") == 0)
+  {
     sprintf(buf, "delFish -> NOK : fish name to delete must be specified as follows : "
                  "delFish [FISHNAME]\n");
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return -1;
+    return 0;
   }
   // Check if the fish is already in the aquarium and delete it if it's the
   // case.
   int fish_found = 0;
   // Browse the fish in the list of fishes in the aquarium
-  for (int i = 0; i < a->nb_fish; i++) {
+  for (int i = 0; i < a->nb_fish; i++)
+  {
     // Delete the fish if it was found in the list
-    if (strcmp(a->fishes[i]->name, fish_name) == 0) {
+    if (strcmp(a->fishes[i]->name, fish_name) == 0)
+    {
       fish_found = 1;
       delete_fish(a, a->fishes[i]);
       // Send the info to the proper client
@@ -184,13 +198,14 @@ int client_del_fish(aquarium *a, char argv[], int client_id, int *socket) {
     }
   }
   // Case where the fish wasn't found in the aquarium
-  if (fish_found == 0) {
+  if (fish_found == 0)
+  {
     // Send the info to the proper client
     sprintf(buf, "delFish -> NOK : %s inexistant\n", fish_name);
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return -1;
+    return 0;
   }
   return 0;
 }
@@ -203,7 +218,8 @@ int client_del_fish(aquarium *a, char argv[], int client_id, int *socket) {
  * @param client_id
  * @param socket Number of the socket associated with the client
  */
-void client_start_fish(aquarium *a, char argv[], int client_id, int *socket) {
+int client_start_fish(aquarium *a, char argv[], int client_id, int *socket)
+{
   char input[100] = "";
   char fish_name[20] = "";
   char *buf = malloc(sizeof(char) * MESSAGE_SIZE);
@@ -212,28 +228,32 @@ void client_start_fish(aquarium *a, char argv[], int client_id, int *socket) {
   sscanf(argv, "%s %s", input, fish_name);
 
   // Check that the fish is valid
-  if (strcmp(fish_name, "") == 0) {
+  if (strcmp(fish_name, "") == 0)
+  {
     // Send the info to the proper client
     sprintf(buf, "startFish -> NOK : fish name must be specified\n");
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return;
+    return 0;
   }
   // Check if the fish is already in the aquarium and start it.
   int fish_found = 0;
-  for (int i = 0; i < a->nb_fish; i++) {
+  for (int i = 0; i < a->nb_fish; i++)
+  {
     // The fish was found in the aquarium
-    if (strcmp(a->fishes[i]->name, fish_name) == 0) {
+    if (strcmp(a->fishes[i]->name, fish_name) == 0)
+    {
       fish_found = 1;
       // Case where the fish is already started
-      if (a->fishes[i]->is_started == 1) {
+      if (a->fishes[i]->is_started == 1)
+      {
         // Send the info to the proper client
         sprintf(buf, "startFish -> NOK : fish %s already started\n", fish_name);
         printf("SEND TO CLIENT %d: %s", client_id, buf);
         write(*socket, buf, strlen(buf));
         free(buf);
-        return;
+        return 0;
       }
       // Start the fish
       a->fishes[i]->is_started = 1;
@@ -242,17 +262,18 @@ void client_start_fish(aquarium *a, char argv[], int client_id, int *socket) {
       printf("SEND TO CLIENT %d: %s", client_id, buf);
       write(*socket, buf, strlen(buf));
       free(buf);
-      return;
+      return 0;
     }
   }
   // Case where the fish wasn't found
-  if (fish_found == 0) {
+  if (fish_found == 0)
+  {
     // Send the info to the proper client
     sprintf(buf, "startFish -> NOK : fish %s not found\n", fish_name);
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return;
+    return 0;
   }
 }
 
@@ -264,7 +285,8 @@ void client_start_fish(aquarium *a, char argv[], int client_id, int *socket) {
  * @param socket Number of the socket associated with the client
  * @return int Indicates if the client has successfully disconnected
  */
-int client_quit(char argv[], int client_id, int *socket) {
+int client_quit(char argv[], int client_id, int *socket)
+{
 
   char *buf = malloc(sizeof(char) * MESSAGE_SIZE);
   char input[100] = "";
@@ -274,22 +296,24 @@ int client_quit(char argv[], int client_id, int *socket) {
   // Get the client arguments
   sscanf(argv, "%s %s %s", input, option, extra_argument);
   // Too many arguments in the client input
-  if (strcmp(extra_argument, "") != 0) {
+  if (strcmp(extra_argument, "") != 0)
+  {
     // Send the info to the proper client
     sprintf(buf, "log -> NOK : too many arguments\n");
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return -1;
+    return 0;
   }
   // Proper input
-  if (strcmp(option, "out") == 0) {
+  if (strcmp(option, "out") == 0)
+  {
     // Send the info to the proper client
     sprintf(buf, "log -> OK : bye\n");
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    exit(0);
+    return -1;
   }
   // Case of wrong client input
   // Send the info to the proper client
@@ -297,7 +321,7 @@ int client_quit(char argv[], int client_id, int *socket) {
   printf("SEND TO CLIENT %d: %s", client_id, buf);
   write(*socket, buf, strlen(buf));
   free(buf);
-  return -1;
+  return 0;
 }
 
 /**
@@ -309,15 +333,17 @@ int client_quit(char argv[], int client_id, int *socket) {
  * @param socket Number of the socket associated with the client
  * @param view_id Number of the view asked by the client
  */
-void client_welcome(aquarium *a, char argv[], int client_id, int *socket,
-                    int *view_id) {
-  
-  if (*view_id != -1) {
+int client_welcome(aquarium *a, char argv[], int client_id, int *socket,
+                    int *view_id)
+{
+
+  if (*view_id != -1)
+  {
     char msg[2000];
     sprintf(msg, "hello -> NOK : client %d already assigned to a view\n", client_id);
     write(*socket, msg, strlen(msg));
     printf("SEND TO CLIENT %d: %s\n", client_id, msg);
-    return;
+    return 0;
   }
 
   char *buf = malloc(sizeof(char) * MESSAGE_SIZE);
@@ -329,18 +355,22 @@ void client_welcome(aquarium *a, char argv[], int client_id, int *socket,
   // Get client arguments
   sscanf(argv, "%s %s %s %s", input, in, as, id);
   // Check the arguments
-  if (strlen(in) == 0 && strlen(as) == 0 && strlen(id) == 0) {
+  if (strlen(in) == 0 && strlen(as) == 0 && strlen(id) == 0)
+  {
     int available_views[MAX_VIEW];
     int nb_available_views = 0;
     // Check if some views are available
-    for (int i = 0; i < a->nb_view; i++) {
-      if (a->views[i]->is_assigned == -1) {
+    for (int i = 0; i < a->nb_view; i++)
+    {
+      if (a->views[i]->is_assigned == -1)
+      {
         available_views[nb_available_views] = i;
         nb_available_views++;
       }
     }
     // Choose a random view if several views are available
-    if (nb_available_views > 0) {
+    if (nb_available_views > 0)
+    {
       // If no view ID in argument, attribute random available view
       *view_id = available_views[rand() % nb_available_views];
       a->views[*view_id]->is_assigned = client_id;
@@ -351,30 +381,36 @@ void client_welcome(aquarium *a, char argv[], int client_id, int *socket,
       printf("SEND TO CLIENT %d: %s", client_id, buf);
       write(*socket, buf, strlen(buf));
       free(buf);
-      return;
+      return 0;
     }
 
     // Attribute available view given in argument
-  } else if (strcmp(in, "in") == 0 && strcmp(as, "as") == 0 &&
-             strlen(id) != 0) {
+  }
+  else if (strcmp(in, "in") == 0 && strcmp(as, "as") == 0 &&
+           strlen(id) != 0)
+  {
     int view_exists = 0;
     // Check if the view exists
-    for (int i = 0; i < a->nb_view; i++) {
-      if (atoi(id) == a->views[i]->id) {
+    for (int i = 0; i < a->nb_view; i++)
+    {
+      if (atoi(id) == a->views[i]->id)
+      {
         view_exists = 1;
       }
     }
     // Case where the view doesn't exist
-    if (view_exists == 0) {
+    if (view_exists == 0)
+    {
       // Send the info to the proper client
       sprintf(buf, "hello -> NOK : view %d doesn't exist\n", atoi(id));
       printf("SEND TO CLIENT %d: %s", client_id, buf);
       write(*socket, buf, strlen(buf));
       free(buf);
-      return;
+      return 0;
     }
     // Check if the view is available
-    if (a->views[atoi(id)]->is_assigned == -1) {
+    if (a->views[atoi(id)]->is_assigned == -1)
+    {
       // Case where the view is available
       a->views[atoi(id)]->is_assigned = client_id;
       *view_id = atoi(id);
@@ -383,20 +419,22 @@ void client_welcome(aquarium *a, char argv[], int client_id, int *socket,
       printf("SEND TO CLIENT %d: %s", client_id, buf);
       write(*socket, buf, strlen(buf));
       free(buf);
-      return;
+      return 0;
     }
     // Case where the view is unavailable
-    else {
+    else
+    {
       // Send the info to the proper client
       sprintf(buf, "hello -> NOK : view %d is unavailable\n", atoi(id));
       printf("SEND TO CLIENT %d: %s", client_id, buf);
       write(*socket, buf, strlen(buf));
       free(buf);
-      return;
+      return 0;
     }
   }
   // Case of bad syntax of client input
-  else if (strcmp(in, "in") != 0 || strcmp(as, "as") == 0) {
+  else if (strcmp(in, "in") != 0 || strcmp(as, "as") == 0)
+  {
     // Send the info to the proper client
     sprintf(
         buf,
@@ -404,17 +442,18 @@ void client_welcome(aquarium *a, char argv[], int client_id, int *socket,
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return;
+    return 0;
   }
   // Another case of bad syntax of client input
-  else {
+  else
+  {
     sprintf(
         buf,
         "hello -> NOK : Bad syntax, try again. Proper syntax is : hello in as [VIEW_ID]\n");
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return;
+    return 0;
   }
 }
 
@@ -425,30 +464,33 @@ void client_welcome(aquarium *a, char argv[], int client_id, int *socket,
  * @param client_id ID of the client who made the request
  * @param socket Number of the socket associated with the client
  */
-void client_get_fishes(aquarium *a, int client_id, int *socket) {
+int client_get_fishes(aquarium *a, int client_id, int *socket)
+{
 
   char *buf = malloc(sizeof(char) * MESSAGE_SIZE);
 
   // Case where there is no fish are in the aquarium
-  if (a->nb_fish == 0) {
+  if (a->nb_fish == 0)
+  {
     sprintf(buf, "getFishes -> OK : No fish in the aquarium\n");
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return;
+    return 0;
   }
 
   sprintf(buf, "getFishes -> OK : list\n");
 
   // Loop on all fishes of the aquarium
-  for (int i = 0; i < a->nb_fish; i++) {
+  for (int i = 0; i < a->nb_fish; i++)
+  {
     show_fish(a->fishes[i], buf);
   }
   // Send info to proper client
   printf("SEND TO CLIENT %d: %s", client_id, buf);
   write(*socket, buf, strlen(buf));
   free(buf);
-  return;
+  return 0;
 }
 
 /**
@@ -458,16 +500,18 @@ void client_get_fishes(aquarium *a, int client_id, int *socket) {
  * @param client_id ID of the client who made the request
  * @param socket Number of the socket associated with the client
  */
-void client_ls(aquarium *a, int client_id, int *socket) {
+int client_ls(aquarium *a, int client_id, int *socket)
+{
 
   char *buf = malloc(sizeof(char) * MESSAGE_SIZE);
   // Case where there is no fish in the aquarium
-  if (a->nb_fish == 0) {
+  if (a->nb_fish == 0)
+  {
     sprintf(buf, "ls -> OK : No fish in the aquarium\n");
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return;
+    return 0;
   }
   // Send the fishes list to proper client
   sprintf(buf, "ls -> OK : list ");
@@ -477,7 +521,8 @@ void client_ls(aquarium *a, int client_id, int *socket) {
 
   char *fishes = malloc(sizeof(char) * 1000);
 
-  for (int i = 0; i < a->nb_fish; i++) {
+  for (int i = 0; i < a->nb_fish; i++)
+  {
     show_fish_ls(a->fishes[i], buf);
     char *tmp = malloc(sizeof(char) * 10);
     sprintf(tmp, "%d", i);
@@ -486,7 +531,7 @@ void client_ls(aquarium *a, int client_id, int *socket) {
     free(tmp);
   }
   free(buf);
-  return;
+  return 0;
 }
 /**
  * @brief Get fishes continously
@@ -495,17 +540,19 @@ void client_ls(aquarium *a, int client_id, int *socket) {
  * @param client_id ID of the client who made the request
  * @param socket Number of the socket associated with the client
  */
-void client_get_fishes_continuously(aquarium *a, int client_id, int *socket) {
+int client_get_fishes_continuously(aquarium *a, int client_id, int *socket)
+{
 
   char *buf = malloc(sizeof(char) * MESSAGE_SIZE);
   // Case where there is no fish in the aquarium
-  if (a->nb_fish == 0) {
+  if (a->nb_fish == 0)
+  {
     // Send the info to the proper client
     sprintf(buf, "No fish in the aquarium\n");
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return;
+    return 0;
   }
   // Send the fishes list to proper client
   sprintf(buf, "list ");
@@ -514,7 +561,8 @@ void client_get_fishes_continuously(aquarium *a, int client_id, int *socket) {
   memset(buf, 0, MESSAGE_SIZE);
 
   char *fishes = malloc(sizeof(char) * 1000);
-  for (int i = 0; i < a->nb_fish; i++) {
+  for (int i = 0; i < a->nb_fish; i++)
+  {
     show_fish_ls(a->fishes[i], buf);
     char *tmp = malloc(sizeof(char) * 10);
     sprintf(tmp, "%d", i);
@@ -523,7 +571,7 @@ void client_get_fishes_continuously(aquarium *a, int client_id, int *socket) {
     free(tmp);
   }
   free(buf);
-  return;
+  return 0;
 }
 
 /**
@@ -534,7 +582,8 @@ void client_get_fishes_continuously(aquarium *a, int client_id, int *socket) {
  * @param client_id ID of the client who made the request
  * @param socket Number of the socket associated with the client
  */
-void client_ping(char argv[], int client_id, int *socket) {
+int client_ping(char argv[], int client_id, int *socket)
+{
 
   char input[100] = "";
   int option = -1;
@@ -543,22 +592,24 @@ void client_ping(char argv[], int client_id, int *socket) {
   // Get the client arguments
   sscanf(argv, "%s %d", input, &option);
   // Case where there is no more argument
-  if (option == -1) {
+  if (option == -1)
+  {
     // Send the info to the proper client
     sprintf(buf, "ping -> OK : pong\n");
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return;
+    return 0;
   }
   // Additional argument
-  else {
+  else
+  {
     // Send the info to the proper client
     sprintf(buf, "ping -> OK : pong %d\n", option);
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
-    return;
+    return 0;
   }
 }
 /**
@@ -569,14 +620,17 @@ void client_ping(char argv[], int client_id, int *socket) {
  * @param client_id ID of the client who made the request
  * @param client_message
  */
-void disp_initial_available_views(aquarium *aqua, int *sock, int client_id,
-                                  char *client_message) {
+int disp_initial_available_views(aquarium *aqua, int *sock, int client_id,
+                                  char *client_message)
+{
   int read_size;
   // Create a str with all available views ID
   char *views = malloc(sizeof(char) * 1000);
 
-  for (int i = 0; i < aqua->nb_view; i++) {
-    if (aqua->views[i]->is_assigned == -1) {
+  for (int i = 0; i < aqua->nb_view; i++)
+  {
+    if (aqua->views[i]->is_assigned == -1)
+    {
       show_view(aqua->views[i]);
       char *tmp = malloc(sizeof(char) * 10);
       sprintf(tmp, "%d", i);
@@ -589,7 +643,7 @@ void disp_initial_available_views(aquarium *aqua, int *sock, int client_id,
   write(*sock, views, strlen(views));
   printf("SEND TO CLIENT %d: %s\n", client_id, views);
   free(views);
-  return;
+  return 0;
 }
 /**
  * @brief Function to get and analyze the client inputs
@@ -600,8 +654,9 @@ void disp_initial_available_views(aquarium *aqua, int *sock, int client_id,
  * @param client_message message that was input by the client
  * @param view_id ID of the view that was attributed to the client
  */
-void client_get_input(aquarium *a, int client_id, int *socket,
-                      char *client_message, int *view_id) {
+int client_get_input(aquarium *a, int client_id, int *socket,
+                      char *client_message, int *view_id)
+{
 
   char *arg = client_message;
   char input[100] = "";
@@ -610,32 +665,54 @@ void client_get_input(aquarium *a, int client_id, int *socket,
   sscanf(arg, "%s", input);
 
   // Analyze the client arguments
-  if (strcmp(input, "status") == 0) {
-    client_status(a, client_id, socket, view_id);
-  } else if (strcmp(input, "addFish") == 0) {
-    client_add_fish(a, arg, client_id, socket, view_id);
-  } else if (strcmp(input, "delFish") == 0) {
-    client_del_fish(a, arg, client_id, socket);
-  } else if (strcmp(input, "getFishes") == 0) {
-    client_get_fishes(a, client_id, socket);
-  } else if (strcmp(input, "startFish") == 0) {
-    client_start_fish(a, arg, client_id, socket);
-  } else if (strcmp(input, "getFishesContinuously") == 0) {
-    client_get_fishes_continuously(a, client_id, socket);
-  } else if (strcmp(input, "ls") == 0) {
-    client_ls(a, client_id, socket);
-  } else if (strcmp(input, "hello") == 0) {
-    client_welcome(a, arg, client_id, socket, view_id);
-  } else if (strcmp(input, "log") == 0) {
-    client_quit(arg, client_id, socket);
-  } else if (strcmp(input, "ping") == 0) {
-    client_ping(arg, client_id, socket);
-  } else {
+  if (strcmp(input, "status") == 0)
+  {
+    return client_status(a, client_id, socket, view_id);
+  }
+  else if (strcmp(input, "addFish") == 0)
+  {
+    return client_add_fish(a, arg, client_id, socket, view_id);
+  }
+  else if (strcmp(input, "delFish") == 0)
+  {
+    return client_del_fish(a, arg, client_id, socket);
+  }
+  else if (strcmp(input, "getFishes") == 0)
+  {
+    return client_get_fishes(a, client_id, socket);
+  }
+  else if (strcmp(input, "startFish") == 0)
+  {
+    return client_start_fish(a, arg, client_id, socket);
+  }
+  else if (strcmp(input, "getFishesContinuously") == 0)
+  {
+    return client_get_fishes_continuously(a, client_id, socket);
+  }
+  else if (strcmp(input, "ls") == 0)
+  {
+    return client_ls(a, client_id, socket);
+  }
+  else if (strcmp(input, "hello") == 0)
+  {
+    return client_welcome(a, arg, client_id, socket, view_id);
+  }
+  else if (strcmp(input, "log") == 0)
+  {
+    return client_quit(arg, client_id, socket);
+  }
+  else if (strcmp(input, "ping") == 0)
+  {
+    return client_ping(arg, client_id, socket);
+  }
+  else
+  {
     char *buf = malloc(sizeof(char) * MESSAGE_SIZE);
     // Send info to the proper client
     sprintf(buf, "%s", notFoundClient);
     printf("SEND TO CLIENT %d: %s", client_id, buf);
     write(*socket, buf, strlen(buf));
     free(buf);
+    return 0;
   }
 }

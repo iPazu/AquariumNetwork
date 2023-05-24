@@ -13,25 +13,41 @@ void *client_handler(void *void_info)
     int view_id = -1;
     int read_size;
     char client_message[MESSAGE_SIZE];
-    //printf("-- VIEWS INTERACTIONS --\n");
+    int status = 0;
+    // printf("-- VIEWS INTERACTIONS --\n");
     disp_initial_available_views(aqua, sock, client_id, client_message);
 
     printf("-- LOOP --\n");
     // Receive client message
-    while (running_status && ((read_size = recv(*sock, client_message, MESSAGE_SIZE, 0)) > 0))
+    while ((read_size = recv(*sock, client_message, MESSAGE_SIZE, 0)) > 0)
     {
         printf("FROM CLIENT %d: %s\n", client_id, client_message);
-        client_get_input(aqua, client_id, sock, client_message, &view_id);
-        memset(client_message, 0, MESSAGE_SIZE);
+        status = client_get_input(aqua, client_id, sock, client_message, &view_id);
+        if (status == -1)
+        {
+            printf("Client disconnected\n");
 
+            if (view_id != -1)
+                aqua->views[view_id]->is_assigned = -1;
+            // Remove client from array
+            clients[client_id] = NULL;
+            clients_count--;
+            // Close socket and free memory
+            close(*sock);
+            free(sock);
+            free(info);
+            return 0;
+        }
+        memset(client_message, 0, MESSAGE_SIZE);
     }
 
     // Check if client disconnected
     if (read_size == 0)
     {
         printf("Client disconnected\n");
-        
-        if (view_id != -1) aqua->views[view_id]->is_assigned = -1;
+
+        if (view_id != -1)
+            aqua->views[view_id]->is_assigned = -1;
         // Remove client from array
         clients[client_id] = NULL;
         clients_count--;
@@ -40,7 +56,8 @@ void *client_handler(void *void_info)
     {
         perror("Receive failed");
 
-        if (view_id != -1) aqua->views[view_id]->is_assigned = -1;
+        if (view_id != -1)
+            aqua->views[view_id]->is_assigned = -1;
         // Remove client from array
         clients[client_id] = NULL;
         clients_count--;
