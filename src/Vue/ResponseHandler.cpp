@@ -159,18 +159,18 @@ void ResponseHandler::handleStatus(const std::string& response) {
     std::vector<std::string> fishes {};
 
     while (std::getline(ss, line)) {
-        int posx, posy, sizex, sizey;
+        int posx, posy, sizex, sizey, specie;
         char name[50];
         char status[50];
-        int scanned = sscanf(line.c_str(), "Fish %s at %dx%d, %dx%d, %s",
-                             name, &posx, &posy, &sizex, &sizey, status);
-        if (scanned == 6) {
+        int scanned = sscanf(line.c_str(), "Fish %s at %dx%d, %dx%d, %d, %s",
+                             name, &posx, &posy, &sizex, &sizey, &specie, status);
+        if (scanned == 7) {
             if(aquarium->isFishInAquarium(name))
             {
                 std::cout << "Updating fish target" << std::endl;
                 aquarium->setFishTarget(name, posx, posy, 1.f);
             } else {
-                aquarium->addFish(name, getRandomFishType(), posx, posy, sizex, sizey, 0,0,0,FISH_BEHAVIOR::LINEAR);
+                aquarium->addFish(name, (FISH_TYPE)specie, posx, posy, sizex, sizey, 0,0,0,FISH_BEHAVIOR::LINEAR);
             }
             std::cout << "Name: " << name
                       << ", Position: " << posx << "x" << posy
