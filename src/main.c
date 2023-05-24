@@ -30,32 +30,50 @@ int main(int argc, char const *argv[]) {
     aquarium *a = init_aquarium(5000, 4370, 0, 0);
 
     // create and add 2 views
-    view *v1 = init_view(0, 0, 0, 500, 500);
-    view *v2 = init_view(1, 500, 0, 500, 500);
+    view *v1 = init_view(0, 0, 0, 1250, 1182);
+    view *v2 = init_view(1, 1250, 0, 1250, 1182);
+    view *v3 = init_view(2, 0, 1182, 1250, 1182);
+    view *v4 = init_view(3, 1250, 1182, 1250, 1182);
     add_view(a, v1);
     add_view(a, v2);
+    add_view(a, v3);
+    add_view(a, v4);
     
     fish *f;
-    f = init_basic_fish("A", 500, 250, 10, 5, "RandomWayPoint");
+    f = init_basic_fish("A", 1250, 1182, 10, 5, "RandomWayPoint");
     f->is_started = 1;
     add_fish(a, f);
-    f = init_basic_fish("B", 500, 250, 10, 5, "RandomWayPoint");
+    f = init_basic_fish("B", 1250, 1182, 10, 5, "RandomWayPoint");
     f->is_started = 1;
     add_fish(a, f);
-    f = init_basic_fish("C", 500, 250, 10, 5, "RandomWayPoint");
+    f = init_basic_fish("C", 1250, 1182, 10, 5, "RandomWayPoint");
     f->is_started = 1;
     add_fish(a, f);
-
-    fish *f1 = init_basic_fish("Norbert", 200, 400, 10, 5, "RandomWayPoint");
-    fish *f2 = init_basic_fish("Robert",700, 700, 10, 5, "RandomWayPoint");
-    f1->is_started = 1;
-    f2->is_started = 1;
-    add_fish(a, f1);
-    add_fish(a, f2);
+    f = init_basic_fish("D", 1250, 1182, 10, 5, "RandomWayPoint");
+    f->is_started = 1;
+    add_fish(a, f);
+    f = init_basic_fish("E", 1250, 1182, 10, 5, "RandomWayPoint");
+    f->is_started = 1;
+    add_fish(a, f);
+    f = init_basic_fish("F", 1250, 1182, 10, 5, "RandomWayPoint");
+    f->is_started = 1;
+    add_fish(a, f);
+    f = init_basic_fish("G", 1250, 1182, 10, 5, "RandomWayPoint");
+    f->is_started = 1;
+    add_fish(a, f);
+    f = init_basic_fish("H", 1250, 1182, 10, 5, "RandomWayPoint");
+    f->is_started = 1;
+    add_fish(a, f);
+    f = init_basic_fish("I", 1250, 1182, 10, 5, "RandomWayPoint");
+    f->is_started = 1;
+    add_fish(a, f);
+    f = init_basic_fish("J", 1250, 1182, 10, 5, "RandomWayPoint");
+    f->is_started = 1;
+    add_fish(a, f);
 
     pthread_create(&thread, NULL, (void *) start_server, a);
     pthread_create(&thread2, NULL, (void *) handle_aquarium, a);
-    //handle_aquarium(a);
+
     while (running_status) {
        server_get_input(a);
     }
