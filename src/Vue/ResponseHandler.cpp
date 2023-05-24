@@ -76,6 +76,11 @@ void ResponseHandler::processResponse(const std::string& response) {
             // handleStatus(response);
             break;
         }
+        case RESPONSE_TYPE::LOG: {
+            std::cout << "LOG OUT" << std::endl;
+            // handleStatus(response);
+            break;
+        }
         default: {
             std::cerr << "Unknown response type.\n";
             break;

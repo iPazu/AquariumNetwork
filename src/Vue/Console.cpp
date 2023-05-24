@@ -52,6 +52,15 @@ void Console::initializeCommands() {
         mClientController->addCommand("delFish", args);
     });
 
+    mCommandParser->addCommand("log", [this](const std::vector<std::string>& args) {
+        // Implementation of hello command
+        if (args.empty()) {
+            println("Error: log command needs at least one argument");
+            return;
+        }
+        mClientController->addCommand("log", args);
+    });
+
 
 }
 

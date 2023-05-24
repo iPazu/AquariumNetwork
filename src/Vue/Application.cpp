@@ -87,7 +87,7 @@ void Application::run()
 
     sf::Time accumulate = sf::Time::Zero;
 
-    while (mWindow.isOpen())
+    while (mWindow.isOpen() && mClient.isConnected())
     {
         handleEvents();
         elapsed = clock.restart();
@@ -99,7 +99,6 @@ void Application::run()
         }
         update(elapsed);
         render();
-       
     }
 
     mClient.disconnect();

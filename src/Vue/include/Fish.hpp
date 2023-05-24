@@ -36,4 +36,5 @@ private:
     sf::Time      mElapsedTime;
     sf::Time      mTargetTime;
     sf::Vector2f  mDirection;
+    bool          mStarted;
 };

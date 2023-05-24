@@ -19,6 +19,7 @@ public:
         PONG,
         STARTFISH,
         DELFISH,
+        LOG,
         UNKNOWN
     };
 

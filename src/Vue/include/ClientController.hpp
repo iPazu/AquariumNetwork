@@ -40,7 +40,6 @@ public:
     bool isConnected() const;
     bool has_view;
 
-
 private:
     int m_sockfd;
     bool m_connected;
